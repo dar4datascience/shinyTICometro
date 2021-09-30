@@ -1,0 +1,25 @@
+su: se ignora --preserve-environment; es mutuamente excluyente con --login
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Listening on http://127.0.0.1:41485
+
+Attaching package: ‘shinyWidgets’
+
+The following object is masked from ‘package:bs4Dash’:
+
+    progressBar
+
+Warning: It wasn't possible to activate and/or validate the object. Trying again with a new object.
+
+
+Ejecución interrumpida

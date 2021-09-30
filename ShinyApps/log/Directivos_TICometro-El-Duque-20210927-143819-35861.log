@@ -1,0 +1,30 @@
+su: se ignora --preserve-environment; es mutuamente excluyente con --login
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+Listening on http://127.0.0.1:35861
+
+Attaching package: ‘shinyWidgets’
+
+The following object is masked from ‘package:bs4Dash’:
+
+    progressBar
+
+Warning in RColorBrewer::brewer.pal(N, "Set2") :
+  minimal value for n is 3, returning requested palette with 3 different levels
+
+Warning in RColorBrewer::brewer.pal(N, "Set2") :
+  minimal value for n is 3, returning requested palette with 3 different levels
+
+Warning message:
+In (function (e)  : You have a leaked pooled object.
+
