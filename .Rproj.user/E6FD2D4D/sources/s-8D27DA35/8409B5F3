@@ -1,0 +1,26 @@
+{
+    "id": "8409B5F3",
+    "path": "~/DGTIC/shinyTICometro/ShinyApps/Profes_TICometro/R/fct_countVars.R",
+    "project_path": "ShinyApps/Profes_TICometro/R/fct_countVars.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1633042443327.0,
+    "source_on_save": false,
+    "relative_order": 9,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "78,21",
+        "scrollLine": "80"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1633042644,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1633042644777,
+    "read_only": false,
+    "read_only_alternatives": []
+}
