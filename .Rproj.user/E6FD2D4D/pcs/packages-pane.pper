@@ -1,7 +1,7 @@
 {
     "installOptions": {
         "installFromRepository": true,
-        "libraryPath": "C:/Program Files/R/R-4.0.2/library",
+        "libraryPath": "C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/shinyTICometro/renv/library/R-4.1/x86_64-w64-mingw32",
         "installDependencies": true
     }
 }
