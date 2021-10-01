@@ -131,6 +131,7 @@ ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
 # Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
+    title = "Sitio de Consulta de los Resultados del TICómetro",
     useShinyalert(),
     dark = TRUE,
     #HEAD tags 4 various reasons
@@ -229,7 +230,7 @@ shinyUI(
       left = tags$a(
         href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
         target = "_blank",
-        "H@bitat Puma, DGTIC, UNAM CHANGE ME"
+        "H@bitat Puma, DGTIC, UNAM, Sitio en Desarrollo...."
       ),
       right = "2021"
     ),
@@ -492,55 +493,59 @@ shinyUI(
                   tags$h2("Descarga de base de datos completa")
                 ),
                 div(
-                fluidRow(
-                  column(3,
-                         br(),
-                         fluidRow(tags$h4(tags$b("ENP"))),
-                         fluidRow(tags$h4(tags$b("CCH"))),
-                         fluidRow(tags$h4(tags$b("FES Acatlán"))),
-                         fluidRow(tags$h4(tags$b("FES Aragón"))),
-                         fluidRow(tags$h4(tags$b("ENTS")))
-                                  ),
-                  column(1,
-                         fluidRow(tags$h4(tags$b("2020"))),
-                         fluidRow(
-                           awesomeCheckbox(
-                             inputId = "enp_2020",
-                             label = "", 
-                             value = TRUE
+                  fluidRow(
+                    column(1,
+                           ""),
+                    column(3,
+                           br(),
+                           br(),
+                           fluidRow(tags$h4(tags$b("ENP"))),
+                           fluidRow(tags$h4(tags$b("CCH"))),
+                           fluidRow(tags$h4(tags$b("FES Acatlán"))),
+                           fluidRow(tags$h4(tags$b("FES Aragón"))),
+                           fluidRow(tags$h4(tags$b("ENTS"))),
+                           id = "colum-descarga-pad"),
+                    column(1,
+                           fluidRow(tags$h4(tags$b("2020"))),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "enp_2020",
+                               label = "",
+                               value = TRUE
+                             )
+                           ),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "cch_2020",
+                               label = "",
+                               value = FALSE
+                             )
                            )
-                         ),
-                         fluidRow(
-                           awesomeCheckbox(
-                             inputId = "cch_2020",
-                             label = "", 
-                             value = FALSE
+                    ),
+                    column(1,
+                           fluidRow(tags$h4(tags$b("2021"))),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "enp_2021",
+                               label = "",
+                               value = FALSE
+                             )
+                           ),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "cch_2021",
+                               label = "",
+                               value = FALSE
+                             )
                            )
-                         )
-                  ),
-                  column(1,
-                         fluidRow(tags$h4(tags$b("2021"))),
-                         fluidRow(
-                           awesomeCheckbox(
-                             inputId = "enp_2021",
-                             label = "", 
-                             value = TRUE
-                           )
-                         ),
-                         fluidRow(
-                           awesomeCheckbox(
-                             inputId = "cch_2021",
-                             label = "", 
-                             value = FALSE
-                           )
-                         )
-                  ),
-                  column(1,
-                         br(),
-                         fluidRow(icon("file-excel"))
-                  )#last column ends
-                ),#fluid row ends
-                style = "background-color: #696969;")#div ends
+                    ),
+                    column(1,
+                           br(),
+                           br(),
+                           fluidRow(icon("file-excel"))
+                    )#last column ends
+                  ),#fluid row ends
+                  style = "background-color: #696969;")#div ends
         ) #TAB DESCARGA ENDS
       ), #tab items end
       useSever(),

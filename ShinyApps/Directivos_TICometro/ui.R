@@ -2,18 +2,6 @@
 ###### TICometro 4 Directivos##########
 ######################################
 
-library(htmltools)
-library(shinyFeedback)
-library(fresh)
-library(sever)
-library(waiter)
-library(shinycssloaders)
-suppressMessages(suppressWarnings(library(bs4Dash)))
-suppressMessages(suppressWarnings(library(shiny)))
-suppressMessages(suppressWarnings(library(plotly)))
-
-
-
 #List of variable choices
 datos_de_contexto <- list("Género" = "genero",
                           "Escuela de Procedencia" = "escuela_de_procedencia"
@@ -115,6 +103,7 @@ CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
 # Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
+    title = "Sitio de Consulta de los Resultados del TICómetro",
     dark = TRUE,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
@@ -122,7 +111,7 @@ shinyUI(
       tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
     ), #END OF HEAD
     useWaiter(),
-    preloader = list(html = tagList(waiter::spin_pong(), "Cargando sitio de consulta del TICómetro ...", image = "https://i.pinimg.com/280x280_RS/45/d4/01/45d40177e1ce8015e9e4dd2a2115ed36.jpg"),
+    preloader = list(html = tagList(waiter::spin_pong(), "Cargando sitio de consulta del TICómetro ..."),
                      color = "#343a40"
     ),
     fullscreen = TRUE,
@@ -160,7 +149,7 @@ shinyUI(
           selected = "consulta",
           menuSubItem(
             text = "Consulta",
-            icon = shiny::icon("eye"),
+            icon = shiny::icon("search"),
             tabName = "consulta"
           )
           # menuSubItem(
@@ -185,7 +174,7 @@ shinyUI(
       fixed = FALSE,
       left = tags$a(
         href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-        target = "_blank", "Sitio desarollador x Daniel Amieva Rodrigeuz para H@bitat Puma, DGTIC, UNAM."
+        target = "_blank", "H@bitat Puma, DGTIC, UNAM, Sitio en Desarrollo...."
       ),
       right = "2021"
     ),
@@ -203,7 +192,7 @@ shinyUI(
               width = 4,
               #USE PICKER FOR EASY MULTIPLE SELECTION
               shinyWidgets::pickerInput(
-                inputId = "escuelas_cch_picked",
+                inputId = "escuelas_directivos_picked",
                 label = "Escuela y/o plantel:",
                 choices = list(
                   "ENP" = c(ENP_escuelas$escuela_name),
@@ -219,7 +208,7 @@ shinyUI(
             column(
               width = 4,
               shinyWidgets::pickerInput(
-                inputId = 'plot_cch_var',
+                inputId = 'plot_directivo_var',
                 label = 'Variables del TIcometro',
                 choices = list(
                   "Datos de Contexto" = datos_de_contexto,
@@ -267,26 +256,26 @@ shinyUI(
                 "Grafica",
                 icon = ionicon(name = "stats"),
                 #Plot inputs
-                plotly::plotlyOutput("CCH_plot") %>% shinycssloaders::withSpinner(type = 1,
+                plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                   size = 3,
                                                                                   color =  "#FFFFFF")
               ),
               tabPanel( #tab for data table
                 "Tabulado de Datos",
                 icon = icon(name = "calculator"),
-                DT::DTOutput("TabulatedVars_CCH")
+                DT::DTOutput("TabulatedVars_Directivos")
               ), #tab panel ends HOJA CON DATOS TABULADOS
               tabPanel(
                 "Hoja de Datos",
                 icon = icon(name = "database"),
-                DT::DTOutput("MainVars_CCH")
+                DT::DTOutput("MainVars_Directivos")
               ) #tab panel HOJA DE DATOS RAW
             )
           ),
           #Third Fluid row
           fluidRow(
-            bs4Dash::valueBoxOutput("value_box_CCH"),
-            bs4Dash::valueBoxOutput("average_box_CCH"),
+            bs4Dash::valueBoxOutput("value_box_Directivos"),
+            bs4Dash::valueBoxOutput("average_box_Directivos"),
             infoBox(
               width = 4,
               #HERE IS A STYLER
@@ -308,35 +297,76 @@ shinyUI(
         #          "Hola2"),
         tabItem(tabName = "descarga",
                 fluidRow(
-                  bs4Dash::bs4Jumbotron(
-                    title = "Descarga todas las variables del TICómetro!",
-                    #HERE WAS A STYLER
-                    lead = tags$h2(
-                      "Aquí podrás descargar en formato abierto los datos del TICómetro.",
+                  tags$h2("Descarga de base de datos completa")
+                ),
+                div(
+                  fluidRow(
+                    column(1,
+                           ""),
+                    column(3,
+                           br(),
+                           br(),
+                           fluidRow(tags$h4(tags$b("ENP"))),
+                           fluidRow(tags$h4(tags$b("CCH"))),
+                           fluidRow(tags$h4(tags$b("FES Acatlán"))),
+                           fluidRow(tags$h4(tags$b("FES Aragón"))),
+                           fluidRow(tags$h4(tags$b("ENTS"))),
+                           id = "colum-descarga-pad"),
+                    column(1,
+                           fluidRow(tags$h4(tags$b("2020"))),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "enp_2020",
+                               label = "",
+                               value = TRUE
+                             )
+                           ),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "cch_2020",
+                               label = "",
+                               value = FALSE
+                             )
+                           )
                     ),
-                    HTML("Actualmente, la base de datos está compuesta por 40 columnas y 31,762 registros únicos.
-              <br> Los planteles participantes son: ENP, CCH.
-              <br> <b> ¿Cómo citar los datos? </b>
-              <br> FORMATO DE CITADO PENDIENTE.........."
+                    column(1,
+                           fluidRow(tags$h4(tags$b("2021"))),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "enp_2021",
+                               label = "",
+                               value = FALSE
+                             )
+                           ),
+                           fluidRow(
+                             awesomeCheckbox(
+                               inputId = "cch_2021",
+                               label = "",
+                               value = FALSE
+                             )
+                           )
                     ),
-              btnName = "Descarga",
-              status = "primary",
-              #Link a google drive DANIEL AMIEVA con archivo csv
-              href = "https://drive.google.com/file/d/1lIljkK9h7GTgYeXW7RT2XILlvAJBd7--/view?usp=sharing"
-                  )
-                )
+                    column(1,
+                           br(),
+                           br(),
+                           fluidRow(icon("file-excel"))
+                    )#last column ends
+                  ),#fluid row ends
+                  style = "background-color: #696969;")#div ends
         ) #TAB DESCARGA ENDS
       ), #tabItems ENDS
       useSever(),
       h1("sever"),
       actionButton("stop", "Stop App"),
-      autoWaiter(id = c("MainVars_CCH",
-                        "TabulatedVars_CCH"),
+      autoWaiter(id = c("value_box_Directivos",
+                        "average_box_Directivos",
+                        "TabulatedVars_Directivos",
+                        "MainVars_Directivos"),
                  html = spin_solar(),
                  fadeout = FALSE,
                  color = "#FFFFF",
                  image = ""),
-      useShinyFeedback(), # include shinyFeedback
+      useShinyalert(), # include shinyFeedback
     )#BODY ENDS
   )#PAGE ENDS
 )#SHINYUI ENDS
