@@ -1,0 +1,10 @@
+^renv$
+^renv\.lock$
+.Rproj.user
+.Rproj.user\*
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.Renviron
+.Rproj.user\E6FD2D4D\
