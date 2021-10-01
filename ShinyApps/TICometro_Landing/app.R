@@ -3,7 +3,10 @@
 ######################################
 
 library(shiny)
+library(waiter)
 library(bs4Dash)
+library(shiny)
+library()
 library(fresh)
 library(htmltools)
 
@@ -73,9 +76,8 @@ ui <- bs4Dash::dashboardPage(
   ),#head ends
   # CODE TO CHANGE COLORS OF THE APP
   freshTheme = myTheme,
-  preloader = list(html = tagList(waiter::spin_gauge(), "Cargando el sitio de consulta del TICómetro..."),
-                   color = "#333e48"
-  ),
+  #preloader = list(html = tagList(waiter::spin_gauge(), "Cargando el sitio de consulta del TICómetro..."),
+   #                color = "#333e48"),
   fullscreen = TRUE,
   scrollToTop = TRUE,
   #HEADER STARTS HERE
@@ -85,20 +87,7 @@ ui <- bs4Dash::dashboardPage(
                    tags$img(src = 'logo_ticometro_pequenio.jpg')),
     border = FALSE,
     tags$h5("Consulta los datos del TICómetro", id = "title-navbar",
-            style = "color: white;"),
-    controlbarIcon = shiny::icon("laptop-code"),
-    leftUi = tagList(
-      dropdownMenu(
-        badgeStatus = "info",
-        type = "tasks",
-        taskItem(
-          inputId = "triggerAction3",
-          text = "Mi progreso de la App",
-          color = "warning",
-          value = 70
-        )
-      )
-    )
+            style = "color: white;")
   ),
   #SIDEBAR STARTS HERE
   sidebar = bs4Dash::dashboardSidebar(disable = TRUE),
@@ -117,10 +106,10 @@ ui <- bs4Dash::dashboardPage(
   body = bs4Dash::dashboardBody(
     #here image del ticometro
     fluidRow(
-      tags$img(src = "logo_dgtic.png",  width="50%",
+      tags$img(src = "logo_dgtic.png",  width="40%",
       )
     ),
-    fluidRow(tags$img(src = "logo_ticometro.jpg",width="100%", align = "center")),
+    fluidRow(tags$img(src = "logo_ticometro.jpg",width="90%", align = "center")),
     tags$div(
       class = "row",
       tags$h1(
@@ -163,14 +152,14 @@ ui <- bs4Dash::dashboardPage(
         )
       )),
       style = "background-color: #FFFFFF;")#div container ends
-  )#BODY ENDS
-)# page ends
+  ) #BODY ENDS
+) # page ends
 
-# Define server logic required to draw a histogram
+
 server <- function(input, output) {
-  
+  print("im running")
 
 }
 
-# Run the application
+
 shinyApp(ui = ui, server = server)
