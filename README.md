@@ -1,4 +1,4 @@
-# shinyTICometro
+# shinyTICometro 1.0
 
 Una aplicación en Shiny para consultar los resultados del TICometro.
 
