@@ -131,7 +131,6 @@ handle_multiple_choice_questions <- function(ticometro_table, select_schools, se
                institucion %in% select_schools,
                grupo %in% select_groups) %>%
         select(3, 4, 32:40) %>%
-        filter() %>%
         tidyr::pivot_longer(!c(institucion,grupo),
                             names_to = "plataformas_edu_known",
                             values_to = "respuesta") %>%
@@ -146,6 +145,8 @@ handle_multiple_choice_questions <- function(ticometro_table, select_schools, se
           plataformas_edu_known = stringr::str_replace_all(plataformas_edu_known, "otra plataf educativa", "Otra plataforma educativa"),
           plataformas_edu_known = stringr::str_replace_all(plataformas_edu_known, "sin responder plataf educa", "No declaró")
         )
+      
+      print("you are looking for me")
       
       return(tidy_multiple_choice_ENP)
       

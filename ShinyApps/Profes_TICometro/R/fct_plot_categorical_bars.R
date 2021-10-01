@@ -71,7 +71,6 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
             axis.text.y= element_text("Grupo")
       )
     
-    
     fig <- ggplotly(p, tooltip = c("y","x", "fill"))
     
     

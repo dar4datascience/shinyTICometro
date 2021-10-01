@@ -84,7 +84,7 @@ ui <- bs4Dash::dashboardPage(
   header = bs4Dash::dashboardHeader(
     fixed = FALSE,
     title = tags$a(href = 'https://educatic.unam.mx/publicaciones/informes-ticometro.html',
-                   tags$img(src = 'logo_ticometro_pequenio.jpg')),
+                   tags$img(src = 'logo_ticometro_pequenio.jpg', alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro")),
     border = FALSE,
     tags$h5("Consulta los datos del TICómetro", id = "title-navbar",
             style = "color: white;")
@@ -98,18 +98,20 @@ ui <- bs4Dash::dashboardPage(
     fixed = FALSE,
     left = tags$a(
       href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-      target = "_blank", "H@bitat Puma, DGTIC, UNAM. Development Site"
+      target = "_blank", "H@bitat Puma, DGTIC, UNAM. Development Site",
+      role = "contentinfo"
     ),
     right = "2021"
-  )    ,
+  ), #footer ends
   #BODY STARTS HERE
   body = bs4Dash::dashboardBody(
     #here image del ticometro
     fluidRow(
-      tags$img(src = "logo_dgtic.png",  width="40%",
-      )
+      tags$img(src = "logo_dgtic.png", alt = "un logo compuesto en la izquierda del escudo de la UNAM y las letras DGTIC abajo y a la derecha el texto: Universidad Nacional Autónoma de México, Dirección General de Cómputo y de Tecnologías de Información y Comunicación.",
+               width="40%")
     ),
-    fluidRow(tags$img(src = "logo_ticometro.jpg",width="90%", align = "center")),
+    fluidRow(tags$img(src = "logo_ticometro.jpg", alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro",
+                      width="90%", align = "center")),
     tags$div(
       class = "row",
       tags$h1(
@@ -134,7 +136,9 @@ ui <- bs4Dash::dashboardPage(
           collapsible = FALSE,
           tags$a(href  = "http://132.248.10.243:3838/El-Duque/Directivos_TICometro/",
                  tags$h4("Sitio para directivos",
-                         align = "center")
+                         align = "center"),
+                 style = "color: white",
+                 role = "button"
           ),
           background = "navy"
         ),
@@ -145,8 +149,9 @@ ui <- bs4Dash::dashboardPage(
           collapsible = FALSE,
           tags$a(href  = "http://132.248.10.243:3838/El-Duque/Profes_TICometro/",
                  tags$h4("Sitio para profesores",
-                         align = "center",
-                 )
+                         align = "center"),
+                 style = "color: white",
+                 role = "button"
           ),
           background = "primary"
         )

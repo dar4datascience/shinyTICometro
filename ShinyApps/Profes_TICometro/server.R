@@ -91,7 +91,22 @@ server <- function(input, output, session) {
         )
     })
     
+    data_enp <- reactiveValues()
     
+    observe({
+        data_enp$data <- reactive_ENP_main_data()
+        
+        data_enp$mode_cinta <- data_enp$data $`Color de cinta obtenida` %>%
+            forcats::as_factor(.) %>%
+            forcats::fct_count(.) %>% 
+            arrange(desc(n)) %>% 
+            pull(f) 
+        
+        print("deberia ser un solo valor")
+        print(data_enp$mode_cinta[1])
+        
+    })
+   
     #VALUE BOX FOR # OF ALUMNOS SELECCIONADOS
     num_alumnos_selected_ENP <-
         reactive(prettyNum(nrow(reactive_ENP_main_data()),
@@ -104,6 +119,17 @@ server <- function(input, output, session) {
             subtitle = "Alumnos seleccionados",
             color = "success",
             icon = icon("user-friends")
+            # href = "#" #Referencia directo a la pagina principal de la aplicacion
+        )
+    })
+    
+    output$average_box_ENP <- bs4Dash::renderbs4ValueBox({
+        bs4Dash::valueBox(
+            value = data_enp$mode_cinta[1],
+            width = 4,
+            subtitle = "Cinta más común",
+            color = "success",
+            icon = icon("user-graduate")
             # href = "#" #Referencia directo a la pagina principal de la aplicacion
         )
     })
@@ -189,13 +215,15 @@ server <- function(input, output, session) {
                   ignore.case = FALSE)) {
             plot_numerical_vars(
                 reactive_ENP_tabulated_data(),
-                isolate(reactive_ENP_var_selectors$plotvarPicked)
+                isolate(reactive_ENP_var_selectors$plotvarPicked),
+                "grupo"
             )
             
         } else{
             plot_categorical_vars(
                 reactive_ENP_tabulated_data(),
                 isolate(reactive_ENP_var_selectors$plotvarPicked),
+                "grupo"
             )
         }
     })
@@ -249,6 +277,22 @@ server <- function(input, output, session) {
                      reactive_CCH_var_selectors$escuelasPicked)
     })
     
+    data_cch <- reactiveValues()
+    
+    observe({
+        data_cch$data <- reactive_CCH_main_data()
+        data_cch$mode_cinta <- data_cch$data$`Color de cinta obtenida` %>%
+            forcats::as_factor(.) %>%
+            forcats::fct_count(.) %>% 
+            arrange(desc(n)) %>% 
+            pull(f) 
+        #%>%  as.factor(.) %>%  forcats::fct_infreq(.)
+        print("deberia ser un solo valor")
+        print(data_cch$mode_cinta[1])
+        print(class(data_cch$mode_cinta[1]))
+        
+    })
+    
     
     #VALUE BOX FOR # OF ALUMNOS SELECCIONADOS
     num_alumnos_selected_CCH <-
@@ -265,6 +309,17 @@ server <- function(input, output, session) {
             subtitle = "Alumnos seleccionados",
             color = "success",
             icon = icon("user-friends")
+            # href = "#" #Referencia directo a la pagina principal de la aplicacion
+        )
+    })
+    
+    output$average_box_CCH <- bs4Dash::renderbs4ValueBox({
+        bs4Dash::valueBox(
+            value = data_cch$mode_cinta[1],
+            width = 4,
+            subtitle = "Cinta más común",
+            color = "success",
+            icon = icon("user-graduate")
             # href = "#" #Referencia directo a la pagina principal de la aplicacion
         )
     })

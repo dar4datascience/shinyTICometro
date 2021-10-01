@@ -153,3 +153,8 @@ clean_plot_titles <- function(variable){
   
 }
 
+#FUNCION PARA CALCULAR LA MODA
+getmode <- function(v) {
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}

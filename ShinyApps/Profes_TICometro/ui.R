@@ -352,13 +352,8 @@ shinyUI(
           fluidRow(
             bs4Dash::bs4ValueBoxOutput("value_box_ENP",
                                        width = 3),
-            valueBox(
-              value = "Negra",
-              width = 3,
-              subtitle = "Cinta más COMUN CHANGE de los alumnos",
-              color = "success",
-              icon = icon("user-graduate")
-            ),
+            bs4Dash::bs4ValueBoxOutput("average_box_ENP",
+                                       width = 3),
             infoBox(
               width = 6,
               title = tags$b("¿Que son las cintas?"),
@@ -473,13 +468,8 @@ shinyUI(
                 fluidRow(
                   bs4Dash::bs4ValueBoxOutput("value_box_CCH",
                                              width = 3),
-                  valueBox(
-                    value = "Negra",
-                    width = 3,
-                    subtitle = "Cinta más COMUN CHANGE de los alumnos",
-                    color = "success",
-                    icon = icon("user-graduate")
-                  ),
+                  bs4Dash::bs4ValueBoxOutput("average_box_CCH",
+                                             width = 3),
                   infoBox(
                     width = 6,
                     title = tags$b("¿Que son las cintas?"),
@@ -523,8 +513,12 @@ shinyUI(
       autoWaiter(id = c("MainVars_CCH",
                         "TabulatedVars_CCH",
                         "TabulatedVars_ENP",
-                        "MainVars_ENP"),
-                 html = spin_solar(),
+                        "MainVars_ENP",
+                        "value_box_ENP",
+                        "average_box_ENP",
+                        "value_box_CCH",
+                        "average_box_CCH"),
+                 html = spin_whirly(),
                  fadeout = FALSE,
                  color = "#FFFFF",
                  image = "")

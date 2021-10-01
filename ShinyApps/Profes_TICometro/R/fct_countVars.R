@@ -23,9 +23,12 @@ countVars <- function(db_connection, select_schools, select_groups = NULL, selec
     if (select_var == "plataformas_edu_known" | select_var == "dispositivos_electronicos"){
       
       #a collected query
-      counted_df <- handle_multiple_choice_questions(ticometro_table, select_schools, select_groups = NULL, multiple_opcion_var=select_var, grouping_var = grouping_var, fecha_aplicacion)
+      counted_df <- handle_multiple_choice_questions(ticometro_table,
+                                                     select_schools,
+                                                     select_groups = NULL,
+                                                     multiple_opcion_var=select_var, grouping_var = grouping_var, fecha_aplicacion)
       
-      
+      print("im in cch logic multiple choice")
     }else{ #count regularly
       
       if(is.null(grouping_var)){
@@ -57,8 +60,13 @@ countVars <- function(db_connection, select_schools, select_groups = NULL, selec
     if (select_var == "plataformas_edu_known"){
       
       #a collected query
-      counted_df <- handle_multiple_choice_questions(ticometro_table, select_schools, select_groups, multiple_opcion_var, grouping_var = NULL, fecha_aplicacion)
+      counted_df <- handle_multiple_choice_questions(ticometro_table,
+                                                     select_schools,
+                                                     select_groups,
+                                                     multiple_opcion_var = select_var,
+                                                     grouping_var = grouping_var, fecha_aplicacion)
       
+      print("im in enp logic multiple chocie")
       
     }else{#count normally
       

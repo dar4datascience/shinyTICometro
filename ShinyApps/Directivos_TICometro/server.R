@@ -120,7 +120,7 @@ server <- function(input, output, session) {
 
     observe({
         data_directivos$data <- reactive_CCH_main_data()
-        print(data_directivos$data[,15])
+        print(data_directivos$data[,16])
         data_directivos$mean_calif <- round(mean(data_directivos$data[,15]), 2)
 
     })
