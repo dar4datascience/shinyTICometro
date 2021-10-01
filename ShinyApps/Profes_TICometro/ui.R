@@ -207,7 +207,7 @@ shinyUI(
           menuItem(
             text =  HTML(
               paste(
-                "Descarga",
+                "Descarga Masiva",
                 dashboardBadge(
                   "dev",
                   position = "right",
@@ -489,21 +489,58 @@ shinyUI(
         ############################################################
         tabItem(tabName = "descarga",
                 fluidRow(
-                  bs4Dash::bs4Jumbotron(
-                    title = "Descarga todas las variables del TICómetro!",
-                    lead = tags$p("Aquí podrás descargar en formato abierto los datos del TICómetro.",
-                                  style = "font-size: 2.0rem;"),
-                    HTML("Actualmente, la base de datos está compuesta por 40 columnas y 31,762 registros únicos.
-              <br> Los planteles participantes son: ENP, CCH.
-              <br> <b> ¿Cómo citar los datos? </b>
-              <br> FORMATO DE CITADO PENDIENTE.........."
-                    ),
-              btnName = "Descarga",
-              status = "primary",
-              #Link a google drive DANIEL AMIEVA con archivo csv
-              href = "https://drive.google.com/file/d/1lIljkK9h7GTgYeXW7RT2XILlvAJBd7--/view?usp=sharing"
-                  )
-                )
+                  tags$h2("Descarga de base de datos completa")
+                ),
+                div(
+                fluidRow(
+                  column(3,
+                         br(),
+                         fluidRow(tags$h4(tags$b("ENP"))),
+                         fluidRow(tags$h4(tags$b("CCH"))),
+                         fluidRow(tags$h4(tags$b("FES Acatlán"))),
+                         fluidRow(tags$h4(tags$b("FES Aragón"))),
+                         fluidRow(tags$h4(tags$b("ENTS")))
+                                  ),
+                  column(1,
+                         fluidRow(tags$h4(tags$b("2020"))),
+                         fluidRow(
+                           awesomeCheckbox(
+                             inputId = "enp_2020",
+                             label = "", 
+                             value = TRUE
+                           )
+                         ),
+                         fluidRow(
+                           awesomeCheckbox(
+                             inputId = "cch_2020",
+                             label = "", 
+                             value = FALSE
+                           )
+                         )
+                  ),
+                  column(1,
+                         fluidRow(tags$h4(tags$b("2021"))),
+                         fluidRow(
+                           awesomeCheckbox(
+                             inputId = "enp_2021",
+                             label = "", 
+                             value = TRUE
+                           )
+                         ),
+                         fluidRow(
+                           awesomeCheckbox(
+                             inputId = "cch_2021",
+                             label = "", 
+                             value = FALSE
+                           )
+                         )
+                  ),
+                  column(1,
+                         br(),
+                         fluidRow(icon("file-excel"))
+                  )#last column ends
+                ),#fluid row ends
+                style = "background-color: #696969;")#div ends
         ) #TAB DESCARGA ENDS
       ), #tab items end
       useSever(),
@@ -518,7 +555,7 @@ shinyUI(
                         "average_box_ENP",
                         "value_box_CCH",
                         "average_box_CCH"),
-                 html = spin_whirly(),
+                 html = spin_solar(),
                  fadeout = FALSE,
                  color = "#FFFFF",
                  image = "")
