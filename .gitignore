@@ -1,9 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.Rproj.user
-# RStudio files
-.Rproj.user/
-.Renviron
-.Rproj.user/E6FD2D4D/
+'.Rproj.user/**' 
