@@ -16,69 +16,6 @@
 #
 # Outputs: bar plot, DT counts, DT mainVars, value box #alumns selected, value box cinta mas comun
 
-#libraries needed
-library(shinyWidgets)
-library(shinyalert)
-library(shinycssloaders)
-suppressMessages(suppressWarnings(library(shiny)))
-suppressMessages(suppressWarnings(library(dplyr)))
-suppressMessages(suppressWarnings(library(DT)))
-suppressMessages(suppressWarnings(library(plotly)))
-
-
-# aviso de seleccion!!!
-myToastOptions <- list(
-    positionClass = "toast-top-center",
-    progressBar = FALSE,
-    timeOut = 3000,
-    closeButton = TRUE,
-    
-    # same as defaults
-    newestOnTop = TRUE,
-    preventDuplicates = FALSE,
-    showDuration = 9000,
-    hideDuration = 1000,
-    extendedTimeOut = 1000,
-    showEasing = "linear",
-    hideEasing = "linear",
-    showMethod = "fadeIn",
-    hideMethod = "fadeOut"
-)
-
-
-
-#REVERSE LIST: used for putting neat names to plots
-
-reverse_TICometro_variables <- list(
-    "num_alumno" = "Alumno",
-    "institucion" = "Plantel",
-    "grupo" = "Grupo",
-    "genero" = "Género",
-    "escuela_de_procedencia" = "Escuela de Procedencia",
-    "compartes_tic" = "Uso compartido de laptop o computadora",
-    "estabilidad_internet_4_clases" = "Estabilidad de la red en casa",
-    "internet_fuera_d_casa" = "Conexión a Internet fuera de casa",
-    "dispositivos_electronicos" = "Dispositivo TIC de acceso",
-    "total_de_dispositivos_por_estudiante" = "# de Dispositivos TIC",
-    "edad_uso_dispositivo" = "Edad de primer uso de TIC",
-    "plataformas_edu_known" = "Plataformas Educativas que conoce el estudiante",
-    "total_de_plataformas_por_estudiante" = "# de Plataformas Educativas que conoce el estudiante",
-    "cinta" = "Color de cinta obtenida",
-    "calif_checker" = "Calificación TICómetro",
-    "calif_proces_admin_infor" = "Calif. Procesamiento",
-    "calif_acceso_informacion" = "Calif. Acceso",
-    "calif_seguridad" = "Calif. Seguridad",
-    "calif_colabor_comunic" = "Calif. Colaboración"
-)
-
-disconnected <- tagList(
-    h1("Whoah there..."),
-    p("Something went terribly wrong!"),
-    sever::reload_button("REFRESH", class = "warning")
-)
-
-img_url <-
-    "https://i.pinimg.com/280x280_RS/45/d4/01/45d40177e1ce8015e9e4dd2a2115ed36.jpg"
 
 #CONNECT ONCE TO DATABASE
 db_connection <- connect2database()
@@ -86,42 +23,21 @@ db_connection <- connect2database()
 
 server <- function(input, output, session) {
     
-    sever::sever(html = disconnected,
-                 bg_image  = img_url,
-                 color = "black")
+    #mensaje de desconexion
+    sever::sever(html = sever_default(
+        title = "Error: Interrupción del procesamiento",
+        subtitle = "Disculpe las molestias. Si esta pantalla continua apareciendo, favor de comunicarse con el administrador del sitio.",
+        button = "Actualizar",
+        button_class = "info"
+    ),
+    bg_color = "white", color = "black")
+    
     
     observeEvent(input$stop, {
         stopApp()
     })
     
-    observeEvent(input$plot_enp_var, {
-        
-        if (isolate(input$plot_enp_var) == "dispositivos_electronicos") {
-            showToast(
-                "warning",
-                "En las ENP sólo seleccionarion una opción.",
-                .options = myToastOptions
-            )
-            shinyalert(
-                title = "Observación metodológica",
-                text = "En las ENPs sólo seleccionaron una opción.",
-                size = "l",
-                closeOnEsc = TRUE,
-                closeOnClickOutside = TRUE,
-                html = FALSE,
-                type = "warning",
-                showConfirmButton = TRUE,
-                showCancelButton = FALSE,
-                confirmButtonText = "Comprendo",
-                confirmButtonCol = "#3020E0",
-                timer = 0,
-                imageUrl = "",
-                animation = TRUE
-            )
-        }
-    })
-    
-    
+ 
     
     #############################################################################################
     ################### ENP LOGIC BEGINS   ######################################################

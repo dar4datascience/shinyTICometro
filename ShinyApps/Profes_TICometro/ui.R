@@ -141,7 +141,7 @@ shinyUI(
     ),# END OF TAGS HEAD
     # CODE TO CHANGE COLORS OF THE APP
     freshTheme = myTheme,
-    preloader = list(html = waiter::spin_pong(),
+    preloader = list(html = tagList(waiter::spin_gauge(), "Cargando el sitio de consulta del TICómetro..."),
                      color = "#333e48"
     ), #image =  "https://i.pinimg.com/280x280_RS/45/d4/01/45d40177e1ce8015e9e4dd2a2115ed36.jpg"
     fullscreen = TRUE,
@@ -175,20 +175,47 @@ shinyUI(
         menuItem(
           text = "TICómetro 2020",
           startExpanded = FALSE,
-          selected = "enp",
+          selected = "cch",
           menuSubItem(
-            text = "ENP",
-            icon = shiny::icon("eye"),
-            tabName = "enp"
-          ),
-          menuSubItem(
-            text = "CCH",
-            icon = ionicon(name = "cloud-download"),
+            text = HTML(
+              paste(
+                "CCH",
+                dashboardBadge(
+                  "dev",
+                  position = "right",
+                  color = "warning"
+                )
+              )
+            ),
+            icon = shiny::icon(name = "angle-double-right"),
             tabName = "cch"
           ),
+          menuSubItem(
+            text = HTML(
+              paste(
+                "ENP",
+                dashboardBadge(
+                  "dev",
+                  position = "right",
+                  color = "warning"
+                )
+              )
+            ),
+            icon = shiny::icon("angle-double-right"),
+            tabName = "enp"
+          ),
           menuItem(
-            text = "Descarga",
-            icon = icon("download"),
+            text =  HTML(
+              paste(
+                "Descarga",
+                dashboardBadge(
+                  "dev",
+                  position = "right",
+                  color = "warning"
+                )
+              )
+            ),
+            icon = shiny::icon("download"),
             startExpanded = FALSE,
             tabName = "descarga"
           )

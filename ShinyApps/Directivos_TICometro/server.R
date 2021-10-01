@@ -2,33 +2,6 @@
 ###### TICometro 4 Directivos##########
 ######################################
 
-
-#libraries needed
-library(shinyWidgets)
-library(shinyalert)
-library(bs4Dash)
-library(shinycssloaders)
-suppressMessages(suppressWarnings(library(shiny)))
-suppressMessages(suppressWarnings(library(dplyr)))
-suppressMessages(suppressWarnings(library(DT)))
-suppressMessages(suppressWarnings(library(plotly)))
-
-myToastOptions <- list(
-    positionClass = "toast-top-center",
-    progressBar = FALSE,
-    timeOut = 0,
-    closeButton = FALSE,
-    #newestOnTop = TRUE, NOT NEEDED
-    preventDuplicates = TRUE,
-    showDuration = 300,
-    hideDuration = 1000,
-    extendedTimeOut = 0,
-    showEasing = "swing",
-    hideEasing = "swing",
-    showMethod = "slideDown",
-    hideMethod = "slideUp"
-)
-
 #REVERSE LIST: used for putting neat names to plots
 
 reverse_TICometro_variables <- list(
@@ -76,6 +49,27 @@ server <- function(input, output, session) {
         stopApp()
     })
 
+    observeEvent(input$plot_cch_var, {
+        
+        if (isolate(input$plot_cch_var) == "dispositivos_electronicos") {
+            shinyalert(
+                title = "Observación metodológica",
+                text = "En las ENPs sólo seleccionaron una opción.",
+                size = "l",
+                closeOnEsc = TRUE,
+                closeOnClickOutside = TRUE,
+                html = FALSE,
+                type = "warning",
+                showConfirmButton = TRUE,
+                showCancelButton = FALSE,
+                confirmButtonText = "Comprendo",
+                confirmButtonCol = "#3020E0",
+                timer = 0,
+                imageUrl = "",
+                animation = TRUE
+            )
+        }
+    })
 
     #############################################################################################
     ################### CCH LOGIC BEGINS   ######################################################
