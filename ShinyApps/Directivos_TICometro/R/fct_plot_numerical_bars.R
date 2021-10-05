@@ -44,6 +44,8 @@ plot_numerical_vars <- function(df, var2plot, groupvar = "ninguno"){
                           modeBarButtonsToRemove = c("pan2d",
                                                      "select2d",
                                                      "lasso2d",
+                                                     "autoScale2d",
+                                                     "hoverClosestCartesian",
                                                      "hoverCompareCartesian",
                                                      "toggleSpikelines",
                                                      "toImage")) %>%
@@ -96,6 +98,8 @@ plot_numerical_vars <- function(df, var2plot, groupvar = "ninguno"){
                           modeBarButtonsToRemove = c("pan2d",
                                                      "select2d",
                                                      "lasso2d",
+                                                     "autoScale2d",
+                                                     "hoverClosestCartesian",
                                                      "hoverCompareCartesian",
                                                      "toggleSpikelines",
                                                      "toImage")) %>%

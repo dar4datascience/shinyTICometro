@@ -1,5 +1,4 @@
 library(htmltools)
-library(shinyFeedback)
 library(fresh)
 library(sever)
 library(waiter)

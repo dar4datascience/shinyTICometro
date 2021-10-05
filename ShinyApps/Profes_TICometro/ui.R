@@ -150,10 +150,11 @@ shinyUI(
     header = bs4Dash::dashboardHeader(
       fixed = FALSE,
       title = tags$a(href = 'https://educatic.unam.mx/publicaciones/informes-ticometro.html',
-                     tags$img(src = 'logo_ticometro_pequenio.jpg')),
+                     tags$img(src = 'logo_ticometro_pequenio.jpg',
+                              width = "100%")
+                     ),
       border = FALSE,
-      tags$h5("Consulta los datos del TICómetro  Profesores", id = "title-navbar",
-              style = "color: white;")
+      tags$h5("Consulta los datos del TICómetro  |  Profesores", id = "title-navbar")
       
     ),#HEADER ENDS
     #SIDEBAR STARS HERE BUT ITS DISABLED
@@ -162,11 +163,7 @@ shinyUI(
       fixed = FALSE,
       expandOnHover = FALSE,
       status = "primary",
-      id = "sidebar",
-      bs4Dash::sidebarUserPanel(
-        image = 'favicon.png',
-        name = "Bienvenido!"
-      ),
+      id = "sidebar"
       bs4Dash::sidebarMenu(
         id = "current_tab",
         flat = FALSE,

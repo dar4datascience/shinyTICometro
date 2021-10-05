@@ -81,14 +81,7 @@ ui <- bs4Dash::dashboardPage(
   fullscreen = TRUE,
   scrollToTop = TRUE,
   #HEADER STARTS HERE
-  header = bs4Dash::dashboardHeader(
-    fixed = FALSE,
-    title = tags$a(href = 'https://educatic.unam.mx/publicaciones/informes-ticometro.html',
-                   tags$img(src = 'logo_ticometro_pequenio.jpg', alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro")),
-    border = FALSE,
-    tags$h5("Consulta los datos del TICómetro", id = "title-navbar",
-            style = "color: white;")
-  ),
+  header = bs4Dash::dashboardHeader(disable =TRUE),
   #SIDEBAR STARTS HERE
   sidebar = bs4Dash::dashboardSidebar(disable = TRUE),
   #UNABLE TO DISABLE. USE IT FOR CREDITS

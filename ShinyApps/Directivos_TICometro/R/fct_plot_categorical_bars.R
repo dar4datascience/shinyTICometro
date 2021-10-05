@@ -53,6 +53,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                               modeBarButtonsToRemove = c("pan2d",
                                                          "select2d",
                                                          "lasso2d",
+                                                         "autoScale2d",
+                                                         "hoverClosestCartesian",
                                                          "hoverCompareCartesian",
                                                          "toggleSpikelines",
                                                          "toImage")) %>%
@@ -86,6 +88,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                           modeBarButtonsToRemove = c("pan2d",
                                                      "select2d",
                                                      "lasso2d",
+                                                     "autoScale2d",
+                                                     "hoverClosestCartesian",
                                                      "hoverCompareCartesian",
                                                      "toggleSpikelines",
                                                      "toImage")) %>%

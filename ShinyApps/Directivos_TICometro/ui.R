@@ -103,39 +103,40 @@ CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
 # Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
-    title = "Sitio de Consulta de los Resultados del TICómetro",
-    dark = TRUE,
+    title = "Sitio de Consulta de los Resultados del TICómetro para directivos.",
+    dark = FALSE,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
       tags$link(rel="shortcut icon", href="favicon.png"),#add favicon
       tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
     ), #END OF HEAD
-    useWaiter(),
-    preloader = list(html = tagList(waiter::spin_pong(), "Cargando sitio de consulta del TICómetro ..."),
+    preloader = list(
+      html = tagList(waiter::spin_gauge(), "Cargando sitio de consulta del TICómetro ..."),
                      color = "#343a40"
     ),
     fullscreen = TRUE,
     #HEADER STARTS HERE
     header = bs4Dash::dashboardHeader(
       fixed = FALSE,
-      skin = "dark",
       title = tags$a(href = 'http://132.248.10.243:3838/El-Duque/TICometro_Landing',
-                     tags$img(src = 'logo_ticometro_pequenio.jpg')),
+                     tags$img(src = 'logo_ticometro_pequenio.jpg',
+                              width="100%", 
+                              alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro"
+                              )
+                     ),
       border = FALSE,
       tags$h5(
-        "Consulta los datos del TICómetro   Directivos", id = "title-navbar"
+        as.character("Consulta los datos del TICómetro  |  Directivos"),
+        id = "title-navbar",
+        style = "padding-top: 7px;"
       )
-    ),
+    ),#HEADER ENS
     #SIDEBAR STARS HERE
     sidebar = bs4Dash::dashboardSidebar(
       fixed = FALSE,
       expandOnHover = FALSE,
       status = "primary",
       id = "sidebar",
-      bs4Dash::sidebarUserPanel(
-        image = 'favicon.png',
-        name = "Bienvenido!"
-      ),
       bs4Dash::sidebarMenu(
         id = "current_tab",
         flat = FALSE,
@@ -145,13 +146,10 @@ shinyUI(
         sidebarHeader(tags$b("Resultados del TICómetro")),
         menuItem(
           text = "TICómetro 2020",
-          startExpanded = FALSE,
-          selected = "consulta",
-          menuSubItem(
-            text = "Consulta",
-            icon = shiny::icon("search"),
-            tabName = "consulta"
-          )
+          icon = shiny::icon("search"),
+          tabName = "consulta2020",
+          badgeLabel = "nuevo",
+          badgeColor = "danger"
           # menuSubItem(
           #    text = "Compara",
           #   icon = shiny::icon("chart-bar"),
@@ -159,13 +157,13 @@ shinyUI(
           #)
         ),
         menuItem(
-          text = "Descarga",
+          text = "Descarga Masiva",
           icon = icon("download"),
           startExpanded = FALSE,
           tabName = "descarga"
         )
       )
-    ),
+    ),# end of side bar
     #Control BAR STARTS HERE
     #UNABLE TO DISABLE. USE IT FOR CREDITS
     controlbar = NULL, #END OF CONTROL BAR,
@@ -183,7 +181,7 @@ shinyUI(
       bs4Dash::tabItems(
         #ENP TAB starts here!
         bs4Dash::tabItem(
-          tabName = "consulta",
+          tabName = "consulta2020",
           fluidRow(
             tags$h6("Seleccione una o varias opciones:")
           ),
@@ -221,13 +219,16 @@ shinyUI(
             ),#END SELECT VAR input
             column( #STARTS CONSULTA BUTTON
               width = 3,
-              br(),
+              br(), #try to align widgets
+              div(id = "button-consulta-styler",
               shinyWidgets::actionBttn(
                 inputId = "activa_consulta",
                 label = "Consulta",
-                style = "fill",
+                style = "gradient",
                 icon = shiny::icon("question"),
                 color = "success"
+              ),
+              style = "margin-top: 7px;"
               )
             )# ENDS column ACTION BUTTON
           ),
@@ -252,9 +253,10 @@ shinyUI(
               status = "primary",
               solidHeader = TRUE,
               selected = "Grafica",
+         
               tabPanel(
                 "Grafica",
-                icon = ionicon(name = "stats"),
+                icon = shiny::icon(name = "signal", lib = "glyphicon"),
                 #Plot inputs
                 plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                   size = 3,
@@ -355,9 +357,8 @@ shinyUI(
                   style = "background-color: #696969;")#div ends
         ) #TAB DESCARGA ENDS
       ), #tabItems ENDS
+      useWaiter(),
       useSever(),
-      h1("sever"),
-      actionButton("stop", "Stop App"),
       autoWaiter(id = c("value_box_Directivos",
                         "average_box_Directivos",
                         "TabulatedVars_Directivos",
@@ -366,7 +367,7 @@ shinyUI(
                  fadeout = FALSE,
                  color = "#FFFFF",
                  image = ""),
-      useShinyalert(), # include shinyFeedback
+      useShinyalert() # include 
     )#BODY ENDS
   )#PAGE ENDS
 )#SHINYUI ENDS

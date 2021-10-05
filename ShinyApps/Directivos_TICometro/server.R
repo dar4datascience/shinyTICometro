@@ -97,9 +97,9 @@ server <- function(input, output, session) {
 
     observe({
         data_directivos$data <- reactive_Directivos_main_data()
-        print(data_directivos$data$`Calificación TICómetro`)
+        #print(data_directivos$data$`Calificación TICómetro`)
         data_directivos$mean_calif <- round(mean(data_directivos$data$`Calificación TICómetro`, na.rm=TRUE), 2)
-
+        print(reactive_Directivos_tabulated_data())
     })
 
 
@@ -199,6 +199,8 @@ server <- function(input, output, session) {
                 reactive_Directivos_tabulated_data(),
                 isolate(reactive_Directivos_var_selectors$plotvarPicked)
             )
+            
+            
         }
     })
     #############################################################################################

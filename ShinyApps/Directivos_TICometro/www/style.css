@@ -31,3 +31,8 @@ p {
   margin-bottom: auto;
   color: #FFF;
 }
+/* plotly expand margins*/
+
+div#Directivos_plot.plotly {
+  margin: -18px !important;
+}
