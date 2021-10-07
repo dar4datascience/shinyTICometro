@@ -241,7 +241,7 @@ shinyUI(
             tabBox(
               title = NULL,
               elevation = 2,
-              id = "data_tabs",
+              id = "display-resultados-box",
               width = 12,
               background = "info",
               collapsible = FALSE,

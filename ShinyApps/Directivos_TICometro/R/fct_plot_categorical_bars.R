@@ -58,7 +58,9 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                                                          "hoverCompareCartesian",
                                                          "toggleSpikelines",
                                                          "toImage")) %>%
-          plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
+          plotly::layout(autosize = T,
+                         yaxis = list(automargin=TRUE)
+                         ) %>%      
           plotly::layout(title = clean_plot_titles(var2fill)
                          #,font=list(size = 30)
           )
