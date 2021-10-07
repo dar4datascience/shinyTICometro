@@ -4,28 +4,6 @@
 #'
 #' @noRd
 
-#' toast_alert_config_acceso_dispositivo_tic
-#' 
-#' @return a list with parameters to feed to showToast(.options)
-toast_alert_config_acceso_dispositivo_tic <- function(){
-  list(
-    positionClass = "toast-top-center",
-    progressBar = FALSE,
-    timeOut = 0,
-    closeButton = FALSE,
-    #newestOnTop = TRUE, NOT NEEDED
-    preventDuplicates = TRUE,
-    showDuration = 300,
-    hideDuration = 1000,
-    extendedTimeOut = 0,
-    showEasing = "swing",
-    hideEasing = "swing",
-    showMethod = "slideDown",
-    hideMethod = "slideUp"
-  )
-}
-
-
 ###################################
 
 #' pantala_desconexion
@@ -157,4 +135,64 @@ clean_plot_titles <- function(variable){
 getmode <- function(v) {
   uniqv <- unique(v)
   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+
+#' crea_tabla_clas_cintas
+#' 
+#' @description una funcion para armar la tabla que va abajo a la derecha del
+#' ticometro y explica las cintas
+#' @returns a bs4Table
+crea_tabla_clas_cintas <- function(){
+  
+ table_descripcion <- tibble(
+   cintas = c("cinta_blanca.png", "cinta_naranja.png","cinta_azul.png", "cinta_negra.png"),
+   colores = c("Blanca:", "Naranja:", "Azul:", "Negra:"),
+   descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1 - 100%")
+ ) 
+  
+ 
+ box(
+   id = "explicacion-cintas-ticometro",
+   title = tags$h5("Clasificación de las cintas", id ="titulo-box-clasificacion-cinta"), 
+   collapsible = FALSE, 
+   width = 6,
+   solidHeader = TRUE,
+   headerBorder = FALSE,
+   status = "gray-dark",
+   div(class = "section",
+       div(class = "col grid_1_of_4",
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[1]),
+                    src = table_descripcion$cintas[1],
+                    width = "15%"),
+           div(class = "color", tags$b(table_descripcion$colores[1])),
+           div(class = "descripcion", tags$p(table_descripcion$descripcion[1]))
+           ),
+       div(class = "col grid_1_of_4",
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[3]), 
+                    src = table_descripcion$cintas[3],
+                    width = "15%"),
+           div(class = "color", tags$b(table_descripcion$colores[3])),
+           div(class = "descripcion", tags$p(table_descripcion$descripcion[3]))
+       ),
+       div(class = "col grid_1_of_4",
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[2]),
+                    src = table_descripcion$cintas[2],
+                    width = "15%"),
+           div(class = "color", tags$b(table_descripcion$colores[2])),
+           div(class = "descripcion", tags$p(table_descripcion$descripcion[2]))
+        ,
+       div(class = "col grid_1_of_4",
+           
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[4]),
+                    src = table_descripcion$cintas[4],
+                    width = "15%"
+           ),
+           div(class = "color", tags$b(table_descripcion$colores[4])),
+           div(class = "descripcion", tags$p(table_descripcion$descripcion[4]))
+           )
+       )
+     )#final div
+ )
+
 }

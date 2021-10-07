@@ -245,7 +245,7 @@ shinyUI(
               width = 12,
               background = "info",
               collapsible = FALSE,
-              maximizable = TRUE,
+              maximizable = FALSE,
               gradient = TRUE,
               closable = FALSE,
               type = "tabs",
@@ -253,7 +253,6 @@ shinyUI(
               status = "primary",
               solidHeader = TRUE,
               selected = "Grafica",
-         
               tabPanel(
                 "Grafica",
                 icon = shiny::icon(name = "signal", lib = "glyphicon"),
@@ -271,28 +270,21 @@ shinyUI(
                 "Hoja de Datos",
                 icon = icon(name = "database"),
                 DT::DTOutput("MainVars_Directivos")
-              ) #tab panel HOJA DE DATOS RAW
-            )
-          ),
+              ), #tab panel HOJA DE DATOS RAW
+              dropdownMenu = boxDropdown(
+                icon = shiny::icon("file-download", class = "fa-2x"),
+                #when passing an id to boxDropdownItem it will behave like a button!
+                boxDropdownItem("Descarga tu gráfica", id = "descarga_grafica", icon = shiny::icon(name = "signal", lib = "glyphicon")),
+                boxDropdownItem("Descarga tu selección de datos", id = "descarga_tabulado", icon = icon(name = "calculator")),
+                boxDropdownItem("Descarga la hoja de datos", id = "descarga_hoja_datos", icon = icon(name = "database"))
+              )
+            )#end of tab box
+          ), #end of fluid row
           #Third Fluid row
-          fluidRow(
-            bs4Dash::valueBoxOutput("value_box_Directivos"),
-            bs4Dash::valueBoxOutput("average_box_Directivos"),
-            infoBox(
-              width = 4,
-              #HERE IS A STYLER
-              title = tags$b("¿Que son las cintas?"),
-              color = "info",
-              value = HTML("
-             - Cinta blanca: 0 a 30 puntos.  <br>
-
-              - Cinta amarilla: 31 a 60 puntos.  <br>
-
-              - Cinta azul: 61 a 84 puntos.  <br>
-
-              - Cinta negra: 85 a 100 puntos."),
-             icon = icon("info")
-            )
+          fluidRow(# divides in 12
+            bs4Dash::valueBoxOutput("value_box_Directivos", width = 3), # width 2
+            bs4Dash::valueBoxOutput("average_box_Directivos", width = 3), #width 3
+            crea_tabla_clas_cintas()
           )
         ),
         #   tabItem(tabName = "compara",

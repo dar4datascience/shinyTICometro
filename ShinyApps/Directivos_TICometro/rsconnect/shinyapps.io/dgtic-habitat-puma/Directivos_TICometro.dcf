@@ -1,0 +1,13 @@
+name: Directivos_TICometro
+title: Directivos_TICometro
+username:
+account: dgtic-habitat-puma
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4824509
+bundleId: 5116163
+url: https://dgtic-habitat-puma.shinyapps.io/Directivos_TICometro/
+when: 1633646074.31861
+lastSyncTime: 1633646074.31861
+asMultiple: FALSE
+asStatic: FALSE

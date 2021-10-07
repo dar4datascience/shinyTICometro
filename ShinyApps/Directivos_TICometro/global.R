@@ -1,7 +1,7 @@
 library(htmltools)
 library(fresh)
 library(sever)
-library(waiter)
+library(waiter) 
 library(shinycssloaders)
 suppressMessages(suppressWarnings(library(RColorBrewer)))
 suppressMessages(suppressWarnings(library(bs4Dash)))

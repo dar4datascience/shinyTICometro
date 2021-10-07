@@ -163,7 +163,7 @@ shinyUI(
       fixed = FALSE,
       expandOnHover = FALSE,
       status = "primary",
-      id = "sidebar"
+      id = "sidebar",
       bs4Dash::sidebarMenu(
         id = "current_tab",
         flat = FALSE,
