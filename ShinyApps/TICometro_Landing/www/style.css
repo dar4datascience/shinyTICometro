@@ -8,6 +8,10 @@
          url('fonts/MyriadProBold.svg#MyriadProBold') format('svg');
 }
 
+
+#header2HIDE {
+  display: none !important;
+}
 .row {
   display: flex;
   justify-content: center;

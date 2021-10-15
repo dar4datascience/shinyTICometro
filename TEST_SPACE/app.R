@@ -4,8 +4,9 @@
 
 library(shiny)
 library(waiter)
-library(shinyjqui)
-library(bs4Dash)
+library(shinyjs)
+library(shinydashboard)
+library(shinydashboardPlus)
 library(fresh)
 library(htmltools)
 
@@ -64,12 +65,6 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
   )
 )
 
-header <- dashboardHeader(compact = TRUE,
-                          status = "white",
-                          border = FALSE,
-                          disable = TRUE) 
-header[[1]] <- tagAppendAttributes(header[[1]], id = "header2HIDE")
-
 # Define UI for application that draws a histogram
 ui <- dashboardPage(
   #HEAD tags 4 various reasons
@@ -79,11 +74,13 @@ ui <- dashboardPage(
     tags$link(rel = "shortcut icon", href = "favicon.png")#add favicon
   ),#head ends
   # CODE TO CHANGE COLORS OF THE APP
-  freshTheme = myTheme,
+  #freshTheme = myTheme,
   #HEADER STARTS HERE
-  header = header,
+  header = dashboardHeader(disable=TRUE),
   #SIDEBAR STARTS HERE
-  sidebar = dashboardSidebar(disable=TRUE),
+  sidebar = dashboardSidebar(disable=TRUE,
+                             minified = FALSE,
+                             id = "sidebar_2_hide"),
   #UNABLE TO DISABLE. USE IT FOR CREDITS
   controlbar = NULL, #END OF CONTROL BAR
   #Footer STARTS HERE
@@ -145,7 +142,7 @@ ui <- dashboardPage(
                  style = "color: white",
                  role = "button"
           ),
-          background = "primary"
+          background = "blue"
         )
       )),
       style = "background-color: #FFFFFF;")#div container ends
@@ -155,7 +152,8 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   print("im running")
-
+  shinyjs::hide(id = "sidebar_2_hide", anim = FALSE)
+  
 }
 
 
