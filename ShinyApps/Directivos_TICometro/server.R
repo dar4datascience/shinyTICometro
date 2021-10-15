@@ -11,8 +11,6 @@ print("connected 2 database")
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-
-    thematic::thematic_shiny()
     
     #mensaje de desconexion
     sever::sever(html = sever_default(

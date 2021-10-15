@@ -253,22 +253,23 @@ shinyUI(
               status = "primary",
               solidHeader = TRUE,
               selected = "Grafica",
-              tabPanel(
-                "Grafica",
-                icon = shiny::icon(name = "signal", lib = "glyphicon"),
-                #Plot inputs
-                plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
-                                                                                  size = 3,
-                                                                                  color =  "#FFFFFF")
+              # strech the plot with negative margins
+              htmltools::tagAppendAttributes(
+                tabPanel(
+                  "Grafica",
+                  #Plot inputs
+                  plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
+                                                                                           size = 3,
+                                                                                           color =  "#FFFFFF")
+                ),
+                style = "margin:-18px;"
               ),
               tabPanel( #tab for data table
                 "Tabulado de Datos",
-                icon = icon(name = "calculator"),
                 DT::DTOutput("TabulatedVars_Directivos")
               ), #tab panel ends HOJA CON DATOS TABULADOS
               tabPanel(
                 "Hoja de Datos",
-                icon = icon(name = "database"),
                 DT::DTOutput("MainVars_Directivos")
               ), #tab panel HOJA DE DATOS RAW
               dropdownMenu = boxDropdown(
