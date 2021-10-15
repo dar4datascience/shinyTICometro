@@ -225,7 +225,6 @@ shinyUI(
                 inputId = "activa_consulta",
                 label = "Consulta",
                 style = "gradient",
-                icon = shiny::icon("question"),
                 color = "success"
               ),
               style = "margin-top: 7px;"
@@ -256,7 +255,7 @@ shinyUI(
               # strech the plot with negative margins
               htmltools::tagAppendAttributes(
                 tabPanel(
-                  "Grafica",
+                  "Gráfica",
                   #Plot inputs
                   plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                            size = 3,

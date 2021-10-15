@@ -132,7 +132,6 @@ ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
 shinyUI(
   bs4Dash::dashboardPage(
     title = "Sitio de Consulta de los Resultados del TICómetro",
-    useShinyalert(),
     dark = TRUE,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
@@ -275,7 +274,7 @@ shinyUI(
               )
             ), #ENDS GRUPO INPUT
             column(
-              width = 5,
+              width = 4,
               #use picker with searchable
               shinyWidgets::pickerInput(
                 inputId = "plot_enp_var",
@@ -295,14 +294,17 @@ shinyUI(
               ) #END OF PICKER
             ), #END OF VARS INPUT
             column( #STARTS CONSULTA BUTTON
-              width = 2,
-              br(),
-              bs4Dash::actionButton(
-                inputId = "activa_consulta_enp",
-                label = "Consultar",
-                icon = ionicon("help"),
-                status = "info",
-                size = "lg"
+              width = 3,
+              br(), #try to align widgets
+              div(id = "button-consulta-styler",
+                  shinyWidgets::actionBttn(
+                    inputId = "activa_consulta_enp",
+                    label = "Consulta",
+                    style = "gradient",
+                    color = "success",
+                    size = "lg"
+                  ),
+                  style = "margin-top: 7px;"
               )
             )# ENDS ACTION BUTTON
           ), #ENDS 1 FLUID ROW
@@ -325,23 +327,23 @@ shinyUI(
               type = "tabs",
               status = "primary",
               solidHeader = TRUE,
-              selected = "Grafica",
+              selected = "Gráfica",
+              htmltools::tagAppendAttributes(
               tabPanel( #tab panel for plots
-                "Grafica",
-                icon = ionicon(name = "stats"),
+                "Gráfica",
                 #Plot output
                 plotly::plotlyOutput("ENP_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                   size = 3,
                                                                                   color =  "#FFFFFF")
+              ),
+              style = "margin:-18px;"
               ), #tab panel ends
               tabPanel( #tab for data table
                 "Tabulado de Datos",
-                icon = icon(name = "calculator"),
                 DT::DTOutput("TabulatedVars_ENP")
               ), #tab panel ends HOJA CON DATOS TABULADOS
               tabPanel(
                 "Hoja de Datos",
-                icon = icon(name = "database"),
                 DT::DTOutput("MainVars_ENP")
               ) #tab panel HOJA DE DATOS RAW
             ) #tab box ends
@@ -391,7 +393,7 @@ shinyUI(
                     )
                   ),#END OF COLUMN SCHOOL INPUT
                   column(
-                    width = 6,
+                    width = 4,
                     #use picker with searchable
                     shinyWidgets::pickerInput(
                       inputId = "plot_cch_var",
@@ -411,14 +413,17 @@ shinyUI(
                     )#END OF PICKER INPUT
                   ),
                   column( #STARTS CONSULTA BUTTON
-                    width = 2,
-                    br(),
-                    bs4Dash::actionButton(
-                      inputId = "activa_consulta_cch",
-                      label = "Consulta",
-                      icon = shiny::icon("question"),
-                      status = "secondary",
-                      size = "lg"
+                    width = 3,
+                    br(), #try to align widgets
+                    div(id = "button-consulta-styler",
+                        shinyWidgets::actionBttn(
+                          inputId = "activa_consulta_cch",
+                          label = "Consulta",
+                          style = "gradient",
+                          color = "success",
+                          size = "lg"
+                        ),
+                        style = "margin-top: 7px;"
                     )
                   )# ENDS ACTION BUTTON
                 ), #ENDS 1 FLUID ROW
@@ -431,7 +436,7 @@ shinyUI(
                   tabBox(
                     title = NULL,
                     elevation = 2,
-                    id = "ENP_data_and_plots_tabs",
+                    id = "CCH_tables_plots",
                     width = 12,
                     background = "orange",
                     collapsible = FALSE,
@@ -441,23 +446,23 @@ shinyUI(
                     type = "tabs",
                     status = "primary",
                     solidHeader = TRUE,
-                    selected = "Grafica",
+                    selected = "Gráfica",
+                    htmltools::tagAppendAttributes(
                     tabPanel( #tab panel for plots
-                      "Grafica",
-                      icon = ionicon(name = "stats"),
+                      "Gráfica",
                       #Plot output
                       plotly::plotlyOutput("CCH_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                         size = 3,
                                                                                         color =  "#FFFFFF")
-                    ), #tab panel ends
+                    ),#tab panel ends
+                    style = "margin:-18px;"
+                  ), 
                     tabPanel( #tab for data table
                       "Tabulado de Datos",
-                      icon = icon(name = "calculator"),
                       DT::DTOutput("TabulatedVars_CCH")
                     ), #tab panel ends HOJA CON DATOS TABULADOS
                     tabPanel(
                       "Hoja de Datos",
-                      icon = icon(name = "database"),
                       DT::DTOutput("MainVars_CCH")
                     ) #tab panel HOJA DE DATOS RAW
                   ) #tab box ends
@@ -546,8 +551,6 @@ shinyUI(
         ) #TAB DESCARGA ENDS
       ), #tab items end
       useSever(),
-      h1("sever"),
-      actionButton("stop", "Stop App"),
       useWaiter(),
       autoWaiter(id = c("MainVars_CCH",
                         "TabulatedVars_CCH",
@@ -560,7 +563,8 @@ shinyUI(
                  html = spin_solar(),
                  fadeout = FALSE,
                  color = "#FFFFF",
-                 image = "")
+                 image = ""),
+      useShinyalert()
     )#BODY ENDS
     
   )# PAGE ENDS
