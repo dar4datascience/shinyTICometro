@@ -1,5 +1,7 @@
 # shinyTICometro 1.0
 
+! PENDIENTE: MOVER SHINY SERVER WORKFLOW TO GITHUB PULL WORKFLOW
+
 Una aplicación en Shiny para consultar los [resultados del TICometro](https://educatic.unam.mx/publicaciones/informes-ticometro.html).
 
 ![el logo del ticometro](https://github.com/dar4datascience/shinyTICometro/blob/main/ShinyApps/TICometro_Landing/www/logo_ticometro.jpg "logo-del-ticometro")
