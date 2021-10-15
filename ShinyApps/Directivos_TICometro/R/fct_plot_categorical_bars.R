@@ -53,10 +53,14 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                               modeBarButtonsToRemove = c("pan2d",
                                                          "select2d",
                                                          "lasso2d",
+                                                         "autoScale2d",
+                                                         "hoverClosestCartesian",
                                                          "hoverCompareCartesian",
                                                          "toggleSpikelines",
                                                          "toImage")) %>%
-          plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
+          plotly::layout(autosize = T,
+                         yaxis = list(automargin=TRUE)
+                         ) %>%      
           plotly::layout(title = clean_plot_titles(var2fill)
                          #,font=list(size = 30)
           )
@@ -86,6 +90,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                           modeBarButtonsToRemove = c("pan2d",
                                                      "select2d",
                                                      "lasso2d",
+                                                     "autoScale2d",
+                                                     "hoverClosestCartesian",
                                                      "hoverCompareCartesian",
                                                      "toggleSpikelines",
                                                      "toImage")) %>%

@@ -11,8 +11,7 @@ print("connected 2 database")
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-
-
+    
     #mensaje de desconexion
     sever::sever(html = sever_default(
         title = "Error: Interrupción del procesamiento",
@@ -94,12 +93,12 @@ server <- function(input, output, session) {
     )
 
     data_directivos <- reactiveValues()
+    tabulated_directivos <-reactiveValues()
 
     observe({
         data_directivos$data <- reactive_Directivos_main_data()
-        print(data_directivos$data$`Calificación TICómetro`)
         data_directivos$mean_calif <- round(mean(data_directivos$data$`Calificación TICómetro`, na.rm=TRUE), 2)
-
+       tabulated_directivos$data<- reactive_Directivos_tabulated_data()
     })
 
 
@@ -107,7 +106,7 @@ server <- function(input, output, session) {
 
 
     #VALUE BOX FOR # OF ALUMNOS SELECCIONADOS
-    num_alumnos_selected_CCH <-
+    num_alumnos_selected_directivos <-
         reactive(prettyNum(
             nrow(reactive_Directivos_main_data()),
             big.mark = ","
@@ -116,8 +115,8 @@ server <- function(input, output, session) {
 
     output$value_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
-            value = num_alumnos_selected_CCH(),
-            width = 4,
+            value = num_alumnos_selected_directivos(),
+            width = 1,
             subtitle = "Alumnos seleccionados",
             color = "success",
             icon = icon("user-friends")
@@ -128,7 +127,7 @@ server <- function(input, output, session) {
     output$average_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
             value = data_directivos$mean_calif,
-            width = 4,
+            width = 1,
             subtitle = "Calificación promedio",
             color = "success",
             icon = icon("user-graduate")
@@ -193,12 +192,28 @@ server <- function(input, output, session) {
                 isolate(reactive_Directivos_var_selectors$plotvarPicked)
             )
 
-        } else{
+        }else{
+            
+            if(isolate(input$plot_directivo_var) == "edad_uso_dispositivo"){
+                
+               filtered_edad <- tabulated_directivos$data %>% 
+                    filter(between(edad_uso_dispositivo, 1, 17))
+               
+               print('printing filtered edad')
+               print(filtered_edad)
+               
+               plot_categorical_vars(
+                   filtered_edad,
+                   isolate(reactive_Directivos_var_selectors$plotvarPicked)
+               ) 
+                
+            }else{
 
             plot_categorical_vars(
-                reactive_Directivos_tabulated_data(),
+                tabulated_directivos$data,
                 isolate(reactive_Directivos_var_selectors$plotvarPicked)
             )
+            }
         }
     })
     #############################################################################################
@@ -208,3 +223,4 @@ server <- function(input, output, session) {
 
 
 }
+

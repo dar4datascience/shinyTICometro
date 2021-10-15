@@ -1,5 +1,4 @@
 library(htmltools)
-library(shinyFeedback)
 library(fresh)
 library(sever)
 library(waiter)
@@ -13,3 +12,4 @@ suppressMessages(suppressWarnings(library(plotly)))
 library(pool)
 suppressMessages(suppressWarnings(library(dplyr)))
 suppressMessages(suppressWarnings(library(DT)))
+

@@ -1,0 +1,32 @@
+ div(class = "section",
+       div(style="width: 50%; float:left", class = "col grid_1_of_2",
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[1]),
+                    src = table_descripcion$cintas[1],
+                    width = "100%"),
+         tags$b(table_descripcion$colores[1]),
+            tags$p(table_descripcion$descripcion[1]),
+           
+           div(class = "col grid_1_of_4",
+               tags$img(class = "cinta", alt = paste(table_descripcion$cintas[3]), 
+                        src = table_descripcion$cintas[3],
+                        width = "100%"),
+               div(class = "color", tags$b(table_descripcion$colores[3])),
+               div(class = "descripcion", tags$p(table_descripcion$descripcion[3]))
+           ),
+       ),
+       div(style="width: 50%; float:right", class = "col grid_1_of_2",
+           tags$img(class = "cinta", alt = paste(table_descripcion$cintas[2]),
+                    src = table_descripcion$cintas[2],
+                    width = "100%"),
+           div(class = "color", tags$b(table_descripcion$colores[2])),
+           div(class = "descripcion", tags$p(table_descripcion$descripcion[2])),
+           div(class = "col grid_1_of_4",
+               tags$img(class = "cinta", alt = paste(table_descripcion$cintas[4]),
+                        src = table_descripcion$cintas[4],
+                        width = "100%"
+               ),
+               div(class = "color", tags$b(table_descripcion$colores[4])),
+               div(class = "descripcion", tags$p(table_descripcion$descripcion[4]))
+           )
+       )
+   )
