@@ -18,7 +18,7 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
   
   #reorder categorical
   #df <- df %>%
-   # mutate(name = forcats::fct_reorder(`Institución`, desc(`# alumnos`)))
+  # mutate(name = forcats::fct_reorder(`Institución`, desc(`# alumnos`)))
   
   
   if(groupvar == "ninguno"){
@@ -30,123 +30,130 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
       #df[["cinta"]] <- forcats::fct_rev(df[["cinta"]])
       
       
-         p <- df %>% ggplot(aes(y = `# alumnos`,
-                               x = `Institución`,
-                               fill = `cinta`,
-                               text = `cinta`)
-        ) +
-          geom_col() +
-          coord_flip() +
-          theme(axis.text.x= element_text("# de Alumnos"), 
-                axis.text.y= element_text("Institución")
-          )+
-           scale_fill_manual(values = c("Blanca"="#bcbcbc",
-                                        "Naranja" = "#ffa500",
-                                        "Azul" = "#0000ff",
-                                        "Negra" = "#000000")
-                             )
-        
-        fig <- ggplotly(p, tooltip = c("y","x", "fill"))
-        
-        
-        fig <- plotly::config(fig, displaylogo = FALSE,
-                              modeBarButtonsToRemove = c("pan2d",
-                                                         "select2d",
-                                                         "lasso2d",
-                                                         "hoverClosestCartesian",
-                                                         "hoverCompareCartesian",
-                                                         "toggleSpikelines",
-                                                         "toImage")) %>%
-          plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
-          plotly::layout(title = clean_plot_titles(var2fill)
-                         #,font=list(size = 30)
-          )
+      p <- df %>% ggplot(aes(y = `# alumnos`,
+                             x = `Institución`,
+                             fill = `cinta`,
+                             text = `cinta`)
+      ) +
+        geom_col() +
+        coord_flip() +
+        theme(axis.text.x= element_text("# de Alumnos"), 
+              axis.text.y= element_text("Institución"),
+              legend.title = element_blank()
+        )+
+        scale_fill_manual(values = c("Blanca"="#bcbcbc",
+                                     "Naranja" = "#ffa500",
+                                     "Azul" = "#0000ff",
+                                     "Negra" = "#000000")
+        )
+      
+      fig <- ggplotly(p, tooltip = c("y","x", "fill"))
+      
+      
+      fig <- plotly::config(fig, displaylogo = FALSE,
+                            modeBarButtonsToRemove = c("pan2d",
+                                                       "select2d",
+                                                       "lasso2d",
+                                                       "autoScale2d",
+                                                       "hoverClosestCartesian",
+                                                       "hoverCompareCartesian",
+                                                       "toggleSpikelines",
+                                                       "toImage")) %>%
+        plotly::layout(autosize = T,
+                       yaxis = list(automargin=TRUE)
+        ) %>%      
+        plotly::layout(title = clean_plot_titles(var2fill)
+                       #,font=list(size = 30)
+        )
       
       
       
       return(fig)
       
     }else{
-    
-    
-    p <- df %>% ggplot(aes(y = `# alumnos`,
-                           x = `Institución`,
-                           fill = .data[[var2fill]],
-                           text = .data[[var2fill]])
-    ) +
-      geom_col() +
-      coord_flip() +
-      theme(axis.text.x= element_text("# de Alumnos"), 
-            axis.text.y= element_text("Institución")
-      )
-    
-    fig <- ggplotly(p, tooltip = c("y","x", "fill"))
-    
-    
-    fig <- plotly::config(fig, displaylogo = FALSE,
-                          modeBarButtonsToRemove = c("pan2d",
-                                                     "select2d",
-                                                     "lasso2d",
-                                                     "hoverClosestCartesian",
-                                                     "hoverCompareCartesian",
-                                                     "toggleSpikelines",
-                                                     "toImage")) %>%
-      plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
-      plotly::layout(title = clean_plot_titles(var2fill)
-                     #,font=list(size = 30)
-      ) 
-    
-    
-    
-    return(fig)
+      
+      
+      p <- df %>% ggplot(aes(y = `# alumnos`,
+                             x = `Institución`,
+                             fill = .data[[var2fill]],
+                             text = .data[[var2fill]])
+      ) +
+        geom_col() +
+        coord_flip() +
+        theme(axis.text.x= element_text("# de Alumnos"), 
+              axis.text.y= element_text("Institución"),
+              legend.title = element_blank()
+        )
+      
+      fig <- ggplotly(p, tooltip = c("y","x", "fill"))
+      
+      
+      fig <- plotly::config(fig, displaylogo = FALSE,
+                            modeBarButtonsToRemove = c("pan2d",
+                                                       "select2d",
+                                                       "lasso2d",
+                                                       "autoScale2d",
+                                                       "hoverClosestCartesian",
+                                                       "hoverCompareCartesian",
+                                                       "toggleSpikelines",
+                                                       "toImage")) %>%
+        plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
+        plotly::layout(title = clean_plot_titles(var2fill)
+                       #,font=list(size = 30)
+        ) 
+      
+      
+      
+      return(fig)
     }
     
   }else{
     
     if(var2fill == "cinta"){
-    
+      
       #order cinta
       df[["cinta"]] <- factor(df[["cinta"]], levels = c("Negra", "Azul", "Naranja","Blanca"))
       #df[["cinta"]] <- forcats::fct_rev(df[["cinta"]])
       
-
-    #GROUPED BAR PLOT CINTA
-    p <- df %>% ggplot(aes(y = `# alumnos`,
-                           x = .data[[groupvar]],
-                           fill = .data[["cinta"]],
-                           text = .data[["cinta"]])
-    ) +
-      geom_col() +
-      facet_wrap(~`Institución`) +
-      coord_flip()  +
-      theme(axis.text.x= element_text("# de Alumnos"), 
-            axis.text.y= element_text("Grupo")
+      
+      #GROUPED BAR PLOT CINTA
+      p <- df %>% ggplot(aes(y = `# alumnos`,
+                             x = .data[[groupvar]],
+                             fill = .data[["cinta"]],
+                             text = .data[["cinta"]])
       ) +
-      scale_fill_manual(values = c("Blanca"="#bcbcbc",
-                                   "Naranja" = "#ffa500",
-                                   "Azul" = "#0000ff",
-                                   "Negra" = "#000000")
-      )
-    
-    fig <- ggplotly(p, tooltip = c("y","x", "fill"))
-    
-    
-    fig <- plotly::config(fig, displaylogo = FALSE,
-                          modeBarButtonsToRemove = c("pan2d",
-                                                     "select2d",
-                                                     "lasso2d",
-                                                     "hoverCompareCartesian",
-                                                     "toggleSpikelines",
-                                                     "toImage")) %>%
-      plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
-      plotly::layout(title = clean_plot_titles(var2fill)
-                     #,font=list(size = 30)
-      ) 
-    
-    
-    
-    return(fig)
-    
+        geom_col() +
+        facet_wrap(~`Institución`) +
+        coord_flip()  +
+        theme(axis.text.x= element_text("# de Alumnos"), 
+              axis.text.y= element_text("Grupo"),
+              legend.title = element_blank()
+        ) +
+        scale_fill_manual(values = c("Blanca"="#bcbcbc",
+                                     "Naranja" = "#ffa500",
+                                     "Azul" = "#0000ff",
+                                     "Negra" = "#000000")
+        )
+      
+      fig <- ggplotly(p, tooltip = c("y","x", "fill"))
+      
+      
+      fig <- plotly::config(fig, displaylogo = FALSE,
+                            modeBarButtonsToRemove = c("pan2d",
+                                                       "select2d",
+                                                       "lasso2d",
+                                                       "hoverCompareCartesian",
+                                                       "toggleSpikelines",
+                                                       "toImage")) %>%
+        plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
+        plotly::layout(title = clean_plot_titles(var2fill)
+                       #,font=list(size = 30)
+        ) 
+      
+      
+      
+      return(fig)
+      
     }else{
       #GROUPED BAR PLOT
       p <- df %>% ggplot(aes(y = `# alumnos`,
@@ -158,7 +165,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
         facet_wrap(~`Institución`) +
         coord_flip()  +
         theme(axis.text.x= element_text("# de Alumnos"), 
-              axis.text.y= element_text("Grupo")
+              axis.text.y= element_text("Grupo"),
+              legend.title = element_blank()
         )
       
       fig <- ggplotly(p, tooltip = c("y","x", "fill"))
@@ -185,7 +193,7 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
       
       return(fig)
     }
-  
+    
     
   }
   

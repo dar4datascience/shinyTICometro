@@ -1,10 +1,6 @@
 ######################################
 ###### TICometro Landing ##########
 ######################################
-
-#targeting the header to dealete it. see: 
-header <- dashboardHeader(compact = TRUE) 
-header[[1]] <- tagAppendAttributes(header[[1]], id = "header2HIDE")
 library(htmltools)
 library(fresh)
 
@@ -12,6 +8,10 @@ suppressMessages(suppressWarnings(library(dplyr)))
 suppressMessages(suppressWarnings(library(bs4Dash)))
 suppressMessages(suppressWarnings(library(shinyalert)))
 suppressMessages(suppressWarnings(library(shiny)))
+#targeting the header to dealete it. see: 
+header <- dashboardHeader(compact = TRUE) 
+header[[1]] <- tagAppendAttributes(header[[1]], id = "header2HIDE")
+
 
 
 #FRESH THEME
@@ -151,7 +151,7 @@ ui <- dashboardPage(
     ),#end of fluid row
     fluidRow(
       bs4Dash::box(
-        title = "Explicacion 1",
+        title = "Variables de análisis del TICómetro",
         closable = FALSE,
         width = 12,
         status = "warning",
@@ -163,7 +163,7 @@ ui <- dashboardPage(
     ),#end fluid row
     fluidRow(
       bs4Dash::box(
-        title = "Explicacion 2",
+        title = "Porcentaje de participación",
         closable = FALSE,
         width = 12,
         status = "warning",

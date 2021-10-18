@@ -161,7 +161,7 @@ crea_tabla_clas_cintas <- function() {
   )
   
   
-  box(
+  bs4Dash::box(
     id = "explicacion-cintas-ticometro",
     title = tags$h5("Clasificación de las cintas", id = "titulo-box-clasificacion-cinta"),
     collapsible = FALSE,
@@ -169,11 +169,8 @@ crea_tabla_clas_cintas <- function() {
     solidHeader = TRUE,
     headerBorder = FALSE,
     status = "gray-dark",
-    div(
-      class = "section",
-      div(
-        style = "width: 50%; float:left",
-        class = "col grid_1_of_2",
+    fluidRow(
+      splitLayout(
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[1]),
@@ -181,7 +178,7 @@ crea_tabla_clas_cintas <- function() {
           width = "25%"
         ),
         tags$p(tags$b(table_descripcion$colores[1]),
-        table_descripcion$descripcion[1]),
+               table_descripcion$descripcion[1]),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[3]),
@@ -189,20 +186,20 @@ crea_tabla_clas_cintas <- function() {
           width = "25%"
         ),
         tags$p(tags$b(table_descripcion$colores[3]),
-        table_descripcion$descripcion[3])
-        
-      ),
-      div(
-        style = "width: 50%; float:right",
-        class = "col grid_1_of_2",
+               table_descripcion$descripcion[3])
+      )
+    ),
+    fluidRow(
+      splitLayout(
+        #cellWidths = c("20%", "40%", "20%", "40%"),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[2]),
           src = table_descripcion$cintas[2],
-          width = "25%"
+          width = "100%"
         ),
         tags$p(tags$b(table_descripcion$colores[2]),
-        table_descripcion$descripcion[2]),
+               table_descripcion$descripcion[2]),
         
         tags$img(
           class = "cinta",
@@ -212,10 +209,9 @@ crea_tabla_clas_cintas <- function() {
         )
         ,
         tags$p(tags$b(table_descripcion$colores[4]),
-        table_descripcion$descripcion[4])
-        
+               table_descripcion$descripcion[4])
       )
-    )#final div
-  )
+    )
+  )#end of box
   
 }

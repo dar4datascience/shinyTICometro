@@ -251,7 +251,7 @@ shinyUI(
               #HERE A STYLER
               status = "primary",
               solidHeader = TRUE,
-              selected = "Grafica",
+              selected = "Gráfica",
               # strech the plot with negative margins
               htmltools::tagAppendAttributes(
                 tabPanel(
