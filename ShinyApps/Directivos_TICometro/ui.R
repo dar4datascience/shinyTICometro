@@ -199,7 +199,7 @@ shinyUI(
                 multiple = TRUE,
                 selected = c("ENP 1", "CCH Azcapotzalco"),
                 options = list(
-                  style = "btn-primary"
+                  style = "btn-secondary"
                 )
               )
             ),#END OF SCHOOL INPUT
@@ -214,18 +214,21 @@ shinyUI(
                   "Habilidades Digitales" = habilidades_digitales
                 ),
                 selected = "calif_checker",
-                options = list(style = "btn-danger")
+                options = list(style = "btn-secondary")
               )
             ),#END SELECT VAR input
             column( #STARTS CONSULTA BUTTON
               width = 3,
               br(), #try to align widgets
-              div(id = "button-consulta-styler",
+              div(id = "button-consulta",
+                  htmltools::tagAppendAttributes(
               shinyWidgets::actionBttn(
                 inputId = "activa_consulta",
                 label = "Consulta",
                 style = "gradient",
                 color = "success"
+              ),
+              role = "button que se activa con ENTER"
               ),
               style = "margin-top: 7px;"
               )
@@ -265,18 +268,19 @@ shinyUI(
               ),
               tabPanel( #tab for data table
                 "Tabulado de Datos",
-                DT::DTOutput("TabulatedVars_Directivos")
+                reactable::reactableOutput("TabulatedVars_Directivos")
               ), #tab panel ends HOJA CON DATOS TABULADOS
               tabPanel(
                 "Hoja de Datos",
                 DT::DTOutput("MainVars_Directivos")
               ), #tab panel HOJA DE DATOS RAW
               dropdownMenu = boxDropdown(
-                icon = shiny::icon("file-download", class = "fa-2x"),
+                icon = shiny::icon("download", 
+                                   class = "fa-2x"),
                 #when passing an id to boxDropdownItem it will behave like a button!
-                boxDropdownItem("Descarga tu gráfica", id = "descarga_grafica", icon = shiny::icon(name = "signal", lib = "glyphicon")),
-                boxDropdownItem("Descarga tu selección de datos", id = "descarga_tabulado", icon = icon(name = "calculator")),
-                boxDropdownItem("Descarga la hoja de datos", id = "descarga_hoja_datos", icon = icon(name = "database"))
+                boxDropdownItem("Descargue su gráfica", id = "descarga_grafica", icon = shiny::icon(name = "signal", lib = "glyphicon")),
+                boxDropdownItem("Descargue su selección de datos", id = "descarga_tabulado", icon = icon(name = "calculator")),
+                boxDropdownItem("Descargue su hoja de datos", id = "descarga_hoja_datos", icon = icon(name = "database"))
               )
             )#end of tab box
           ), #end of fluid row
