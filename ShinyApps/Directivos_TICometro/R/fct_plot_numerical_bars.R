@@ -17,7 +17,8 @@ plot_numerical_vars <- function(df, var2plot, groupvar = "ninguno") {
         `Institución` = forcats::fct_infreq(`Institución`)
       )
     
-    p <- ggplot(arrange(plot_df, `Institución`),
+    p <- ggplot(
+      dplyr::arrange(plot_df, `Institución`),
                 aes(x = .data[[var2plot]],
                     fill = `Institución`,
                     text = paste0("Institución: ",
