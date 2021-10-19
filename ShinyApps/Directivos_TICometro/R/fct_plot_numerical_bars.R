@@ -34,7 +34,7 @@ plot_numerical_vars <- function(df, var2plot, groupvar = "ninguno") {
         lwd = 0.5,
         color = "white",
         position = position_stack(reverse = TRUE)
-      )
+      ) 
     
     fig <- ggplotly(p, tooltip = "text")
     
