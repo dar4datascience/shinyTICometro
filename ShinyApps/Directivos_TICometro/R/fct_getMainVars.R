@@ -20,12 +20,13 @@ get_mainVars_4_planteles <- function(db_connection, select_schools, select_group
     dplyr::select(1:20) %>% #the first 20 are the main variables
     dplyr::filter(institucion %in% select_schools,  #filtra por escuela
            fecha_aplicacion == fecha_aplicacion) %>%  #filtra el fecha_aplicacion de aplicacion
-    dplyr::collect() #pull data into the applicacion
-
+    dplyr::collect()%>%  #pull data into the applicacion
+    dplyr::select(!c(fecha_aplicacion)) #remove year of aplicacion
+  
   #We group is not selected we know its the CCH variables or directivos so we show all
   #Pretty titles
   all_TICometro_variables <- c(
-    "Año del TICómetro",
+    #"Año del TICómetro",
     "Alumno",
     "Plantel",
     "Grupo",
@@ -60,12 +61,13 @@ get_mainVars_4_planteles <- function(db_connection, select_schools, select_group
       dplyr::filter(institucion %in% select_schools,  #filtra por escuela
              grupo %in% select_groups, #filtra los grupos del enp
              fecha_aplicacion == fecha_aplicacion) %>%  #filtra el fecha_aplicacion de aplicacion
-      dplyr::collect() #pull data into the applicacion
+      dplyr::collect() %>%  #pull data into the applicacion
+      dplyr::select(!c(fecha_aplicacion)) #remove year of aplicacion
     
     #We group is not selected we know its the CCH variables or directivos so we show all
     #Pretty titles
     ENP_TICometro_variables <- c(
-      "Año del TICómetro",
+      #"Año del TICómetro",
       "Alumno",
       "Institución",
       "Grupo",
