@@ -3,7 +3,7 @@
 ######################################
 library(htmltools)
 library(fresh)
-
+library(reactable)
 suppressMessages(suppressWarnings(library(dplyr)))
 suppressMessages(suppressWarnings(library(bs4Dash)))
 suppressMessages(suppressWarnings(library(shinyalert)))
@@ -12,7 +12,53 @@ suppressMessages(suppressWarnings(library(shiny)))
 header <- dashboardHeader(compact = TRUE) 
 header[[1]] <- tagAppendAttributes(header[[1]], id = "header2HIDE")
 
+datos_de_contexto <- list("Género",
+                          "Escuela de Procedencia" 
+                          )
 
+habilidades_digitales <- list("Color de cinta obtenida",
+                              "Calificación TICometro",
+                              "Calif. Procesamiento",
+                              "Calif. Acceso",
+                              "Calif. Seguridad",
+                              "Calif. Colaboración")
+
+nivel_de_acceso <- list(
+  "Edad de primer uso de TIC",
+  "Acceso a Dispositivos" ,
+  "# de Dispositivos TIC" ,
+  "Uso compartido de laptop o computadora",
+  "Estabilidad de la red en casa" ,
+  "Conexión a Internet fuera de casa" ,
+  "Conocimiento sobre plataformas educativas" ,
+  "# de Plataformas Educativas que conoce el estudiante" 
+  )
+
+#Lista Escuelas ENP
+ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
+  purrr::map_df(.,
+                \(x) {
+                  paste0("ENP ", x)
+                })
+
+#ESCUELAS CCH
+
+#ESCUELAS CCH
+CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
+                                               "CCH Naucalpan",
+                                               "CCH Oriente",
+                                               "CCH Sur",
+                                               "CCH Vallejo")
+)
+
+variables_del_ticometro_df <- dplyr::tibble(
+  'Variable'= c(datos_de_contexto,nivel_de_acceso, habilidades_digitales)
+)
+
+participacion_en_el_ticometro_df <- dplyr::tibble(
+  "Escuela" =   c(CCH_escuelas$escuela_name, ENP_escuelas$escuela_name),
+  `Participación` = rep("NA", 14)
+)
 
 #FRESH THEME
 path_file <- file.path(getwd(), "custom-theme-ticometro.css")
@@ -79,6 +125,7 @@ ui <- dashboardPage(
     tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
     
   ),#head ends
+
   # CODE TO CHANGE COLORS OF THE APP
   freshTheme = myTheme,
   #HEADER STARTS HERE
@@ -91,8 +138,17 @@ ui <- dashboardPage(
   footer = dashboardFooter(
     left = tags$a(
       href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-      target = "_blank", "H@bitat Puma, DGTIC, UNAM. Development Site",
-      role = "contentinfo"
+      target = "_blank",
+      tags$p("®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
+la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
+
+para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
+style = "font-size: 0.7rem;
+text-align: center;
+margin-top: 0;
+margin-bottom: 0;
+padding-left: 150px;
+padding-right: 150px;")
     ),
     right = "2021"
   ), #footer ends
@@ -107,43 +163,66 @@ ui <- dashboardPage(
     fluidRow(
       id = "logo ticometro",
       tags$img(src = "logo_ticometro.jpg", alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro",
-                      width="90%", align = "center")
+                      width = "100%",
+               align = "center",
+               style = "padding-right: 275px;
+               padding-left: 275px;")
       ),
     fluidRow(
       tags$h1(
-        "Resultados"
+        "RESULTADOS",
+        style = "font-size: 4.5em;
+        font-family: 'MyriadProBold';"
       ),
       id = "banner resultados",
-      style = "background-color: #F5CB30;"
+      style = "background-color: #fcd753;
+      margin-left: 268px;
+      margin-right: 268px;
+      margin-bottom: -13px;"
     ),
     tags$div( #entrap all elements in a white background div
       br(),
       fluidRow(
         id = "descripcion del ticometro",
-        tags$p("El TICómetro surge en el año 2012 a partir de la línea rectora 1 del Plan de Desarrollo Institucional 2011-2015. Actualmente, el TICómetro representa un instrumento de evaluación de habilidades digitales que aporta datos valiosos para pensar la estrategia de integración de TIC en las actividades educativas, la formación de profesores y las prioridades en relación con la dotación de infraestructura en los planteles universitarios. Responde, entre otros, al Programa Estratégico 7 del Plan de Desarrollo Institucional 2015-2019: Tecnologías de la Información y Comunicación (TIC) y Tecnologías del Aprendizaje y el Conocimiento (TAC)."
+        tags$p(
+          "El TICómetro surge en el año 2012 a partir de la línea rectora 1 del Plan de Desarrollo Institucional 2011-2015. Actualmente, el TICómetro representa un instrumento de evaluación de habilidades digitales que aporta datos valiosos para pensar la estrategia de integración de TIC en las actividades educativas, la formación de profesores y las prioridades en relación con la dotación de infraestructura en los planteles universitarios. Responde, entre otros, al Programa Estratégico 7 del Plan de Desarrollo Institucional 2015-2019: Tecnologías de la Información y Comunicación (TIC) y Tecnologías del Aprendizaje y el Conocimiento (TAC).",
+          style = "color: black;
+          font-size: 1.2rem;
+	padding-left: 300px;
+  padding-right: 300px;
+  text-align: justify;"
         )
       ),
       fluidRow(
         id = "titulo encima de botones",
-        tags$h3("Consulta los Resultados del 2020!",
+        tags$h2(
+          tags$b("Consulta los Resultados del 2020!")
         )
       ),
       fluidRow(
         id = "renglon con botones para los sitios de consulta",
         splitLayout(
+          htmltools::tagAppendAttributes(
+            style = "left: 60%;",
         box(
           id = "buton_directivos",
-          width = 3,
+          width = 4,
           headerBorder = FALSE,
           collapsible = FALSE,
           tags$a(href  = "http://132.248.10.243:3838/El-Duque/Directivos_TICometro/",
-                 tags$h4("Sitio para directivos",
-                         align = "center"),
+                 tags$h3(tags$b("Directivos"),
+                         align = "center",
+                         style = "margin-bottom: 0px;
+                         margin-top: -25px;"
+                         ),
                  style = "color: white",
                  role = "button"
           ),
           background = "maroon"
-        ),
+        )
+  ),          
+  htmltools::tagAppendAttributes(
+    style = "",
         box(
           id = "buton_profesores",
           width = 4,
@@ -151,37 +230,43 @@ ui <- dashboardPage(
           headerBorder = FALSE,
           collapsible = FALSE,
           tags$a(href  = "http://132.248.10.243:3838/El-Duque/Profes_TICometro/",
-                 tags$h4("Sitio para profesores",
-                         align = "center"),
+                 tags$h3(tags$b("Profesores",),
+                         align = "center",
+                         style = "margin-bottom: 0px;
+                         margin-top: -25px;"
+                         ),
                  style = "color: white",
                  role = "button"
           ),
           background = "olive"
         )
-      )
+      )#end of append attributes
+        )#end of split layout
     ),#end of fluid row
     fluidRow(
       bs4Dash::box(
-        title = "Variables de análisis del TICómetro",
+        title = tags$b("Variables de análisis del TICómetro",
+                       style = "font-size: 1.5rem;"),
         closable = FALSE,
         width = 4,
         solidHeader = FALSE,
         headerBorder = FALSE,
         collapsible = TRUE,
         collapsed = TRUE,
-        "PENDING reactable"
+        reactable::reactableOutput("ticometro_variables")
       )
     ),#end fluid row
     fluidRow(
       bs4Dash::box(
-        title = "Porcentaje de participación",
+        title = tags$b("Porcentaje de participación",
+                       style = "font-size: 1.5rem;"),
         closable = FALSE,
         width = 4,
         headerBorder = FALSE,
         solidHeader = FALSE,
         collapsible = TRUE,
         collapsed = TRUE,
-        "PENDING reactable"
+        reactable::reactableOutput("ticometro_participacion")
       )
     ),#end fluid row
       style = "background-color: #FFFFFF;")#div container ends
@@ -191,6 +276,20 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
 
+  output$ticometro_variables <- renderReactable({
+    reactable(variables_del_ticometro_df,
+              borderless = TRUE,
+              highlight = TRUE,
+              defaultPageSize = 16)
+  })
+  output$ticometro_participacion <- renderReactable({
+    reactable(participacion_en_el_ticometro_df,
+              outlined = TRUE,
+              highlight = TRUE,
+              defaultPageSize  = 14)
+  })
+  
+  
 
 }
 

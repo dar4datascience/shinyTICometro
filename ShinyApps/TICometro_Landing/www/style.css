@@ -31,16 +31,22 @@
   font-weight: normal;
   font-style: normal;
 }
-
-
-
+@font-face {
+    font-family: 'MyriadProBold';
+    src: url('fonts/MyriadProBold.eot');
+    src: url('fonts/MyriadProBold.eot') format('embedded-opentype'),
+         url('fonts/MyriadProBold.woff2') format('woff2'),
+         url('fonts/MyriadProBold.woff') format('woff'),
+         url('fonts/MyriadProBold.ttf') format('truetype'),
+         url('fonts/MyriadProBold.svg#MyriadProBold') format('svg');
+}
 
 #header2HIDE {
   display: none !important;
 }
 h1, h2, h3, h4, h5, h6 {
     font-size: 1.5em;
-    font-family: MyriadPro-Semibold;
+    font-family: 'MyriadPro-Semibold';
 }
 h1 {
     font-size: 1.6em;
@@ -69,19 +75,9 @@ h5, h6 {
   justify-content: center;
   align-items: center;
 }
-.card-header {
-    padding-bottom: 0px;
-    padding-top: 0px;
-    text-align: center;
-    font-size: 3.0rem;
-}
+
 p {
-	color: black;
-	padding-left: 250px;
-  padding-right: 250px;
-  text-align: justify;
-  font-family: MyriadPro-Regular;
-  /*font-size: 1.2rem;*/
+  font-family: 'MyriadPro-Regular';
 }
 
 
