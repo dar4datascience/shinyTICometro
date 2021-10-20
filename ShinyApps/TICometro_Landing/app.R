@@ -74,9 +74,10 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
 ui <- dashboardPage(
   #HEAD tags 4 various reasons
   tags$head(
+    tags$link(rel = "shortcut icon", href = "favicon.png"),#add favicon
     #include css
-    tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
-    tags$link(rel = "shortcut icon", href = "favicon.png")#add favicon
+    tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+    
   ),#head ends
   # CODE TO CHANGE COLORS OF THE APP
   freshTheme = myTheme,
@@ -179,7 +180,7 @@ ui <- dashboardPage(
 
 
 server <- function(input, output) {
-  print("im running")
+
 
 }
 

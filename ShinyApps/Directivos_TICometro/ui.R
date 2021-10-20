@@ -104,14 +104,14 @@ CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
 # Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
-    title = "Sitio de Consulta de los Resultados del TICómetro para directivos.",
-    dark = FALSE,
-    freshTheme = myTheme,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
       tags$link(rel="shortcut icon", href="favicon.png"),#add favicon
       tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
     ), #END OF HEAD
+    #title = "Sitio de Consulta de los Resultados del TICómetro para directivos.",
+    dark = FALSE,
+    freshTheme = myTheme,
     preloader = list(
       html = tagList(waiter::spin_gauge(), "Cargando sitio de consulta del TICómetro ..."),
                      color = "#343a40"
