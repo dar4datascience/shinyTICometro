@@ -57,7 +57,8 @@ variables_del_ticometro_df <- dplyr::tibble(
 
 participacion_en_el_ticometro_df <- dplyr::tibble(
   "Escuela" =   c(CCH_escuelas$escuela_name, ENP_escuelas$escuela_name),
-  `Participación` = rep("NA", 14)
+  `# alumnos que participaron` = c(3161, 2884, 2891, 3461, 3282, 1090, 1597, 1257, 1224, 2100, 1553, 1542, 1429, 1467
+                                   )
 )
 
 #FRESH THEME
@@ -286,7 +287,16 @@ server <- function(input, output) {
     reactable(participacion_en_el_ticometro_df,
               outlined = TRUE,
               highlight = TRUE,
-              defaultPageSize  = 14)
+              defaultPageSize  = 14,
+              columns = list(
+                "Escuela" = colDef(footer = "Total General"),
+                `# alumnos que participaron` = colDef(format = colFormat(separators = TRUE),
+                                                      footer = prettyNum(sum(participacion_en_el_ticometro_df$`# alumnos que participaron`),  big.mark = ",")
+                )
+                                                      
+              ),
+              defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
+              )
   })
   
   
