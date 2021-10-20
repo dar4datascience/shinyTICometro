@@ -1,16 +1,68 @@
 @font-face {
-    font-family: 'MyriadProBold';
-    src: url('fonts/MyriadProBold.eot');
-    src: url('fonts/MyriadProBold.eot') format('embedded-opentype'),
-         url('fonts/MyriadProBold.woff2') format('woff2'),
-         url('fonts/MyriadProBold.woff') format('woff'),
-         url('fonts/MyriadProBold.ttf') format('truetype'),
-         url('fonts/MyriadProBold.svg#MyriadProBold') format('svg');
+  font-family: 'MyriadPro-Regular';
+  src: url('MyriadPro-Regular.eot');
+  src: url('MyriadPro-Regular.eot?#iefix') format('embedded-opentype'),
+       url('MyriadPro-Regular.svg#MyriadPro-Regular') format('svg'),
+       url('MyriadPro-Regular.ttf') format('truetype'),
+       url('MyriadPro-Regular.woff') format('woff'),
+       url('MyriadPro-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
+@font-face {
+  font-family: 'MyriadPro-Semibold';
+  src: url('MyriadPro-Semibold.eot');
+  src: url('MyriadPro-Semibold.eot?#iefix') format('embedded-opentype'),
+       url('MyriadPro-Semibold.svg#MyriadPro-Semibold') format('svg'),
+       url('MyriadPro-Semibold.ttf') format('truetype'),
+       url('MyriadPro-Semibold.woff') format('woff'),
+       url('MyriadPro-Semibold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MyriadPro-It';
+  src: url('MyriadPro-It.eot');
+  src: url('MyriadPro-It.eot?#iefix') format('embedded-opentype'),
+       url('MyriadPro-It.svg#MyriadPro-It') format('svg'),
+       url('MyriadPro-It.ttf') format('truetype'),
+       url('MyriadPro-It.woff') format('woff'),
+       url('MyriadPro-It.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 
 
 #header2HIDE {
   display: none !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1.5em;
+    font-family: MyriadPro-Semibold;
+}
+h1 {
+    font-size: 1.6em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.2em;
+}
+
+h4 {
+    font-size: 1.1em;
+}
+
+h5, h6 {
+    font-size: 1em;
 }
 .row {
   display: flex;
@@ -18,30 +70,19 @@
   align-items: center;
 }
 .card-header {
-padding-bottom: 0px;
-padding-top: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    text-align: center;
+    font-size: 3.0rem;
 }
-
 p {
 	color: black;
 	padding-left: 250px;
   padding-right: 250px;
   text-align: justify;
-  font-size: 1.2rem;
+  font-family: MyriadPro-Regular;
+  /*font-size: 1.2rem;*/
 }
 
-.card-header {
-   text-align: center;
-   font-size: 3.0rem;
-}
 
-#div.card-header {
-  font-size: 3.0rem;
-}
-.card-title {
-    float: left;
-    font-weight: 400;
-    margin: 0;
-    font-size: larger;
-}
 

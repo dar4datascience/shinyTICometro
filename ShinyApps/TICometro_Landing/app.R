@@ -46,17 +46,17 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
     navy = NULL,
     cyan = NULL,
     teal = NULL,
-    olive = NULL,
+    olive = "#026928", #change to fit buton profesores
     green = NULL,
     lime = NULL,
     orange = NULL,
     yellow = NULL,
     fuchsia = NULL,
     purple = NULL,
-    maroon = NULL,
+    maroon = "#972415", #color for directivos buton
     red = NULL,
     black = NULL,
-    gray_x_light = "#353a3e", #color for header
+    gray_x_light = NULL, 
     gray_600 = NULL,
     gray_800 = NULL,
     gray_900 = NULL,
@@ -64,9 +64,9 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
     
   ),
   bs4dash_font(
-    size_base = "1.5rem",
-    weight_bold = 900,
-    family_base = "MyriadProBold"
+    #size_base = "1.5rem",
+    #weight_bold = 900,
+    family_base = "MyriadPro-Regular"
   )
 )
 
@@ -100,31 +100,40 @@ ui <- dashboardPage(
   body = dashboardBody(
     #here image del ticometro
     fluidRow(
+      id = "logo dgtic",
       tags$img(src = "logo_dgtic.png", alt = "un logo compuesto en la izquierda del escudo de la UNAM y las letras DGTIC abajo y a la derecha el texto: Universidad Nacional Autónoma de México, Dirección General de Cómputo y de Tecnologías de Información y Comunicación.",
                width="40%")
     ),
-    fluidRow(tags$img(src = "logo_ticometro.jpg", alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro",
-                      width="90%", align = "center")),
-    tags$div(
-      class = "row",
+    fluidRow(
+      id = "logo ticometro",
+      tags$img(src = "logo_ticometro.jpg", alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro",
+                      width="90%", align = "center")
+      ),
+    fluidRow(
       tags$h1(
         "Resultados"
       ),
+      id = "banner resultados",
       style = "background-color: #F5CB30;"
     ),
     tags$div( #entrap all elements in a white background div
       br(),
       fluidRow(
+        id = "descripcion del ticometro",
         tags$p("El TICómetro surge en el año 2012 a partir de la línea rectora 1 del Plan de Desarrollo Institucional 2011-2015. Actualmente, el TICómetro representa un instrumento de evaluación de habilidades digitales que aporta datos valiosos para pensar la estrategia de integración de TIC en las actividades educativas, la formación de profesores y las prioridades en relación con la dotación de infraestructura en los planteles universitarios. Responde, entre otros, al Programa Estratégico 7 del Plan de Desarrollo Institucional 2015-2019: Tecnologías de la Información y Comunicación (TIC) y Tecnologías del Aprendizaje y el Conocimiento (TAC)."
         )
       ),
       fluidRow(
+        id = "titulo encima de botones",
         tags$h3("Consulta los Resultados del 2020!",
         )
       ),
-      fluidRow(splitLayout(
+      fluidRow(
+        id = "renglon con botones para los sitios de consulta",
+        splitLayout(
         box(
-          width = 12,
+          id = "buton_directivos",
+          width = 3,
           headerBorder = FALSE,
           collapsible = FALSE,
           tags$a(href  = "http://132.248.10.243:3838/El-Duque/Directivos_TICometro/",
@@ -133,10 +142,11 @@ ui <- dashboardPage(
                  style = "color: white",
                  role = "button"
           ),
-          background = "navy"
+          background = "maroon"
         ),
         box(
-          width = 12,
+          id = "buton_profesores",
+          width = 4,
           title = NULL,
           headerBorder = FALSE,
           collapsible = FALSE,
@@ -146,7 +156,7 @@ ui <- dashboardPage(
                  style = "color: white",
                  role = "button"
           ),
-          background = "primary"
+          background = "olive"
         )
       )
     ),#end of fluid row
@@ -154,24 +164,24 @@ ui <- dashboardPage(
       bs4Dash::box(
         title = "Variables de análisis del TICómetro",
         closable = FALSE,
-        width = 12,
-        status = "warning",
+        width = 4,
         solidHeader = FALSE,
+        headerBorder = FALSE,
         collapsible = TRUE,
         collapsed = TRUE,
-        "LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION"
+        "PENDING reactable"
       )
     ),#end fluid row
     fluidRow(
       bs4Dash::box(
         title = "Porcentaje de participación",
         closable = FALSE,
-        width = 12,
-        status = "warning",
+        width = 4,
+        headerBorder = FALSE,
         solidHeader = FALSE,
         collapsible = TRUE,
         collapsed = TRUE,
-        "LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION LONG EXPLANATION"
+        "PENDING reactable"
       )
     ),#end fluid row
       style = "background-color: #FFFFFF;")#div container ends
