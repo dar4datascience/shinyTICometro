@@ -71,7 +71,7 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
     #white = "#EBEBEB" 
   ),
   bs4dash_font(
-    size_base = "1rem",
+    #size_base = "1rem",
     #weight_bold = 900,
     family_base = "MyriadProBold"
   )
@@ -104,8 +104,7 @@ CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
 # Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
-    title = "Sitio de Consulta de los Resultados del TICómetro para directivos.",
-    dark = FALSE,
+    
     freshTheme = myTheme,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
