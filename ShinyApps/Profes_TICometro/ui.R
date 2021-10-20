@@ -253,7 +253,7 @@ shinyUI(
                 multiple = TRUE,
                 selected = ENP_escuelas$escuela_name[1],
                 options = list(
-                  style = "btn-info"
+                  style = "btn-secondary"
                 )
               )
             ),#END OF SCHOOL INPUT
@@ -268,7 +268,7 @@ shinyUI(
                 selected = ENP_grupos[1],
                 options = list(
                   title = "Seleccione una opcion",
-                  style = "btn-info",
+                  style = "btn-secondary",
                   `live-search` = TRUE
                 )
               )
@@ -288,7 +288,7 @@ shinyUI(
                 selected = "cinta",
                 options = list(
                   title = "Seleccione una opcion",
-                  style = "btn-info",
+                  style = "btn-secondary",
                   `live-search` = TRUE
                 )
               ) #END OF PICKER
@@ -296,7 +296,8 @@ shinyUI(
             column( #STARTS CONSULTA BUTTON
               width = 3,
               br(), #try to align widgets
-              div(id = "button-consulta-styler",
+              div(id = "buton-consulta",
+                  role = "button",
                   shinyWidgets::actionBttn(
                     inputId = "activa_consulta_enp",
                     label = "Consulta",

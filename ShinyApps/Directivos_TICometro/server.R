@@ -99,63 +99,96 @@ server <- function(input, output, session) {
         data_directivos$data <- reactive_Directivos_main_data()
         data_directivos$mean_calif <- round(mean(data_directivos$data$`Calificación TICómetro`, na.rm=TRUE), 2)
        tabulated_directivos$data<- reactive_Directivos_tabulated_data()
+       
     })
 
-
+# Descarga handler csvs
+    
+    output$downloadtabulado <- downloadHandler(
+        filename = function() {
+            paste("datos-tabulados-ticometro-miSeleccion-", Sys.Date(), ".csv", sep="")
+        },
+        content = function(file) {
+            data.table::fwrite(tabulated_directivos$data, file)
+        },
+        contentType = "text/csv"
+    )
+    
+    output$downloadData <- downloadHandler(
+        filename = function() {
+            paste("datos-ticometro-miSeleccion-", Sys.Date(), ".csv", sep="")
+        },
+        content = function(file) {
+            data.table::fwrite(data_directivos$data, file)
+        },
+        contentType = "text/csv"
+    )
 
 
 
     #VALUE BOX FOR # OF ALUMNOS SELECCIONADOS
     num_alumnos_selected_directivos <-
         reactive(prettyNum(
-            nrow(reactive_Directivos_main_data()),
+            nrow(data_directivos$data),
             big.mark = ","
         ))
 
 
     output$value_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
-            value = num_alumnos_selected_directivos(),
-            width = 1,
-            subtitle = "Alumnos seleccionados",
+            value = tags$p(
+                num_alumnos_selected_directivos(),
+                style = "font-size: 2.5rem;"
+            ),
+            subtitle = tags$p(
+                "Alumnos",
+                style = "font-size: 1.5rem;"
+            ),
             color = "success",
-            icon = icon("user-friends")
+            icon = htmltools::tagAppendAttributes(
+                icon("user-friends"),
+                style = "color:white;"
+            )
             # href = "#" #Referencia directo a la pagina principal de la aplicacion
         )
     })
 
     output$average_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
-            value = data_directivos$mean_calif,
-            width = 1,
-            subtitle = "Calificación promedio",
+            value = tags$p(
+                data_directivos$mean_calif,
+            style = "font-size: 2.5rem;"
+        ),
+            subtitle = tags$p(
+                "Calificación promedio",
+        style = "font-size: 1.5rem;"
+        ),
             color = "success",
-            icon = icon("user-graduate")
+            icon = htmltools::tagAppendAttributes(
+                icon("user-graduate"),
+                style = "color:white;"
+            )
             # href = "#" #Referencia directo a la pagina principal de la aplicacion
         )
     })
 
-    output$TabulatedVars_Directivos <- DT::renderDataTable(
-        reactive_Directivos_tabulated_data(),
-        rownames = FALSE,
-        #Enable download button 1
-        options = list(
-            dom = "lfrtip",
-            # customize the length menu
-            lengthMenu = list(c(10, 20, 50), # declare values
-                              c(10, 20, 50)),
-            # end of lengthMenu customization
-            #To center columns
-            columnDefs = list(list(
-                className = 'dt-center',
-                targets = "_all"
-            )),
-            scrollY = '50vh',
-            scrollX = TRUE,
-            scrollCollapse = TRUE
-        ) # end of options
-
-    ) # end of renderDatatable
+    output$TabulatedVars_Directivos <- reactable::renderReactable({
+        reactable::reactable(tabulated_directivos$data,
+        defaultSorted = list(`# alumnos` = "desc"),
+        defaultColDef = reactable::colDef(
+            align = "center"
+        ),
+        filterable = TRUE,
+        outlined = TRUE,
+        highlight = TRUE,
+        compact = TRUE,
+        theme = reactable::reactableTheme(
+            style = list(fontFamily = "MyriadProBold",
+                         fontSize = "20px"),
+            color = "#000000"
+                         )
+        )#end of reactable
+   }) # end of render
 
 
 
@@ -188,9 +221,10 @@ server <- function(input, output, session) {
                   isolate(reactive_Directivos_var_selectors$plotvarPicked),
                   ignore.case = FALSE)) {
             plot_numerical_vars(
-                reactive_Directivos_tabulated_data(),
+                tabulated_directivos$data,
                 isolate(reactive_Directivos_var_selectors$plotvarPicked)
             )
+            
 
         }else{
             
@@ -217,7 +251,7 @@ server <- function(input, output, session) {
         }
     })
     #############################################################################################
-    ##################### CCH LOGIC ENDS  ########################################################
+    ##################### DIRECTIVOS LOGIC ENDS  ########################################################
     #############################################################################################
 
 

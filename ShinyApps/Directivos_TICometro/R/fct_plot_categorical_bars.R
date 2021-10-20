@@ -16,9 +16,7 @@
 plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
   
   
-  #reorder categorical
-  #df <- df %>%
-   # mutate(name = forcats::fct_reorder(`Institución`, desc(`# alumnos`)))
+
   
   
   if(groupvar == "ninguno"){
@@ -38,13 +36,14 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
           geom_col() +
           coord_flip() +
           theme(axis.text.x= element_text("# de Alumnos"), 
-                axis.text.y= element_text("Institución")
+                axis.text.y= element_text("Institución"),
+                legend.title = element_blank()
           )+
            scale_fill_manual(values = c("Blanca"="#bcbcbc",
                                         "Naranja" = "#ffa500",
                                         "Azul" = "#0000ff",
                                         "Negra" = "#000000")
-                             )
+                             ) 
         
         fig <- ggplotly(p, tooltip = c("y","x", "fill"))
         
@@ -61,7 +60,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
           plotly::layout(autosize = T,
                          yaxis = list(automargin=TRUE)
                          ) %>%      
-          plotly::layout(title = clean_plot_titles(var2fill)
+          plotly::layout(title = clean_plot_titles(var2fill),
+                         legend=list(title=list(text=''))
                          #,font=list(size = 30)
           )
       
@@ -81,7 +81,7 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
       coord_flip() +
       theme(axis.text.x= element_text("# de Alumnos"), 
             axis.text.y= element_text("Institución")
-      )
+      ) 
     
     fig <- ggplotly(p, tooltip = c("y","x", "fill"))
     
@@ -96,7 +96,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                                                      "toggleSpikelines",
                                                      "toImage")) %>%
       plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
-      plotly::layout(title = clean_plot_titles(var2fill)
+      plotly::layout(title = clean_plot_titles(var2fill),
+                     legend=list(title=list(text=''))
                      #,font=list(size = 30)
       ) 
     
@@ -125,7 +126,7 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
       coord_flip()  +
       theme(axis.text.x= element_text("# de Alumnos"), 
             axis.text.y= element_text("Grupo")
-      ) +
+      ) + 
       scale_fill_manual(values = c("Blanca"="#bcbcbc",
                                    "Naranja" = "#ffa500",
                                    "Azul" = "#0000ff",
@@ -143,7 +144,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
                                                      "toggleSpikelines",
                                                      "toImage")) %>%
       plotly::layout(autosize = T, margin=list(autoexpand = TRUE)) %>%      
-      plotly::layout(title = clean_plot_titles(var2fill)
+      plotly::layout(title = clean_plot_titles(var2fill),
+                     legend=list(title=list(text=''))
                      #,font=list(size = 30)
       ) 
     
@@ -163,7 +165,7 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
         coord_flip()  +
         theme(axis.text.x= element_text("# de Alumnos"), 
               axis.text.y= element_text("Grupo")
-        )
+        ) 
       
       fig <- ggplotly(p, tooltip = c("y","x", "fill"))
       
@@ -182,7 +184,8 @@ plot_categorical_vars <- function(df, var2fill, groupvar = "ninguno"){
         plotly::layout(xaxis = list(
           categoryorder = "total ascending"),
           yaxis = list(
-            categoryorder = "total ascending")
+            categoryorder = "total ascending"),
+          legend=list(title=list(text=''))
         ) 
       
       

@@ -161,61 +161,60 @@ crea_tabla_clas_cintas <- function() {
   )
   
   
-  box(
+  bs4Dash::box(
     id = "explicacion-cintas-ticometro",
-    title = tags$h5("Clasificación de las cintas", id = "titulo-box-clasificacion-cinta"),
+    title = tags$h5("Clasificación de las cintas",
+                    id = "titulo-box-clasificacion-cinta",
+                    style = "text-align: center;
+                    margin-bottom: 0px;"),
     collapsible = FALSE,
     width = 6,
     solidHeader = TRUE,
     headerBorder = FALSE,
     status = "gray-dark",
-    div(
-      class = "section",
-      div(
-        style = "width: 50%; float:left",
-        class = "col grid_1_of_2",
+    fluidRow(
+      splitLayout(
+        cellWidths = c("20%", "30%", "20%", "30%"),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[1]),
           src = table_descripcion$cintas[1],
-          width = "25%"
+          width = "50%"
         ),
         tags$p(tags$b(table_descripcion$colores[1]),
-        table_descripcion$descripcion[1]),
+               table_descripcion$descripcion[1]),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[3]),
           src = table_descripcion$cintas[3],
-          width = "25%"
+          width = "50%"
         ),
         tags$p(tags$b(table_descripcion$colores[3]),
-        table_descripcion$descripcion[3])
-        
-      ),
-      div(
-        style = "width: 50%; float:right",
-        class = "col grid_1_of_2",
+               table_descripcion$descripcion[3])
+      )
+    ),
+    fluidRow(
+      splitLayout(
+        cellWidths = c("20%", "30%", "20%", "30%"),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[2]),
           src = table_descripcion$cintas[2],
-          width = "25%"
+          width = "50%"
         ),
         tags$p(tags$b(table_descripcion$colores[2]),
-        table_descripcion$descripcion[2]),
-        
+               table_descripcion$descripcion[2]),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[4]),
           src = table_descripcion$cintas[4],
-          width = "25%"
+          width = "50%"
         )
         ,
         tags$p(tags$b(table_descripcion$colores[4]),
-        table_descripcion$descripcion[4])
-        
+               table_descripcion$descripcion[4])
       )
-    )#final div
-  )
+    )
+  )#end of box
   
 }
