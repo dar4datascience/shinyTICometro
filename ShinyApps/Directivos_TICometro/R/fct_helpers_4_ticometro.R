@@ -165,7 +165,8 @@ crea_tabla_clas_cintas <- function() {
     id = "explicacion-cintas-ticometro",
     title = tags$h5("Clasificación de las cintas",
                     id = "titulo-box-clasificacion-cinta",
-                    style = "text-align: center;"),
+                    style = "text-align: center;
+                    margin-bottom: 0px;"),
     collapsible = FALSE,
     width = 6,
     solidHeader = TRUE,

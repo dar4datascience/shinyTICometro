@@ -102,7 +102,27 @@ server <- function(input, output, session) {
        
     })
 
-
+# Descarga handler csvs
+    
+    output$downloadtabulado <- downloadHandler(
+        filename = function() {
+            paste("datos-tabulados-ticometro-miSeleccion-", Sys.Date(), ".csv", sep="")
+        },
+        content = function(file) {
+            data.table::fwrite(tabulated_directivos$data, file)
+        },
+        contentType = "text/csv"
+    )
+    
+    output$downloadData <- downloadHandler(
+        filename = function() {
+            paste("datos-ticometro-miSeleccion-", Sys.Date(), ".csv", sep="")
+        },
+        content = function(file) {
+            data.table::fwrite(data_directivos$data, file)
+        },
+        contentType = "text/csv"
+    )
 
 
 
@@ -116,12 +136,13 @@ server <- function(input, output, session) {
 
     output$value_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
-            value = htmltools::tagAppendAttributes(
-                tags$p(num_alumnos_selected_directivos()),
+            value = tags$p(
+                num_alumnos_selected_directivos(),
                 style = "font-size: 2.5rem;"
-                ),
-            subtitle = htmltools::tagAppendAttributes(tags$p("Alumnos"),
-                                                      style = "font-size: 1.5rem;"
+            ),
+            subtitle = tags$p(
+                "Alumnos",
+                style = "font-size: 1.5rem;"
             ),
             color = "success",
             icon = htmltools::tagAppendAttributes(
@@ -134,12 +155,14 @@ server <- function(input, output, session) {
 
     output$average_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
-            value = htmltools::tagAppendAttributes(tags$p(data_directivos$mean_calif),
-                                                   style = "font-size: 2.5rem;"
-            ),
-            subtitle = htmltools::tagAppendAttributes(tags$p("Calificación promedio"),
-                                                      style = "font-size: 1.5rem;"
-                                                      ),
+            value = tags$p(
+                data_directivos$mean_calif,
+            style = "font-size: 2.5rem;"
+        ),
+            subtitle = tags$p(
+                "Calificación promedio",
+        style = "font-size: 1.5rem;"
+        ),
             color = "success",
             icon = htmltools::tagAppendAttributes(
                 icon("user-graduate"),
