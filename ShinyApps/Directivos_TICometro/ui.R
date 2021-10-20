@@ -318,16 +318,12 @@ shinyUI(
                                 role = "button",
                                 icon = shiny::icon(name = "signal", lib = "glyphicon")
                                 ),
-                  downloadButton(outputId = "downloadtabulado",
+                  shiny::downloadButton(outputId = "downloadtabulado",
                                "Descargue su selección de datos",
-                               icon = icon(name = "calculator"),
-                               id = "descarga_tabulado",
-                               role = "button"
-                  ),
-                  downloadButton(outputId = "downloadData",
+                               icon = icon(name = "calculator")
+                               ),
+                shiny::downloadButton(outputId = "downloadData",
                                 "Descargue su hoja de datos",
-                                id = "descarga_hoja_datos",
-                                role = "button",
                                 icon = icon(name = "database")
                   )
               )# end of drop down
