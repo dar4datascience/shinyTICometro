@@ -1,6 +1,9 @@
 connect2database <- function() {
   #First Function automatically connects using local credentials by creating environment variables
   #https://shiny.rstudio.com/articles/pool-advanced.html
+
+# Declare a pool connection -----------------------------------------------
+
   
   ticometro_db_connection <- pool::dbPool(
     drv = odbc::odbc(),
@@ -14,10 +17,17 @@ connect2database <- function() {
     minSize = 2,
     idleTimeout = 30000
   )
+
+# Ensure connection is of right locale ------------------------------------
+
   
   DBI::dbGetQuery(ticometro_db_connection, 
                   "SET client_encoding = 'UTF8';")
-  
+ 
+
+# Return db connection object ---------------------------------------------
+
+ 
   return(ticometro_db_connection)
   
   

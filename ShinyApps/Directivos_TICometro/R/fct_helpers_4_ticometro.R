@@ -4,7 +4,6 @@
 #'
 #' @noRd
 
-###################################
 
 #' pantala_desconexion
 #' @description una funcion para configurar la pantalla de error
@@ -149,6 +148,10 @@ getmode <- function(v) {
 #' ticometro y explica las cintas
 #' @returns a bs4Table
 crea_tabla_clas_cintas <- function() {
+
+# Declara df a usar en la tabla de explicacion ----------------------------
+
+  
   table_descripcion <- tibble(
     cintas = c(
       "cinta_blanca.png",
@@ -160,6 +163,9 @@ crea_tabla_clas_cintas <- function() {
     descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1 - 100%")
   )
   
+
+# Box ---------------------------------------------------------------------
+
   
   bs4Dash::box(
     id = "explicacion-cintas-ticometro",
@@ -172,6 +178,10 @@ crea_tabla_clas_cintas <- function() {
     solidHeader = TRUE,
     headerBorder = FALSE,
     status = "gray-dark",
+
+# Row 1 de la tabla -------------------------------------------------------
+
+    
     fluidRow(
       splitLayout(
         cellWidths = c("20%", "30%", "20%", "30%"),
@@ -193,6 +203,10 @@ crea_tabla_clas_cintas <- function() {
                table_descripcion$descripcion[3])
       )
     ),
+
+# Row 2 de la tabla -------------------------------------------------------
+
+
     fluidRow(
       splitLayout(
         cellWidths = c("20%", "30%", "20%", "30%"),
