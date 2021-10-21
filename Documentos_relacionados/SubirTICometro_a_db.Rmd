@@ -1,0 +1,527 @@
+---
+title: "Procedimiento para cargar los datos 2020 y del 2021 del TICometro a la base de SQL"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introducción
+
+A continuación se reporta la forma y decisiones involucradas para subir los datos csv a una base de datos SQL. Cabe mencionar que, en un principio, los datos originales fueron entregados a Daniel Amieva por Angela ..... Ese archivo no se encuentra en este foler.
+
+Cargamos, entonces, este archivo a R. Para maniobrar facilmente paths dentro del proyecto recomiendo usar el paquete `{here}`.
+
+```{r setup}
+here::i_am(  "Documentos_relacionados/SubirTICometro_a_db.Rmd"  ) 
+#Cargamos una libreria para manipular los datos 
+library(dplyr)
+```
+
+# El TICOMETRO 2020
+
+PENDNG UNIFYING PROYECTS
+#*Preview data
+```{r loadticometro2020}
+#Codigo para cargar el csv al ambiente de R
+tidy_TICometro2020 <- readr::read_csv(
+  here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth", #folder al que pertenece el archivo
+             "tidy_TICometro_ENP_CCH_2020.csv") #nombre del archivo
+)
+
+```
+
+Esta base de datos esta compuesta por `r ncol(tidy_TICometro2020)` variables y `r nrow(tidy_TICometro2020)` registros. Los registros se ven así:
+
+```{r sneakpeak, echo=FALSE}
+DT::datatable(glimpse(tidy_TICometro2020) %>% 
+                sample_n(500))
+```
+
+#* Columnas que se usa y porqué se ignorarán otras
+
+En reunión con el equipo de trabajo TAV, la Dra. Kriskaustzy comentó que es de poco interés y valor informativo saber cuánto tiempo se tardaron los estudiantes en acabar el TICometro, puesto que existe la posibilidad de que por X o Y razones la gente se tomó un break de la encuesta para tratar otros temas. Existe la posibildad, no obstante, de integrar esta información a la base de datos facilmente.
+
+Las columnas que se usan en la App son las siguientes y se hace referencia a cuales columnas son requeridas para crearlas :
+
+|                                        |                                                            |                                                                  |                                                          |
+|----------------------------------------|------------------------------------------------------------|------------------------------------------------------------------|----------------------------------------------------------|
+| **Variable**                           | **Columnas requeridas**                                    | **Pregunta que responde**                                        | **Notas adicionales**                                    |
+| **Plantel**                            | Institución: columna B                                     | ¿A qué plantel pertenece el alumno?                              |                                                          |
+| **Grupo**                              | grupo: columna C                                           | ¿A qué grupo pertenece el alumno?                                | Los datos del CCH no cuentan con grupos                  |
+| **Género**                             | genero: columna D                                          | ¿Cuál es el genero del alumno?                                   |                                                          |
+| **Escuela de Procedencia**             | escuela_de_procedencia: columna E                          | ¿De qué escuela procedió previamente el                          
+                                                                                                       alumno?                                                           |                                                          |
+| **Dispositivo (único) de acceso\***    | De {celular_sin_internet: columna J} a { sin_responder_31: 
+                                          columna T}                                                  | ¿Con qué dispositivos de acceso a internet cuenta el alumno?     | En los datos para el CCH esta pregunta acepta más de una 
+                                                                                                                                                                          respuesta. No para la ENP                                 |
+| **\# de dispositivos de acceso con los 
+ que cuenta\***                          | total_de_dispositivos_por_estudiante:                      
+                                          columna U                                                   | ¿Cuántos dispositivos con acceso a                               
+                                                                                                       internet tiene el alumno?                                         | Es la suma del número de dispositivos                    
+                                                                                                                                                                          declarados                                                |
+| **Edad de primer uso de una TIC:**     | edad_uso_dispositivo : columna AF                          | ¿A qué edad tuvo su primer uso de TIC el alumno?                 |                                                          |
+| **Uso compartido de laptop o           
+ computadora**                           | compartes_TIC: columna G                                   | ¿El alumno comparte laptop o                                     
+                                                                                                       computadora?                                                      |                                                          |
+| **Estabilidad de la red en casa**      | estabilidadInternet4Clases: columna H                      | ¿Cómo es la calidad del internet en casa cuando se toman clases? |                                                          |
+| **Conexión a internet fuera de casa**  | InternetFueraDCasa: columna I                              | ¿Dónde va a conseguir internet el                                
+                                                                                                       alumno cuando esta fuera de casa?                                 |                                                          |
+| **\# de plataformas educativas que     
+ conoce el estudiante\***                | total_de_plataformas_por_estudiante: columna AE            | ¿Cuántas plataformas educativas conoce el alumno?                |                                                          |
+| **Plataformas educativas que conoce el 
+ estudiante\***                          | De {moodle: columna V} a                                   
+                                          {sin_responder_61: columna AD}                              | ¿Cuáles plataformas educativas conoce                            
+                                                                                                       el alumno?                                                        |                                                          |
+| **Color de cinta obtenida**            | cinta: columna AG                                          | ¿Cuál fue la cinta obtenida por el alumno?                       |                                                          |
+| **Calificación obtenida**              | calif_checker: columna AI                                  | ¿Cuál fue la calificación obtenida por                           
+                                                                                                       el alumno en el simulador?                                        | Suma a dos dígitos y no redondeada                       |
+| **Calif. Procesamiento**               | calif_proces_admin_infor: columna AJ                       | Conocimiento de word, excel y powerpoint                         | Suma parcial de apartados específicos del simulador      |
+| **Calif. Acceso**                      | calif_acceso_informacion: columna AK                       | Conocimiento sobre acceso a la                                   
+                                                                                                       información                                                       | Suma parcial de apartados específicos                    
+                                                                                                                                                                          del simulador                                             |
+| **Calif. Seguridad**                   | calif_seguridad: columna AL                                | Conocimiento sobre seguridad alrededor de las TICs               | Suma parcial de apartados específicos del simulador      |
+| **Calif. Colaboración**                | calif_colabor_comunic: columna AM                          | Conocimiento sobre herramientas de                               
+                                                                                                       comunicación                                                      | Suma parcial de apartados específicos                    
+                                                                                                                                                                          del simulador                                             |
+
+Las **columnas requeridas** son las que se cargan del csv a la base de datos SQL
+
+
+
+#* Transformar e Insertar datos a la base SQL
+
+Para poblar esta base de datos useremos el siguiente código.
+
+Primero seleccionamos las columnas de interés. Después, agregamos la columna de `fecha_aplicacion` . Se renombran dos columnas con nombres similares para que quede claro cual pertenece a qué variable. Finalmente, insertamos los datos a la base de datos con la ayuda del paquete `{dbplyr}`.
+
+#** pivotea y crea una nueva columna
+```{r pivot}
+#PIVOT PLATFORM EDU
+pivoted_df_edu <- tidy_TICometro2020 %>% 
+  select(apellido_s, 22:30) %>% 
+  rename("otra" = otra_2, "No declaró" = sin_responder_61) %>% 
+  tidyr::pivot_longer(!apellido_s, names_to = "plataformas_edu_known", values_to = "la_conoce") %>% 
+  group_by(apellido_s) %>% 
+  filter(la_conoce == 1)
+
+#No todos los alumnos aparecen
+alumnos_pivots_edu <- pivoted_df_edu %>% distinct(apellido_s) %>% pull(apellido_s)
+alumnos_totales <- tidy_TICometro2020 %>% distinct(apellido_s) %>% pull(apellido_s)
+
+#ALUMNOS QUE LOGRARON EVADIR LA PREGUNTA!!!!
+missing_alumns <- setdiff(alumnos_totales, alumnos_pivots_edu)
+matching_alumns <- intersect(alumnos_totales, alumnos_pivots_edu)
+#agregate
+result_edu <- pivoted_df_edu %>%
+  group_by(apellido_s) %>%
+  summarise(plataformas_edu_known = paste(plataformas_edu_known, collapse = ", ")) %>% 
+  ungroup() %>% 
+    mutate(
+    apellido_s = matching_alumns
+  ) 
+
+platEdu_df <- result_edu %>% 
+  mutate(
+    plataformas_edu_known = stringr::str_replace_all(plataformas_edu_known, "_", " ")
+  ) 
+
+#PIVOT DISPOSITIVOS ELECTRONICOS
+pivoted_df_Dispo <- tidy_TICometro2020 %>% 
+  select(apellido_s, 10:20) %>% 
+  rename("No declaró" = sin_responder_31) %>% 
+  tidyr::pivot_longer(!apellido_s, names_to = "dispositivos_TIC", values_to = "la_conoce") %>% 
+  group_by(apellido_s) %>% 
+  filter(la_conoce == 1) 
+
+#agregate
+result_Dispo <- pivoted_df_Dispo %>%
+  group_by(apellido_s) %>%
+  summarise(dispositivos_TIC = paste(dispositivos_TIC, collapse = ", "))  %>% 
+  mutate(
+    apellido_s = paste0("Alumno ", c(1:31762))
+  ) 
+
+Dispo_df <- result_Dispo %>% 
+  mutate(
+    dispositivos_TIC = stringr::str_replace_all(dispositivos_TIC, "_", " ")
+  ) 
+
+
+```
+
+
+```{r SelectMutateReview}
+keyColumns_TICometro2020 <- tidy_TICometro2020 %>%
+  #selecciono las columnas que no quiero
+  select(!c("duracion_exam_minutes",
+            #ya existe calif_checker
+            "calificacion_10_00"))  %>%
+  mutate(fecha_aplicacion = 2020,
+         dispositivos_electronicos = Dispo_df$dispositivos_TIC
+         ) %>% 
+  left_join(platEdu_df, by = c("apellido_s")) %>% 
+  #todos los datos pertenecen al 2020
+  select(fecha_aplicacion, everything())
+
+#Selecciono las columnas con nombres poco claros
+names(keyColumns_TICometro2020)[c(2, 7:9, 20, 28, 30)] <- c(
+           "num_alumno",
+           "compartes_tic", #lower case 4 sql SHIT!!!!!!!
+           "estabilidad_internet_4_clases",
+           "internet_fuera_d_casa",
+           "sin_responder_dispositivo_x_estudiante",
+           "otra_plataf_educativa",
+           "sin_responder_plataf_educa"
+         )
+      
+
+#Visualizo en una tabla los cambios que hice
+DT::datatable(glimpse(keyColumns_TICometro2020) %>%
+                         sample_n(500))
+```
+Se aprecia que la columna `fecha_aplicacion` se encuentra hasta el final. __Propongo usar esta columna como identificador de encuestas del TICometro__ para el caso de que existan preguntas irregulares en el futuro se indexen por año.
+
+Notesen los valores unicos por columna!!!!!!!
+
+```{r}
+unique_list <- purrr::map(c(1:40),
+ \(x) {
+   unique(keyColumns_TICometro2020[[x]])
+ }                         
+)
+
+
+```
+
+Los valores inesperados en las columnas son "NA" y "-", por lo que se sustituyen con "No declaro".
+
+```{r}
+
+which_wrong_values_NA <- purrr::map(c(1:40),
+ \(x) {
+   which(is.na(keyColumns_TICometro2020[[x]]) )
+ }                         
+)
+
+which_wrong_values_Dash <- purrr::map(c(1:40),
+ \(x) {
+   which(keyColumns_TICometro2020[[x]]  == "-")
+ }                         
+)
+
+#columna 40 tiene NA
+#columna 4 y 32 tienen NA entonces
+wrong_40 <- which(keyColumns_TICometro2020[[40]] %>% is.na(.))
+keyColumns_TICometro2020[wrong_40, 40] <- "No declaró" 
+
+#columna 4 y 32 tienen NA entonces
+wrong_4 <- which(keyColumns_TICometro2020[[4]] %>% is.na(.))
+keyColumns_TICometro2020[wrong_4, 4] <- "No declaró" 
+
+#To keep it numerico NA se pasa a 0. Y es que hay 261 ocurrencias
+wrong_32 <- which(keyColumns_TICometro2020[[32]] %>% is.na(.))
+keyColumns_TICometro2020[wrong_32, 32] <- 0
+
+#columnas 5 a 9 con problemas de -
+wrong_5 <- which(keyColumns_TICometro2020[[5]]  == "-")
+keyColumns_TICometro2020[wrong_5, 5] <- "No declaró"
+wrong_6 <- which(keyColumns_TICometro2020[[6]]  == "-")
+keyColumns_TICometro2020[wrong_6, 6] <- "No declaró"
+wrong_7 <- which(keyColumns_TICometro2020[[7]]  == "-")
+keyColumns_TICometro2020[wrong_7, 7] <- "No declaró"
+wrong_8 <- which(keyColumns_TICometro2020[[8]]  == "-")
+keyColumns_TICometro2020[wrong_8, 8] <- "No declaró"
+wrong_9 <- which(keyColumns_TICometro2020[[9]]  == "-")
+keyColumns_TICometro2020[wrong_9, 9] <- "No declaró"
+
+TICometro_clean <- keyColumns_TICometro2020
+
+DT::datatable(glimpse(TICometro_clean) %>%
+                         sample_n(500))
+```
+
+```{r}
+unique_list_cleanValues <- purrr::map(c(1:40),
+ \(x) {
+   unique(TICometro_clean[[x]])
+ }                         
+)
+
+```
+
+#** Orden de las columnas
+```{r relocateColumns}
+TICometro_clean_2 <- TICometro_clean %>% 
+  relocate(
+    c(21,31:40), .after = internet_fuera_d_casa
+  ) 
+
+TICometro_clean_3 <- TICometro_clean_2 %>% 
+  relocate(
+    c(dispositivos_electronicos, plataformas_edu_known), .after = internet_fuera_d_casa
+  )
+
+TICometro_clean_4 <- TICometro_clean_3 %>% 
+  relocate(
+    c(total_de_dispositivos_por_estudiante, edad_uso_dispositivo), .after = dispositivos_electronicos
+  )
+```
+
+#* Conexión a la base de datos SQL
+
+Las credenciales se guardan en las variables de ambiente por computadora por seguridad.
+
+```{r conexionSQL}
+con <- DBI::dbConnect(
+  odbc::odbc(),
+  Driver = "PostgreSQL ANSI",
+  Server = "132.248.10.243",
+  Database = "resultados",
+  UID = Sys.getenv("R_resultadosTIC_db_user"),
+  #environment variable for user
+  PWD = Sys.getenv("R_resultadosTIC_db_user_psswrd"),
+  #environment variable for password
+  Port = 5432,
+  encoding = "UTF-8"
+)
+```
+
+```{sql, connection = con, }
+SET client_encoding = 'UTF8';
+```
+
+
+#** Inserta tabla
+**codigo ejecutado bajo demandanda. no es automatico**
+```{r Insertdata, eval=FALSE}
+library(dbplyr)
+
+#Codigo para crear autoimaticamente una tabla en la base de datos SQL
+copy_to(dest = con,
+        #copy dataframe to remote db source
+        df = TICometro_clean_4,
+        # name for  new remote table
+        name = "ticometro_resultados_main_table", 
+        temporary = FALSE,
+        #Ensures process is repeated in reference to data_truth
+        overwrite = TRUE, 
+        # escoger los indices adecuados: STILL TO BE DECIDED
+        indexes = list(
+    c("institucion", "grupo"), #referencia base y constante
+    "institucion",
+    "grupo",
+    "genero",
+    "fecha_aplicacion", # util indice para cuando crezca la base de datos
+    "escuela_de_procedencia", 
+    "compartes_tic",
+    "estabilidad_internet_4_clases",
+    "internet_fuera_d_casa",
+    "dispositivos_electronicos",
+    "total_de_dispositivos_por_estudiante",
+    "edad_uso_dispositivo",
+    "plataformas_edu_known",
+    "total_de_plataformas_por_estudiante",
+    "calif_checker",
+    "calif_proces_admin_infor",
+    "calif_acceso_informacion",
+    "calif_seguridad",
+    "calif_colabor_comunic",
+    "cinta"
+  ) 
+        )                 
+
+beepr::beep(sound = 2)
+```
+
+Ahora que se subieron los archivos vamos a revisar la tabla que se creó.
+
+```{r CheckNewDB}
+ticometro_db <- tbl(con, "ticometro_resultados_main_table")
+
+colnames(ticometro_db)
+```
+
+# Repeat process
+
+##** DO NOT RUN
+
+```
+DROP TABLE IF EXISTS "ticometro_resultados_main_table"
+```
+
+#** write csv for distribution
+
+```{r writeTICometro2020}
+data.table::fwrite(
+  TICometro_clean_4,
+  here::here(
+    "data_truth",
+  "data_in_db_TICometro2020.csv")
+)
+```
+
+# El TICOMETRO 2021
+
+#*Preview data
+```{r loadticometro2020}
+#Codigo para cargar el csv al ambiente de R
+tidy_TICometro2021 <- readr::read_csv(
+  here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth", #folder al que pertenece el archivo
+             "Bachillerato_TICometro2021_completa.csv") #nombre del archivo
+)
+
+```
+
+Esta base de datos esta compuesta por `r ncol(tidy_TICometro2021)` variables y `r nrow(tidy_TICometro2021)` registros. Los registros se ven así:
+
+```{r sneakpeak}
+sample_data <- tidy_TICometro2021 %>% 
+                sample_n(500)
+
+DT::datatable(sample_data)
+
+head()
+```
+
+
+
+#* Columnas que se usa y porqué se ignorarán otras
+
+En reunión con el equipo de trabajo TAV, la Dra. Kriskaustzy comentó que es de poco interés y valor informativo saber cuánto tiempo se tardaron los estudiantes en acabar el TICometro, puesto que existe la posibilidad de que por X o Y razones la gente se tomó un break de la encuesta para tratar otros temas. Existe la posibildad, no obstante, de integrar esta información a la base de datos facilmente.
+
+Las columnas que se usan en la App son las siguientes y se hace referencia a cuales columnas son requeridas para crearlas :
+
+```{r selector de columnas}
+ticometro_2021_columns <- colnames(tidy_TICometro2021)
+
+selected_ticometro_2021_columns <- tidy_TICometro2021 %>% select(!c(`Comenzado en`, Finalizado, Tiempo_empleado)) %>% colnames(.)
+```
+
+Todas las columnas son:`r ticometro_2021_columns`
+
+Las columnas que estaran en la plataforma son: `r selected_ticometro_2021_columns`
+
+#* Transformar e Insertar datos a la base SQL
+
+```{r seleccionacolumnas2021}
+ticometro_selected_2021 <- tidy_TICometro2021 %>% select(!c(`Comenzado en`, Finalizado, Tiempo_empleado))
+```
+
+#** Prueba pivotear los datos
+
+```{r pivotea2021}
+#columnas fijas
+pivoted_columns_2021 <- ticometro_selected_2021 %>% select(13:21) %>% colnames(.)
+
+pivoted_ticometro_2021 <- ticometro_selected_2021 %>% tidyr::pivot_longer(all_of(pivoted_columns_2021), names_to = "opcion", values_to = "plataformas_known") %>% 
+  filter(plataformas_known != "0") %>%  #column is character type
+  select(!c(opcion))
+```
+
+Al hacer el pivoteo el numero de registros aumenta. Ahora la base  de datos esta compuesta por `r ncol(pivoted_ticometro_2021)` variables y `r nrow(pivoted_ticometro_2021)` registros. Cuando antes la base de datos esta compuesta por `r ncol(tidy_TICometro2020)` variables y `r nrow(tidy_TICometro2020)` registros.
+
+#*** ejemplo con datos pivoteados
+
+```{r conteoxgrupo2021pivoteado}
+respuesta_piv <- pivoted_ticometro_2021 %>% 
+  select(institucion, grupo, cinta) %>% 
+  group_by(institucion, grupo) %>% 
+  count(cinta)
+```
+
+```{r conteoxgrupo2021pivoteado}
+respuesta_unpiv <- ticometro_selected_2021 %>% 
+  select(institucion, grupo, cinta) %>% 
+  group_by(institucion, grupo) %>% 
+  count(cinta)
+```
+
+NO ES IGUAL. Y POR AHORA NO SE COMO SELECIONAR DISTINTOS REGISTROS PORQUE SE DUPLICA TODO LO DEMAS. POR LO QUE AHORA LO DEJARE CON LAS FUNCIONES QUE MANEJAN OPCION MULTIPLE EN EL SITIO DE CONSULTA
+
+#** Orden de las columnas
+```{r relocateColumns}
+TICometro_2021_clean <- ticometro_selected_2021 %>% 
+  select(1:3, 6:12, 22:23, 4, 24:27, 5, 13:21)
+
+col_clean_names_2021 <- colnames(TICometro_2021_clean)
+
+```
+
+
+#* Conexión a la base de datos SQL
+
+Las credenciales se guardan en las variables de ambiente por computadora por seguridad.
+
+```{r conexionSQL}
+con <- DBI::dbConnect(
+  odbc::odbc(),
+  Driver = "PostgreSQL ANSI",
+  Server = "132.248.10.243",
+  Database = "resultados",
+  UID = Sys.getenv("R_resultadosTIC_db_user"),
+  #environment variable for user
+  PWD = Sys.getenv("R_resultadosTIC_db_user_psswrd"),
+  #environment variable for password
+  Port = 5432,
+  encoding = "UTF-8"
+)
+```
+
+```{sql, connection = con, }
+SET client_encoding = 'UTF8';
+```
+
+#** Inserta tabla
+**codigo ejecutado bajo demandanda. no es automatico**
+```{r Insertdata, eval=FALSE}
+library(dbplyr)
+
+#Codigo para crear autoimaticamente una tabla en la base de datos SQL
+copy_to(dest = con,
+        #copy dataframe to remote db source
+        df = TICometro_2021_clean,
+        # name for  new remote table
+        name = "ticometro_resultados_2021", 
+        temporary = FALSE,
+        #Ensures process is repeated in reference to data_truth
+        overwrite = TRUE, 
+        # escoger los indices adecuados: STILL TO BE DECIDED
+        indexes = list(
+    c("institucion", "grupo"), #referencia base y constante
+    col_clean_names_2021[2:27], #un indice para cada columna, excepto alumnos
+    
+  ) 
+        )                 
+
+beepr::beep(sound = 2)
+```
+
+
+# Repeat process
+
+##** DO NOT RUN
+
+```
+DROP TABLE IF EXISTS "ticometro_resultados_main_table"
+```
+
+#** write csv for distribution
+
+```{r writeTICometro2021}
+data.table::fwrite(
+  TICometro_2021_clean,
+  here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth",
+  "data_in_db_TICometro2021.csv")
+)
+```
+
+
+
+
+
