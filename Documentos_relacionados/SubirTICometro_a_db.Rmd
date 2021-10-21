@@ -201,7 +201,7 @@ unique_list <- purrr::map(c(1:40),
 
 Los valores inesperados en las columnas son "NA" y "-", por lo que se sustituyen con "No declaro".
 
-```{r}
+```{r wrongValues}
 
 which_wrong_values_NA <- purrr::map(c(1:40),
  \(x) {
@@ -358,10 +358,10 @@ DROP TABLE IF EXISTS "ticometro_resultados_main_table"
 #** write csv for distribution
 
 ```{r writeTICometro2020}
-data.table::fwrite(
+readr::write_csv(
   TICometro_clean_4,
   here::here(
-    "data_truth",
+"C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth",
   "data_in_db_TICometro2020.csv")
 )
 ```
@@ -494,10 +494,14 @@ copy_to(dest = con,
         # escoger los indices adecuados: STILL TO BE DECIDED
         indexes = list(
     c("institucion", "grupo"), #referencia base y constante
-    col_clean_names_2021[2:27], #un indice para cada columna, excepto alumnos
+    col_clean_names_2021[2:27] #un indice para cada columna, excepto alumnos
     
   ) 
         )                 
+
+
+
+test_table_connection <- tbl(con, "ticometro_resultados_2021")
 
 beepr::beep(sound = 2)
 ```
@@ -508,7 +512,7 @@ beepr::beep(sound = 2)
 ##** DO NOT RUN
 
 ```
-DROP TABLE IF EXISTS "ticometro_resultados_main_table"
+DROP TABLE IF EXISTS "ticometro_resultados_2021"
 ```
 
 #** write csv for distribution
@@ -517,7 +521,8 @@ DROP TABLE IF EXISTS "ticometro_resultados_main_table"
 data.table::fwrite(
   TICometro_2021_clean,
   here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth",
-  "data_in_db_TICometro2021.csv")
+  "data_in_db_TICometro2021.csv"),
+  bom = TRUE
 )
 ```
 
