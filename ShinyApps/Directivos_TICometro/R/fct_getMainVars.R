@@ -4,25 +4,37 @@
 #' @import stringr
 get_mainVars_4_planteles <- function(db_connection, select_schools, select_groups = NULL, fecha_aplicacion = 2020){
   
-  #declare connection: https://shiny.rstudio.com/articles/pool-dplyr.html
-  ticometro_table <- dplyr::tbl(db_connection, "ticometro_resultados_main_table")
+
+# connect 2 specific table ------------------------------------------------
+
+  #DECLARE CONNECTION: https://shiny.rstudio.com/articles/pool-dplyr.html
   
-  #handle CCH and directivos queries
+  ticometro_table <- dplyr::tbl(db_connection, "ticometro_resultados_main_table")
+# No grouping case --------------------------------------------------------
+
+
   #check if group is null or if selected schools are mixed to signal CCH or directivo variables
   if (is.null(select_groups) | (any(stringr::str_detect(select_schools, "ENP"))
                                     &
                                     any(stringr::str_detect(select_schools, "CCH"))
                                 )
       ){ #end of conditional
+
+
+# QUERY database 4 main variables ------------------------------
+
     
-  #QUERY database 4 main variables to present
   all_main_vars <- ticometro_table %>% 
-    dplyr::select(1:20) %>% #the first 20 are the main variables
-    dplyr::filter(institucion %in% select_schools,  #filtra por escuela
+    select(1:20) %>% #the first 20 are the main variables
+    filter(institucion %in% select_schools,  #filtra por escuela
            fecha_aplicacion == fecha_aplicacion) %>%  #filtra el fecha_aplicacion de aplicacion
-    dplyr::collect()%>%  #pull data into the applicacion
-    dplyr::select(!c(fecha_aplicacion)) #remove year of aplicacion
-  
+    collect()%>%  #pull data into the applicacion
+    select(!c(fecha_aplicacion)) #remove year of aplicacion
+
+
+# Rename columns ----------------------------------------------------------
+
+    
   #We group is not selected we know its the CCH variables or directivos so we show all
   #Pretty titles
   all_TICometro_variables <- c(
@@ -50,22 +62,30 @@ get_mainVars_4_planteles <- function(db_connection, select_schools, select_group
   
   #rename columns
   colnames(all_main_vars) <- all_TICometro_variables
+
+# Return object -----------------------------------------------------------
+
   
   return(all_main_vars)
   
-  }else{ #ENP logic
+  }else{ 
     
-    #QUERY database 4 main variables to present
+
+# Grouping case -----------------------------------------------------------
+
+    
+# QUERY database 4 main variables ------------------------------
+    
     ENP_main_vars <- ticometro_table %>% 
-      dplyr::select(1:10, 12:20) %>% #the first 20 are the main variables. skip 11 que es redundante en la enp
-      dplyr::filter(institucion %in% select_schools,  #filtra por escuela
+      select(1:10, 12:20) %>% #the first 20 are the main variables. skip 11 que es redundante en la enp
+      filter(institucion %in% select_schools,  #filtra por escuela
              grupo %in% select_groups, #filtra los grupos del enp
              fecha_aplicacion == fecha_aplicacion) %>%  #filtra el fecha_aplicacion de aplicacion
-      dplyr::collect() %>%  #pull data into the applicacion
-      dplyr::select(!c(fecha_aplicacion)) #remove year of aplicacion
+      collect() %>%  #pull data into the applicacion
+      select(!c(fecha_aplicacion)) #remove year of aplicacion
+  
+    # Rename columns ----------------------------------------------------------
     
-    #We group is not selected we know its the CCH variables or directivos so we show all
-    #Pretty titles
     ENP_TICometro_variables <- c(
       #"Año del TICómetro",
       "Alumno",
@@ -90,6 +110,9 @@ get_mainVars_4_planteles <- function(db_connection, select_schools, select_group
     
     #rename columns
     colnames(ENP_main_vars) <- ENP_TICometro_variables
+
+# Return object -----------------------------------------------------------
+
     
     return(ENP_main_vars)
     

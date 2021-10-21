@@ -1,6 +1,8 @@
-######################################
-###### TICometro 4 Directivos##########
-######################################
+#### TICometro 4 Directivos UI ##########
+
+# Declaring useful variables ----------------------------------------------
+
+
 
 ##### List of variable choices
 
@@ -26,7 +28,27 @@ nivel_de_acceso <- list(
   "# de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 
-# FRESH THEME
+
+#Lista Escuelas ENP
+ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
+  purrr::map_df(.,
+                \(x) {
+                  paste0("ENP ", x)
+                })
+
+#ESCUELAS CCH
+
+#ESCUELAS CCH
+CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
+                                               "CCH Naucalpan",
+                                               "CCH Oriente",
+                                               "CCH Sur",
+                                               "CCH Vallejo")
+)
+
+
+# Fresh theme -------------------------------------------------------------
+
 # CODE TO CHANGE COLORS OF THE APP
 myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash("navbar")
   bs4dash_vars(
@@ -79,31 +101,14 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
 
 
 
-####################################
+# UI Begins ---------------------------------------------------------------
 
 
-#Lista Escuelas ENP
-ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
-  purrr::map_df(.,
-                \(x) {
-                  paste0("ENP ", x)
-                })
-
-#ESCUELAS CCH
-
-#ESCUELAS CCH
-CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
-                                               "CCH Naucalpan",
-                                               "CCH Oriente",
-                                               "CCH Sur",
-                                               "CCH Vallejo")
-)
-
-
-
-# Define UI for application that draws a histogram
 shinyUI(
   bs4Dash::dashboardPage(
+
+#* Page elements -----------------------------------------------------------
+
     
     freshTheme = myTheme,
     #HEAD tags 4 various reasons
@@ -116,7 +121,15 @@ shinyUI(
                      color = "#343a40"
     ),
     fullscreen = TRUE,
-    #HEADER STARTS HERE
+
+#Control BAR STARTS HERE
+#UNABLE TO DISABLE. USE IT FOR CREDITS
+controlbar = NULL, #END OF CONTROL BAR,
+    
+
+#** Header ------------------------------------------------------------------
+
+
     header = bs4Dash::dashboardHeader(
       fixed = FALSE,
       title = tags$a(href = 'http://132.248.10.243:3838/El-Duque/TICometro_Landing',
@@ -132,6 +145,10 @@ shinyUI(
         style = "padding-top: 7px;"
       )
     ),#HEADER ENS
+
+# **Sidebar ---------------------------------------------------------------
+
+
     #SIDEBAR STARS HERE
     sidebar = bs4Dash::dashboardSidebar(
       fixed = FALSE,
@@ -172,10 +189,9 @@ shinyUI(
       )
       )
     ),# end of side bar
-    #Control BAR STARTS HERE
-    #UNABLE TO DISABLE. USE IT FOR CREDITS
-    controlbar = NULL, #END OF CONTROL BAR,
-    #FOOTER STARTS
+
+#**Footer ------------------------------------------------------------------
+
     footer = bs4Dash::dashboardFooter(
       fixed = FALSE,
       left = tags$a(
@@ -184,10 +200,18 @@ shinyUI(
       ),
       right = "2021"
     ),
+
+# **Body ------------------------------------------------------------------
+
+
     body = bs4Dash::dashboardBody(
       htmltools::tagAppendAttributes(
       #BODY STARTS
       bs4Dash::tabItems(
+
+#***tab content ---------------------------------------------------------
+
+        
         #ENP TAB starts here!
         bs4Dash::tabItem(
           role = "tab",
@@ -197,6 +221,10 @@ shinyUI(
               tags$b("Seleccione una o varias opciones:")
             )
           ),
+
+#***selectors -----------------------------------------------------------
+
+          
           fluidRow(
             role = "main",
             column(#STARTS SCHOOL INPUT
@@ -254,6 +282,10 @@ shinyUI(
               )
             )# ENDS column ACTION BUTTON
           ), #end of fluid row
+
+# ***TabBox -----------------------------------------------------------
+
+
           fluidRow(
             id = "texto encima de tab box",
             tags$p(
@@ -267,7 +299,6 @@ shinyUI(
             role = "main",
             id = "results container",
             htmltools::tagAppendAttributes(
-            # Output: Tabset w/ plot, summary, and table ----
             tabBox(
               title = NULL,
               elevation = 2,
@@ -330,6 +361,10 @@ shinyUI(
           ),#end of fluid row
           role = "tab"
           ), 
+
+#***Value and info boxes ----------------------------------------------------
+
+
           #Third Fluid row
           fluidRow(# divides in 12
             role = "region",
@@ -341,6 +376,10 @@ shinyUI(
         ),#end of tab items 1
         #   tabItem(tabName = "compara",
         #          "Hola2"),
+
+#***Tab Descarga ------------------------------------------------------------
+
+
         tabItem(
           role = "tab",
           tabName = "descarga",
@@ -395,6 +434,10 @@ shinyUI(
       role = "tablist",
       id = "tab para consultar los datos del ticometro"
       ),
+
+#* Final page elements -----------------------------------------------------
+
+
       useWaiter(),
       useSever(),
       autoWaiter(id = c("value_box_Directivos",
