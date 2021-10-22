@@ -358,7 +358,7 @@ DROP TABLE IF EXISTS "ticometro_resultados_main_table"
 #** write csv for distribution
 
 ```{r writeTICometro2020}
-readr::write_csv(
+data.table::fwrite(
   TICometro_clean_4,
   here::here(
 "C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth",
