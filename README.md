@@ -1,6 +1,6 @@
 # shinyTICometro 1.0
 
-! PENDIENTE: MOVER SHINY SERVER WORKFLOW TO GITHUB PULL WORKFLOW
+**DESARROLLO PARA CONSULTAR LOS RESULTADOS DE 2021**
 
 Una aplicación en Shiny para consultar los [resultados del TICometro](https://educatic.unam.mx/publicaciones/informes-ticometro.html).
 
