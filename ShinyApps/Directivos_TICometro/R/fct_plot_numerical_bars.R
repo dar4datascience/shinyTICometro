@@ -34,7 +34,7 @@ plot_numerical_vars <-
             fill,
             "</br></br>Calificación: ",
             signif(x, 2),
-            "</br># alumnos: ",
+            "</br>Num. alumnos: ",
             ..count..
           )
         )
@@ -70,9 +70,9 @@ plot_numerical_vars <-
                        margin = list(autoexpand = TRUE)) %>%
         plotly::layout(
           title = clean_plot_titles(var2plot),
-          font = list(family = "MyriadProBold"),
+          font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          yaxis = list(title = '# de Alumnos'),
+          yaxis = list(title = 'Num. de Alumnos'),
           xaxis = list(title = 'Calificación')
           #,font=list(size = 30)
         )
@@ -90,14 +90,14 @@ plot_numerical_vars <-
         mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>%
         group_by(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
         count(.data[[var2plot]]) %>%
-        mutate("# alumnos" = as.numeric(n)) %>%
+        mutate("Num. de Alumnos" = as.numeric(n)) %>%
         select(!c(n))
       
       # *Ggplot it --------------------------------------------------------------
       
       p <- plot_df %>%
         ggplot(aes(
-          y = `# alumnos`,
+          y = `Num. alumnos`,
           x = .data[[var2plot]],
           fill = .data[[groupvar]],
           text = .data[[groupvar]]
@@ -105,7 +105,7 @@ plot_numerical_vars <-
         geom_col() +
         facet_wrap(~ `Institución`) +
         theme(
-          axis.text.y = element_text("# de Alumnos"),
+          axis.text.y = element_text("Num. de Alumnos"),
           axis.text.x = element_text("Calificación")
         )
       
@@ -138,7 +138,7 @@ plot_numerical_vars <-
         ) %>%
         plotly::layout(
           title = clean_plot_titles(var2plot),
-          font = list(family = "MyriadProBold"),
+          font = list(family = "Arial"),
           legend = list(title = list(text = ''))
           #,font=list(size = 30)
         )

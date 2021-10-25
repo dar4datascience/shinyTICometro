@@ -49,8 +49,7 @@ countVars <-
       #* if multiple option question ---------------------------------------------
       
       
-      if (select_var == "plataformas_edu_known" |
-          select_var == "dispositivos_electronicos") {
+      if (select_var == "plataformas_edu_known") {
         #a collected query
         counted_df <-
           handle_multiple_choice_questions(
@@ -63,7 +62,7 @@ countVars <-
             fecha_de_aplicacion = fecha_de_aplicacion
           )
         
-        print("im in cch logic multiple choice")
+        print("im multiple choice no groups")
       } else{
         #count regularly
         
@@ -121,7 +120,7 @@ countVars <-
             fecha_de_aplicacion
           )
         
-        print("im in enp logic multiple chocie")
+        print("im in grouped multiple choice")
         
       } else{
         #count normally
@@ -166,14 +165,14 @@ countVars <-
     
     # Mutate df ---------------------------------------------------------------
     
-    
+    clean_title <- clean_plot_titles(select_var)
     #ADD INFO TO POPULATE PLOT
     add_info_to_counts <- counted_df %>%
       mutate(#respuesta = forcats::fct_reorder(.data[[select_var]], num_alumnos),
-        "# alumnos" = as.numeric(n),
+        "Num. alumnos" = as.numeric(n),
         institucion = forcats::fct_reorder(
           forcats::as_factor(institucion),
-          `# alumnos`
+          `Num. alumnos`
           )
         ) %>%
       select(!c(n)) %>%

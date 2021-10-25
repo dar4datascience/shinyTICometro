@@ -6,7 +6,6 @@
 # CONNECT OUTSIDE OF THE SERVER FUNCTION ----------------------------------
 
 
-db_connection <- connect2database()
 
 print("connected 2 database")
 
@@ -73,6 +72,8 @@ server <- function(input, output, session) {
         reactive_Directivos_var_selectors$plotvarPicked <-
             isolate(input$plot_directivo_var)
         
+        print(input$escuelas_directivos_picked)
+        print(reactive_Directivos_var_selectors$escuelasPicked)
     })
     
     #* Observe Main Event push consulta button ---------------------------------
@@ -215,7 +216,7 @@ server <- function(input, output, session) {
     output$TabulatedVars_Directivos <- reactable::renderReactable({
         reactable::reactable(
             tabulated_directivos$data,
-            defaultSorted = list(`# alumnos` = "desc"),
+            defaultSorted = list(`Num. alumnos` = "desc"),
             defaultColDef = reactable::colDef(align = "center"),
             filterable = TRUE,
             outlined = TRUE,

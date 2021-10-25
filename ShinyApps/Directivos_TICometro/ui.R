@@ -11,7 +11,7 @@ datos_de_contexto <- list("Género" = "genero",
 )
 
 habilidades_digitales <- list("Color de cinta obtenida" = "cinta",
-                              "Calificación TICometro" = "calif_checker",
+                              "Calificación TICómetro" = "calif_checker",
                               "Calif. Procesamiento" = "calif_proces_admin_infor",
                               "Calif. Acceso" = "calif_acceso_informacion",
                               "Calif. Seguridad" = "calif_seguridad",
@@ -20,12 +20,12 @@ habilidades_digitales <- list("Color de cinta obtenida" = "cinta",
 nivel_de_acceso <- list(
   "Edad de primer uso de TIC" = "edad_uso_dispositivo",
   "Acceso a Dispositivos" = "dispositivos_electronicos",
-  "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
+  #"# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
   "Uso compartido de laptop o computadora" = "compartes_tic",
   "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
   "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
   "Conocimiento sobre plataformas educativas" = "plataformas_edu_known",
-  "# de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
+  "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 
 
@@ -50,7 +50,7 @@ CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
 # Fresh theme -------------------------------------------------------------
 
 # CODE TO CHANGE COLORS OF THE APP
-myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash("navbar")
+myTheme <- fresh::create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash("navbar")
   bs4dash_vars(
     main_header_light_form_control_bg = "gray_x_light",
     navbar_light_color = "#343A40 !important"
@@ -95,7 +95,7 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
   bs4dash_font(
     #size_base = "1rem",
     #weight_bold = 900,
-    family_base = "MyriadProBold"
+    family_base = "Arial"
   )
 )
 
@@ -228,7 +228,7 @@ controlbar = NULL, #END OF CONTROL BAR,
           fluidRow(
             role = "main",
             column(#STARTS SCHOOL INPUT
-              width = 4,
+              width = 3,
               htmltools::tagAppendAttributes(
               #USE PICKER FOR EASY MULTIPLE SELECTION
               shinyWidgets::pickerInput(
@@ -247,6 +247,22 @@ controlbar = NULL, #END OF CONTROL BAR,
               role = "button",
               id = "selector de escuelas")
             ),#END OF SCHOOL INPUT
+            column( #sTARTS GRUPO INPUT
+              width = 2,
+              #use picker with searchable
+              shinyWidgets::pickerInput(
+                inputId = "grupo_select",
+                label = "Grupo:",
+                choices = c("Ninguno", grupo),
+                multiple = TRUE,
+                selected = grupo[1],
+                options = list(
+                  title = "Seleccione una opcion",
+                  style = "btn-secondary",
+                  `live-search` = TRUE
+                )
+              )
+            ), #ENDS GRUPO INPUT
             column(
               width = 4,
               htmltools::tagAppendAttributes(
@@ -343,19 +359,22 @@ controlbar = NULL, #END OF CONTROL BAR,
                 icon = shiny::icon("download", 
                                    class = "fa-2x"),
                 #when passing an id to boxDropdownItem it will behave like a button!
-                boxDropdownItem("Descargue su gráfica",
-                                id = "descarga_grafica",
-                                role = "button",
-                                icon = shiny::icon(name = "signal", lib = "glyphicon")
-                                ),
-                  shiny::downloadButton(outputId = "downloadtabulado",
-                               "Descargue su selección de datos",
-                               icon = icon(name = "calculator")
-                               ),
+                #boxDropdownItem("Descargue su gráfica",
+                 #               id = "descarga_grafica",
+                  #              role = "button",
+                   #             icon = shiny::icon(name = "signal", lib = "glyphicon")
+                    #            ),
+                  #shiny::downloadButton(outputId = "downloadtabulado",
+                   #            "Descargue su selección de datos",
+                    #           icon = icon(name = "calculator")
+                     #          ),
+                htmltools::tagAppendAttributes(
+                  style = "background: black;",
                 shiny::downloadButton(outputId = "downloadData",
                                 "Descargue su hoja de datos",
                                 icon = icon(name = "database")
                   )
+                ) #end of append attributes
               )# end of drop down
             )#end of tab box
           ),#end of fluid row
@@ -413,7 +432,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                            br(),
                            checkboxGroupButtons(
                              inputId = "massiveDownload",
-                             label = "2020",
+                             label = "2021",
                              choices = c("ENP", 
                                          "CCH"),
                              checkIcon = list(

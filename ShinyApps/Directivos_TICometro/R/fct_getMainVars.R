@@ -205,7 +205,7 @@ get_mainVars_4_planteles <-
           "Género",
           "Escuela de Procedencia",
           "Principal dispositivo para Clases a Distancia",
-          "Comparte TIC",
+          "Uso compartido de laptop o computadora",
           "Estabilidad de la red para clases",
           "Conexión a Internet fuera de casa",
           "Plataformas Educativas que conoce el estudiante",
