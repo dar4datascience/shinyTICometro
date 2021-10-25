@@ -4,7 +4,7 @@ connect2database <- function() {
 
 # Declare a pool connection -----------------------------------------------
 
-  
+#This is a pointer to the db. The other functions call the tables explicitly  
   ticometro_db_connection <- pool::dbPool(
     drv = odbc::odbc(),
     Driver = 'PostgreSQL ANSI',

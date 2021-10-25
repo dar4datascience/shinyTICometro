@@ -15,7 +15,7 @@ handle_multiple_choice_questions <-
            select_groups = NULL,
            multiple_opcion_var,
            grouping_var = NULL,
-           fecha_aplicacion = 2020) {
+           fecha_de_aplicacion) {
     # No grouping 1 case --------------------------------------------------------
     
     

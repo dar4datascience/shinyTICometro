@@ -247,7 +247,7 @@ body = dashboardBody(
     ),
 	fluidRow(id = "titulo encima de botones",
 	         tags$h2(
-	           tags$b("Consulta los Resultados del 2020!")
+	           tags$b("Consulta los Resultados del 2021!")
 	         )),
 	
 	#** Botones con hipervinculos -----------------------------------------------

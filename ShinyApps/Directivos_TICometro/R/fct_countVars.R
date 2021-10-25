@@ -13,13 +13,29 @@ countVars <-
            select_groups = NULL,
            select_var,
            grouping_var = NULL,
-           fecha_aplicacion = 2020) {
-    # connect 2 specific table ------------------------------------------------
+           fecha_de_aplicacion) {
     
-    #DECLARE CONNECTION: https://shiny.rstudio.com/articles/pool-dplyr.html
-    ticometro_table <-
-      dplyr::tbl(db_connection, "ticometro_resultados_main_table")
+
+# Connect depending on year -----------------------------------------------
+
     
+    
+    if (fecha_de_aplicacion == "2020"){
+      
+      #DECLARE CONNECTION: https://shiny.rstudio.com/articles/pool-dplyr.html
+      
+      ticometro_table <- dplyr::tbl(db_connection, "ticometro_resultados_main_table")
+      
+    } else if (fecha_de_aplicacion == "2021"){
+      
+      
+      #* connect 2 specific table ------------------------------------------------
+      
+      #DECLARE CONNECTION: https://shiny.rstudio.com/articles/pool-dplyr.html
+      
+      ticometro_table <- dplyr::tbl(db_connection, "ticometro_resultados_2021")
+      
+    }
     # No grouping case --------------------------------------------------------
     
     #check if group is null or if selected schools are mixed to signal CCH or directivo variables
@@ -44,7 +60,7 @@ countVars <-
             multiple_opcion_var =
               select_var,
             grouping_var = grouping_var,
-            fecha_aplicacion
+            fecha_de_aplicacion = fecha_de_aplicacion
           )
         
         print("im in cch logic multiple choice")
@@ -60,8 +76,7 @@ countVars <-
         
         if (is.null(grouping_var)) {
           counted_df <-  ticometro_table %>%
-            filter(institucion %in% select_schools,
-                   fecha_aplicacion == fecha_aplicacion) %>%
+            filter(institucion %in% select_schools) %>%
             select(institucion, .data[[select_var]]) %>%
             group_by(institucion) %>%
             count(.data[[select_var]]) %>%
@@ -75,8 +90,9 @@ countVars <-
           
           
           counted_df <-  ticometro_table %>%
-            filter(institucion %in% select_schools,
-                   fecha_aplicacion == fecha_aplicacion) %>%
+            filter(
+              institucion %in% select_schools
+                   ) %>%
             select(institucion, .data[[select_var]], .data[[grouping_var]]) %>%
             group_by(institucion, .data[[grouping_var]]) %>%
             count(.data[[select_var]]) %>%
@@ -102,7 +118,7 @@ countVars <-
             select_groups,
             multiple_opcion_var = select_var,
             grouping_var = grouping_var,
-            fecha_aplicacion
+            fecha_de_aplicacion
           )
         
         print("im in enp logic multiple chocie")
@@ -120,8 +136,7 @@ countVars <-
           counted_df <-  ticometro_table %>%
             filter(
               institucion %in% select_schools,
-              grupo %in% select_groups,
-              fecha_aplicacion == fecha_aplicacion
+              grupo %in% select_groups
             ) %>%
             select(institucion, grupo, .data[[select_var]]) %>%
             group_by(institucion, grupo) %>%
@@ -138,9 +153,8 @@ countVars <-
           counted_df <- ticometro_table %>%
             filter(
               institucion %in% select_schools,
-              grupo %in% select_groups,
-              fecha_aplicacion == fecha_aplicacion
-            ) %>%
+              grupo %in% select_groups
+              ) %>%
             select(institucion, grupo, .data[[select_var]], .data[[grouping_var]]) %>%
             group_by(institucion, grupo, .data[[grouping_var]]) %>%
             count(.data[[select_var]]) %>%
@@ -156,7 +170,12 @@ countVars <-
     #ADD INFO TO POPULATE PLOT
     add_info_to_counts <- counted_df %>%
       mutate(#respuesta = forcats::fct_reorder(.data[[select_var]], num_alumnos),
-        "# alumnos" = as.numeric(n)) %>%
+        "# alumnos" = as.numeric(n),
+        institucion = forcats::fct_reorder(
+          forcats::as_factor(institucion),
+          `# alumnos`
+          )
+        ) %>%
       select(!c(n)) %>%
       rename("Institución" = institucion)
     

@@ -1,4 +1,4 @@
-##### TICometro 4 Directivos Server #####
+##### TICometro 4 Directivos Server 2021#####
 
 
 
@@ -98,9 +98,10 @@ server <- function(input, output, session) {
     #reactive tabulated. everytime the reactivelist changes this changes too
     reactive_Directivos_tabulated_data <- reactive({
         countVars(
-            db_connection,
+            db_connection = db_connection,
             select_schools = reactive_Directivos_var_selectors$escuelasPicked,
-            select_var = reactive_Directivos_var_selectors$plotvarPicked
+            select_var = reactive_Directivos_var_selectors$plotvarPicked,
+            fecha_de_aplicacion = "2021"
         )
     })
     
@@ -111,8 +112,9 @@ server <- function(input, output, session) {
     #get main vars 4 cch
     reactive_Directivos_main_data <- reactive(
         get_mainVars_4_planteles(
-            db_connection,
-            reactive_Directivos_var_selectors$escuelasPicked
+            db_connection = db_connection,
+            select_schools = reactive_Directivos_var_selectors$escuelasPicked,
+            fecha_de_aplicacion = "2021"
         )
     )
     
