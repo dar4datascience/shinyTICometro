@@ -2,9 +2,11 @@
 
 # Declaring useful variables ----------------------------------------------
 
-
+grupo <- grupos_2021()
 
 ##### List of variable choices
+
+
 
 datos_de_contexto <- list("Género" = "genero",
                           "Escuela de Procedencia" = "escuela_de_procedencia"
@@ -39,11 +41,11 @@ ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
 #ESCUELAS CCH
 
 #ESCUELAS CCH
-CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
-                                               "CCH Naucalpan",
-                                               "CCH Oriente",
-                                               "CCH Sur",
-                                               "CCH Vallejo")
+CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH AZCAPOTZALCO",
+                                               "CCH NAUCALPAN",
+                                               "CCH ORIENTE",
+                                               "CCH SUR",
+                                               "CCH VALLEJO")
 )
 
 
@@ -109,7 +111,6 @@ shinyUI(
 
 #* Page elements -----------------------------------------------------------
 
-    
     freshTheme = myTheme,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
@@ -121,6 +122,7 @@ shinyUI(
                      color = "#343a40"
     ),
     fullscreen = TRUE,
+    title = "Sitio de Consulta TICometro",
 
 #Control BAR STARTS HERE
 #UNABLE TO DISABLE. USE IT FOR CREDITS
@@ -140,7 +142,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                      ),
       border = FALSE,
       tags$h3(
-        as.character("Consulta los datos del TICómetro  |  Directivos"),
+        as.character("Consulta los datos del TICómetro"),
         id = "title-navbar",
         style = "padding-top: 7px;"
       )
@@ -170,9 +172,9 @@ controlbar = NULL, #END OF CONTROL BAR,
           )
           ),
         menuItem(
-          text = "TICómetro 2020",
+          text = "TICómetro 2021",
           icon = shiny::icon("search"),
-          tabName = "consulta2020",
+          tabName = "consulta2021",
           badgeLabel = "dev",
           badgeColor = "warning"
           # menuSubItem(
@@ -190,17 +192,30 @@ controlbar = NULL, #END OF CONTROL BAR,
       )
     ),# end of side bar
 
-#**Footer ------------------------------------------------------------------
+#** Footer ------------------------------------------------------------------
 
-    footer = bs4Dash::dashboardFooter(
-      fixed = FALSE,
-      left = tags$a(
-        href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-        target = "_blank", "H@bitat Puma, DGTIC, UNAM, Sitio en Desarrollo...."
-      ),
-      right = "2021"
-    ),
 
+footer = dashboardFooter(
+  left = tags$a(
+    href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
+    target = "_blank",
+    tags$p(
+      "®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
+la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
+
+para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
+style = "font-size: 0.9rem;
+text-align: center;
+margin-top: 0;
+margin-bottom: 0;
+padding-left: 150px;
+padding-right: 150px;
+color: black;"
+    )
+  ),
+right = "2021"
+),
+#footer ends
 # **Body ------------------------------------------------------------------
 
 
@@ -215,16 +230,14 @@ controlbar = NULL, #END OF CONTROL BAR,
         #ENP TAB starts here!
         bs4Dash::tabItem(
           role = "tab",
-          tabName = "consulta2020",
+          tabName = "consulta2021",
           fluidRow( id = "texto encima de selectores",
             tags$h5(
               tags$b("Seleccione una o varias opciones:")
             )
           ),
 
-#***selectors -----------------------------------------------------------
-
-          
+#***selectors ----------------------------------------------------------
           fluidRow(
             role = "main",
             column(#STARTS SCHOOL INPUT
@@ -239,7 +252,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                   "CCH" = c(CCH_escuelas$escuela_name)
                 ),
                 multiple = TRUE,
-                selected = c("ENP 1", "CCH Azcapotzalco"),
+                selected = c("ENP 1", "CCH AZCAPOTZALCO"),
                 options = list(
                   style = "btn-secondary"
                 )
@@ -253,9 +266,9 @@ controlbar = NULL, #END OF CONTROL BAR,
               shinyWidgets::pickerInput(
                 inputId = "grupo_select",
                 label = "Grupo:",
-                choices = c("Ninguno", grupo),
+                choices = c(grupo),
                 multiple = TRUE,
-                selected = grupo[1],
+                selected = "Ninguno",
                 options = list(
                   title = "Seleccione una opcion",
                   style = "btn-secondary",
@@ -297,6 +310,7 @@ controlbar = NULL, #END OF CONTROL BAR,
               style = "margin-top: 7px;"
               )
             )# ENDS column ACTION BUTTON
+
           ), #end of fluid row
 
 # ***TabBox -----------------------------------------------------------
@@ -341,8 +355,10 @@ controlbar = NULL, #END OF CONTROL BAR,
                                                                                            size = 3,
                                                                                            color =  "#FFFFFF")
                 ),
-                style = "margin:-18px;"
-              ),
+                style = "margin:-18px;
+                
+                "
+              ), # end of tag append attributes
               tabPanel( #tab for data table
                 role = "tabpanel",
                 "Tabulado de Datos",
@@ -351,7 +367,7 @@ controlbar = NULL, #END OF CONTROL BAR,
               tabPanel(
                 role = "tabpanel",
                 "Hoja de Datos",
-                DT::DTOutput("MainVars_Directivos")
+                reactable::reactableOutput("MainVars_Directivos")
               ), #tab panel HOJA DE DATOS RAW
               dropdownMenu = boxDropdown(
                 id = "seccion mi descarga",

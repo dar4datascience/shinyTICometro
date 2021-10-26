@@ -13,7 +13,7 @@ countVars <-
            select_groups = NULL,
            select_var,
            grouping_var = NULL,
-           fecha_de_aplicacion) {
+           fecha_de_aplicacion = "2021") {
     
 
 # Connect depending on year -----------------------------------------------
@@ -165,10 +165,10 @@ countVars <-
     
     # Mutate df ---------------------------------------------------------------
     
-    clean_title <- clean_plot_titles(select_var)
+    #clean_title <- clean_plot_titles(select_var)
     #ADD INFO TO POPULATE PLOT
     add_info_to_counts <- counted_df %>%
-      mutate(#respuesta = forcats::fct_reorder(.data[[select_var]], num_alumnos),
+      mutate(
         "Num. alumnos" = as.numeric(n),
         institucion = forcats::fct_reorder(
           forcats::as_factor(institucion),

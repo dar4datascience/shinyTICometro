@@ -104,12 +104,13 @@ grupos_2021 <- function(){
     distinct(grupo) %>% 
     collect()
   pool::poolClose(db_connection)
+  
+  grupos <- c("Ninguno", grupos$grupo)
+  
   return(grupos)
 }
 
-db_connection <- connect2database()
 
-grupo <- grupos_2021()$grupo
 
 #' clean_plot_titles
 #'

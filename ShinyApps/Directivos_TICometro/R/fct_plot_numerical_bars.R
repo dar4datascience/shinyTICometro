@@ -16,10 +16,14 @@ plot_numerical_vars <-
       
       plot_df <- df %>%
         select(`Institución`, .data[[var2plot]]) %>%
-        mutate(
-          var2plot = round(signif(.data[[var2plot]], 2)),
-          `Institución` = forcats::fct_infreq(`Institución`)
-        )
+        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>% 
+        count(.data[[var2plot]]) %>%
+        mutate("Num. de Alumnos" = as.numeric(n),
+               `Institución` = forcats::fct_reorder(`Institución`,
+                                                    desc(`Num. de Alumnos`)
+               )
+        ) %>%
+        select(!c(n))
       
       # *Ggplot it --------------------------------------------------------------
       
@@ -34,7 +38,7 @@ plot_numerical_vars <-
             fill,
             "</br></br>Calificación: ",
             signif(x, 2),
-            "</br>Num. alumnos: ",
+            "</br>Num. de Alumnos: ",
             ..count..
           )
         )
@@ -69,7 +73,7 @@ plot_numerical_vars <-
         plotly::layout(autosize = T,
                        margin = list(autoexpand = TRUE)) %>%
         plotly::layout(
-          title = clean_plot_titles(var2plot),
+          title = clean_plot_titles(var2plot) ,
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
           yaxis = list(title = 'Num. de Alumnos'),
@@ -87,17 +91,21 @@ plot_numerical_vars <-
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
         select(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>%
+        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>% 
         group_by(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
         count(.data[[var2plot]]) %>%
-        mutate("Num. de Alumnos" = as.numeric(n)) %>%
+        mutate("Num. de Alumnos" = as.numeric(n),
+               `Institución` = forcats::fct_reorder(`Institución`,
+                                                    desc(`Num. de Alumnos`)
+               )
+               ) %>%
         select(!c(n))
       
       # *Ggplot it --------------------------------------------------------------
       
       p <- plot_df %>%
         ggplot(aes(
-          y = `Num. alumnos`,
+          y = `Num. de Alumnos`,
           x = .data[[var2plot]],
           fill = .data[[groupvar]],
           text = .data[[groupvar]]

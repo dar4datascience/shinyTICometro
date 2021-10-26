@@ -6,7 +6,7 @@ get_mainVars_4_planteles <-
   function(db_connection,
            select_schools,
            select_groups = NULL,
-           fecha_de_aplicacion) {
+           fecha_de_aplicacion = "2021") {
     # logic 2020 ------------------------------------------------
     
     if (fecha_de_aplicacion == "2020") {
@@ -53,16 +53,15 @@ get_mainVars_4_planteles <-
           "Estabilidad de la red en casa",
           "Conexión a Internet fuera de casa",
           "Dispositivo TIC de acceso",
-          "# de dispositivos TIC",
           "Edad de primer uso de TIC",
           "Plataformas Educativas que conoce el estudiante",
           "# de Plataformas Educativas que conoce el estudiante",
-          "Color de cinta obtenida",
           "Calificación TICómetro",
           "Calif. Procesamiento",
           "Calif. Acceso",
           "Calif. Seguridad",
-          "Calif. Colaboración"
+          "Calif. Colaboración",
+          "Color de cinta obtenida"
         )
         
         #rename columns
@@ -151,7 +150,6 @@ get_mainVars_4_planteles <-
         #** Rename columns ----------------------------------------------------------
         
         
-        #Pretty titles
         all_TICometro_variables <- c(
           #"Año del TICómetro",
           "Alumno",
@@ -159,9 +157,8 @@ get_mainVars_4_planteles <-
           "Grupo",
           "Género",
           "Escuela de Procedencia",
-          "Principal dispositivo para Clases a Distancia",
-          "uso_compu_lap?",
-          "Estabilidad de la red para clases",
+          "Uso compartido de laptop o computadora",
+          "Estabilidad de la red en casa",
           "Conexión a Internet fuera de casa",
           "Dispositivo TIC de acceso",
           "Plataformas Educativas que conoce el estudiante",
@@ -175,11 +172,12 @@ get_mainVars_4_planteles <-
           "Color de cinta obtenida"
         )
         
+        
         #rename columns
         colnames(all_main_vars) <- all_TICometro_variables
         
         #** Return object -----------------------------------------------------------
-        
+         print("estoy en 2021")
         
         return(all_main_vars)
         
@@ -197,17 +195,17 @@ get_mainVars_4_planteles <-
         
         #** Rename columns ----------------------------------------------------------
         
-        grouped_TICometro_variables <- c(
-          #Pretty titles
+        all_TICometro_variables <- c(
+          #"Año del TICómetro",
           "Alumno",
           "Plantel",
           "Grupo",
           "Género",
           "Escuela de Procedencia",
-          "Principal dispositivo para Clases a Distancia",
           "Uso compartido de laptop o computadora",
-          "Estabilidad de la red para clases",
+          "Estabilidad de la red en casa",
           "Conexión a Internet fuera de casa",
+          "Dispositivo TIC de acceso",
           "Plataformas Educativas que conoce el estudiante",
           "# de Plataformas Educativas que conoce el estudiante",
           "Edad de primer uso de TIC",
@@ -219,11 +217,12 @@ get_mainVars_4_planteles <-
           "Color de cinta obtenida"
         )
         
+        
         #rename columns
-        colnames(grouped_main_vars) <- grouped_TICometro_variables
+        colnames(grouped_main_vars) <- all_TICometro_variables
         
         #** Return object -----------------------------------------------------------
-        
+         print("estoy en 2021")
         
         return(grouped_main_vars)
         

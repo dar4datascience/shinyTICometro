@@ -5,7 +5,7 @@
 
 # CONNECT OUTSIDE OF THE SERVER FUNCTION ----------------------------------
 
-
+db_connection <- connect2database()  
 
 print("connected 2 database")
 
@@ -71,9 +71,12 @@ server <- function(input, output, session) {
             isolate(input$escuelas_directivos_picked)
         reactive_Directivos_var_selectors$plotvarPicked <-
             isolate(input$plot_directivo_var)
+        reactive_Directivos_var_selectors$gruposPicked <- isolate(input$grupo_select)
         
-        print(input$escuelas_directivos_picked)
-        print(reactive_Directivos_var_selectors$escuelasPicked)
+        print("Uno")
+        print(input$grupo_select)
+        print("dos")
+        print(reactive_Directivos_var_selectors$gruposPicked)
     })
     
     #* Observe Main Event push consulta button ---------------------------------
@@ -89,7 +92,10 @@ server <- function(input, output, session) {
             input$escuelas_directivos_picked
         reactive_Directivos_var_selectors$plotvarPicked <-
             input$plot_directivo_var
+        reactive_Directivos_var_selectors$gruposPicked <- input$grupo_select
         
+        print(input$grupo_select)
+        print(reactive_Directivos_var_selectors$gruposPicked)
     })
     
     
@@ -136,8 +142,9 @@ server <- function(input, output, session) {
                 na.rm = TRUE
             ),
             2)
-        tabulated_directivos$data <-
-            reactive_Directivos_tabulated_data()
+        tabulated_directivos$data <- reactive_Directivos_tabulated_data()
+        
+       #colnames(tabulated_directivos$data)[2] <- clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
         
     })
     
@@ -147,18 +154,18 @@ server <- function(input, output, session) {
     
     # Descarga handler csvs
     
-    output$downloadtabulado <- downloadHandler(
-        filename = function() {
-            paste("datos-tabulados-ticometro-miSeleccion-",
-                  Sys.Date(),
-                  ".csv",
-                  sep = "")
-        },
-        content = function(file) {
-            data.table::fwrite(tabulated_directivos$data, file)
-        },
-        contentType = "text/csv"
-    )
+    #output$downloadtabulado <- downloadHandler(
+     #   filename = function() {
+      #      paste("datos-tabulados-ticometro-miSeleccion-",
+       #           Sys.Date(),
+        #          ".csv",
+         #         sep = "")
+        #},
+        #content = function(file) {
+         #   data.table::fwrite(tabulated_directivos$data, file)
+        #},
+    #    contentType = "text/csv"
+    #)
     
     output$downloadData <- downloadHandler(
         filename = function() {
@@ -187,9 +194,9 @@ server <- function(input, output, session) {
     output$value_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
             value = tags$p(num_alumnos_selected_directivos(),
-                           style = "font-size: 2.5rem;"),
+                           style = "font-size: 2rem;"),
             subtitle = tags$p("Alumnos",
-                              style = "font-size: 1.5rem;"),
+                              style = "font-size: 1.2rem;"),
             color = "success",
             icon = htmltools::tagAppendAttributes(icon("user-friends"),
                                                   style = "color:white;")
@@ -200,9 +207,9 @@ server <- function(input, output, session) {
     output$average_box_Directivos <- bs4Dash::renderbs4ValueBox({
         bs4Dash::valueBox(
             value = tags$p(data_directivos$mean_calif,
-                           style = "font-size: 2.5rem;"),
+                           style = "font-size: 2rem;"),
             subtitle = tags$p("Calificación promedio",
-                              style = "font-size: 1.5rem;"),
+                              style = "font-size: 1.2rem;"),
             color = "success",
             icon = htmltools::tagAppendAttributes(icon("user-graduate"),
                                                   style = "color:white;")
@@ -217,13 +224,22 @@ server <- function(input, output, session) {
         reactable::reactable(
             tabulated_directivos$data,
             defaultSorted = list(`Num. alumnos` = "desc"),
-            defaultColDef = reactable::colDef(align = "center"),
+            defaultColDef = reactable::colDef(align = "center",
+                                              style = JS("function(rowInfo, colInfo, state) {
+       // Highlight sorted columns
+       for (var i = 0; i < state.sorted.length; i++) {
+         if (state.sorted[i].id === colInfo.id) {
+           return { background: 'rgba(0, 0, 0, 0.03)' }
+         }
+       }
+     }")
+     ),
             filterable = TRUE,
             outlined = TRUE,
             highlight = TRUE,
             compact = TRUE,
             theme = reactable::reactableTheme(
-                style = list(fontFamily = "MyriadProBold",
+                style = list(fontFamily = "Arial",
                              fontSize = "20px"),
                 color = "#000000"
             )
@@ -232,26 +248,31 @@ server <- function(input, output, session) {
     
     
     
-    output$MainVars_Directivos <- DT::renderDataTable(
-        reactive_Directivos_main_data(),
-        rownames = FALSE,
-        #Enable download button 1
-        options = list(
-            dom = "lfrtip",
-            # customize the length menu
-            lengthMenu = list(c(10, 20, 50), # declare values
-                              c(10, 20, 50)),
-            # end of lengthMenu customization
-            #To center columns
-            columnDefs = list(list(
-                className = 'dt-center',
-                targets = "_all"
-            )),
-            scrollY = '50vh',
-            scrollX = TRUE,
-            scrollCollapse = TRUE
-        ) # end of options
-    )   # end of renderDatatable
+    output$MainVars_Directivos <-  reactable::renderReactable({
+        reactable::reactable(
+        data_directivos$data,
+        defaultColDef = reactable::colDef(align = "center",
+                                          style = JS("function(rowInfo, colInfo, state) {
+       // Highlight sorted columns
+       for (var i = 0; i < state.sorted.length; i++) {
+         if (state.sorted[i].id === colInfo.id) {
+           return { background: 'rgba(0, 0, 0, 0.03)' }
+         }
+       }
+     }")
+),
+        filterable = TRUE,
+        outlined = TRUE,
+        highlight = TRUE,
+        compact = TRUE,
+        theme = reactable::reactableTheme(
+            style = list(fontFamily = "Arial",
+                         fontSize = "20px"),
+            color = "#000000"
+        )
+        )#end of reactable
+    }) # end of render
+
     
     #* Event cascade7: Render plots --------------------------------------------
     
@@ -266,7 +287,7 @@ server <- function(input, output, session) {
             ignore.case = FALSE
         )) {
             plot_numerical_vars(
-                tabulated_directivos$data,
+                reactive_Directivos_tabulated_data(),
                 isolate(
                     reactive_Directivos_var_selectors$plotvarPicked
                 )

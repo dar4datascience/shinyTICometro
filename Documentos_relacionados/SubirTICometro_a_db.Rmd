@@ -101,6 +101,7 @@ Para poblar esta base de datos useremos el siguiente código.
 Primero seleccionamos las columnas de interés. Después, agregamos la columna de `fecha_aplicacion` . Se renombran dos columnas con nombres similares para que quede claro cual pertenece a qué variable. Finalmente, insertamos los datos a la base de datos con la ayuda del paquete `{dbplyr}`.
 
 #** pivotea y crea una nueva columna
+
 ```{r pivot}
 #PIVOT PLATFORM EDU
 pivoted_df_edu <- tidy_TICometro2020 %>% 
@@ -186,6 +187,9 @@ DT::datatable(glimpse(keyColumns_TICometro2020) %>%
                          sample_n(500))
 ```
 Se aprecia que la columna `fecha_aplicacion` se encuentra hasta el final. __Propongo usar esta columna como identificador de encuestas del TICometro__ para el caso de que existan preguntas irregulares en el futuro se indexen por año.
+
+#** unique values
+
 
 Notesen los valores unicos por columna!!!!!!!
 
