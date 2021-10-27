@@ -132,16 +132,9 @@ get_mainVars_4_planteles <-
       
       
       #check if group is null or if selected schools are mixed to signal CCH or directivo variables
-      if (is.null(select_groups) |
-          (any(stringr::str_detect(select_schools, "ENP"))
-           &
-           any(stringr::str_detect(select_schools, "CCH")))) {
+      if (any(select_groups == "Ninguno")) {
         #end of conditional
-        
-        
         #** QUERY database 4 main variables ------------------------------
-        
-        
         all_main_vars <- ticometro_table %>%
           select(1:18) %>% #the first 20 are the main variables
           filter(institucion %in% select_schools) %>%  #filtra el fecha_aplicacion de aplicacion
@@ -177,7 +170,7 @@ get_mainVars_4_planteles <-
         colnames(all_main_vars) <- all_TICometro_variables
         
         #** Return object -----------------------------------------------------------
-         print("estoy en 2021")
+         print("estoy en 2021 no group")
         
         return(all_main_vars)
         
@@ -222,14 +215,12 @@ get_mainVars_4_planteles <-
         colnames(grouped_main_vars) <- all_TICometro_variables
         
         #** Return object -----------------------------------------------------------
-         print("estoy en 2021")
+        print("estoy en 2021 group")
         
         return(grouped_main_vars)
         
       }
-      
-      
-      
+
     }
     
   }

@@ -26,7 +26,7 @@ nivel_de_acceso <- list(
   "Uso compartido de laptop o computadora" = "compartes_tic",
   "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
   "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-  "Conocimiento sobre plataformas educativas" = "plataformas_edu_known",
+  "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
   "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 
@@ -369,6 +369,11 @@ right = "2021"
                 "Hoja de Datos",
                 reactable::reactableOutput("MainVars_Directivos")
               ), #tab panel HOJA DE DATOS RAW
+              
+
+# **** Dropdown 4 download ------------------------------------------------
+
+              
               dropdownMenu = boxDropdown(
                 id = "seccion mi descarga",
                 role = "region",
@@ -427,12 +432,9 @@ right = "2021"
                   tags$h4("Seleccione una o varias opciones: "),
                   div(id = "button que se activa con ENTER",
                       htmltools::tagAppendAttributes(
-                        shinyWidgets::actionBttn(
-                          inputId = "activa_descarga",
-                          label = "Consulta",
-                          style = "gradient",
-                          color = "success"
-                        ),
+                        shiny::downloadButton(outputId = "MasivedownloadData",
+                                              "Consula",
+                                              icon = icon(name = "database"),
                         role = "button"
                       ),
                       style = "padding-left: 200px;"

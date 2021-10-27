@@ -10,7 +10,7 @@
 countVars <-
   function(db_connection,
            select_schools,
-           select_groups = NULL,
+           select_groups,
            select_var,
            grouping_var = NULL,
            fecha_de_aplicacion = "2021") {
@@ -39,15 +39,9 @@ countVars <-
     # No grouping case --------------------------------------------------------
     
     #check if group is null or if selected schools are mixed to signal CCH or directivo variables
-    if (is.null(select_groups) |
-        (any(stringr::str_detect(select_schools, "ENP"))
-         &
-         any(stringr::str_detect(select_schools, "CCH")))) {
-      #end of conditional
-      
-      
+    if (any(select_groups == "Ninguno")) {
+
       #* if multiple option question ---------------------------------------------
-      
       
       if (select_var == "plataformas_edu_known") {
         #a collected query
@@ -55,18 +49,16 @@ countVars <-
           handle_multiple_choice_questions(
             ticometro_table,
             select_schools,
-            select_groups = NULL,
-            multiple_opcion_var =
-              select_var,
+            select_groups = "Ninguno",
+            multiple_opcion_var = select_var,
             grouping_var = grouping_var,
             fecha_de_aplicacion = fecha_de_aplicacion
           )
         
         print("im multiple choice no groups")
+        
       } else{
         #count regularly
-        
-        
         #* if normal question ------------------------------------------------------
         
         
@@ -86,8 +78,7 @@ countVars <-
           #count specially
           
           #** Grouping 2 --------------------------------------------------------------
-          
-          
+
           counted_df <-  ticometro_table %>%
             filter(
               institucion %in% select_schools
@@ -106,8 +97,6 @@ countVars <-
       
       #* if multiple option quesiton ---------------------------------------------
       
-      
-      
       if (select_var == "plataformas_edu_known") {
         #a collected query
         counted_df <-
@@ -117,16 +106,15 @@ countVars <-
             select_groups,
             multiple_opcion_var = select_var,
             grouping_var = grouping_var,
-            fecha_de_aplicacion
+            fecha_de_aplicacion 
           )
         
-        print("im in grouped multiple choice")
+        print("im in grouped multiple choice platform edu")
         
       } else{
         #count normally
         
         #* If normal question ------------------------------------------------------
-        
         
         #** No grouping 2 -----------------------------------------------------------
         
@@ -147,7 +135,6 @@ countVars <-
           #count specially
 
 # ** Grouping 2 ------------------------------------------------------------
-
           
           counted_df <- ticometro_table %>%
             filter(
