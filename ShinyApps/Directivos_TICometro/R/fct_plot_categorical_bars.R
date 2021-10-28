@@ -15,6 +15,21 @@
 #Takes a counted variable in a dataframe
 plot_categorical_vars <-
   function(df, var2fill, groupvar = "ninguno") {
+
+# Define own palette ------------------------------------------------------
+   # my_palette <-  scale_fill_manual(values = c("#758830",
+    #                         "#ac6882",
+     #                        "#c27356",
+      #                       "#6c86c3",
+       #                      "#9b5163",
+        #                     "#8395b4",
+         #                    "#e66aa4",
+          #                   "#55874a",
+           #                  "#a58713",
+            #                 "#7a7a7a"))
+   
+
+    
     # Caso no group variable --------------------------------------------------
     
     
@@ -27,33 +42,36 @@ plot_categorical_vars <-
         
         
         df[["cinta"]] <-
-          factor(df[["cinta"]], levels = c("Negra", "Azul", "Naranja", "Blanca"))
+          factor(df[["cinta"]], levels = c("Cinta negra",
+                                           "Cinta azul",
+                                           "Cinta anaranjada",
+                                           "Cinta blanca")
+                 )
         #df[["cinta"]] <- forcats::fct_rev(df[["cinta"]])
         
         # **Ggplot it --------------------------------------------------------------
         
         p <- df %>% ggplot(aes(
-          y = `# alumnos`,
+          y = `Num. alumnos`,
           x = `Institución`,
-          fill = `cinta`,
-          text = `cinta`
+          fill = `cinta`
         )) +
           geom_col() +
           coord_flip() +
           theme(
-            axis.text.x = element_text("# de Alumnos"),
+            axis.text.x = element_text("Num. de Alumnos"),
             axis.text.y = element_text("Institución"),
             legend.title = element_blank()
           ) +
           scale_fill_manual(
             values = c(
-              "Blanca" = "#bcbcbc",
-              "Naranja" = "#ffa500",
-              "Azul" = "#0000ff",
-              "Negra" = "#000000"
+              "Cinta blanca" = "#bcbcbc",
+              "Cinta anaranjada" = "#ffa500",
+              "Cinta azul" = "#0000ff",
+              "Cinta negra" = "#000000"
             )
           )
-        
+
         #** Plotly it ---------------------------------------------------------------
         
         fig <- ggplotly(p, tooltip = c("y", "x", "fill"))
@@ -88,20 +106,35 @@ plot_categorical_vars <-
             } else{
               #* Caso no elijo cinta  --------------------------------------------------
               
+
+# Mutate to reorder factors -----------------------------------------------
+
+              ordered_df <- df %>%
+                mutate(
+                  respuesta = forcats::fct_reorder(
+                    forcats::as_factor(.data[[var2fill]]),
+                                                   desc(`Num. alumnos`)
+                  ),
+                  `Institución` = forcats::fct_reorder(`Institución`,
+                                                       desc(`Num. alumnos`)
+                  )
+                ) %>% 
+                select(!c(.data[[var2fill]]))
+                
+              
               # **Ggplot it --------------------------------------------------------------
               
-              p <- df %>% ggplot(aes(
-                y = `# alumnos`,
+              p <- ordered_df %>% ggplot(aes(
+                y = `Num. alumnos`,
                 x = `Institución`,
-                fill = .data[[var2fill]],
-                text = .data[[var2fill]]
+                fill = respuesta
               )) +
                 geom_col() +
                 coord_flip() +
                 theme(
-                  axis.text.x = element_text("# de Alumnos"),
+                  axis.text.x = element_text("Num. de Alumnos"),
                   axis.text.y = element_text("Institución")
-                )
+                ) #+ my_palette
               
               # **Plotly it -------------------------------------------------------------
               
@@ -135,6 +168,7 @@ plot_categorical_vars <-
                                # **return object ---------------------------------------------------------
                                
                                return(fig)
+              
                                }
       
             } else{
@@ -145,30 +179,31 @@ plot_categorical_vars <-
               if (var2fill == "cinta") {
                 # **Order levels of cinta -------------------------------------------------
                 
-                df[["cinta"]] <-
-                  factor(df[["cinta"]], levels = c("Negra", "Azul", "Naranja", "Blanca"))
-                #df[["cinta"]] <- forcats::fct_rev(df[["cinta"]])
                 
+                df[["cinta"]] <-
+                  factor(df[["cinta"]], levels = c("Cinta negra",
+                                                   "Cinta azul",
+                                                   "Cinta anaranjada",
+                                                   "Cinta blanca"))  
                 
                 # **Ggplot it --------------------------------------------------------------
                 
                 p <- df %>% ggplot(aes(
-                  y = `# alumnos`,
+                  y = `Num. alumnos`,
                   x = .data[[groupvar]],
-                  fill = .data[["cinta"]],
-                  text = .data[["cinta"]]
+                  fill = `cinta`
                 )) +
                   geom_col() +
                   facet_wrap(~ `Institución`) +
                   coord_flip()  +
-                  theme(axis.text.x = element_text("# de Alumnos"),
+                  theme(axis.text.x = element_text("Num. de Alumnos"),
                         axis.text.y = element_text("Grupo")) +
                   scale_fill_manual(
                     values = c(
-                      "Blanca" = "#bcbcbc",
-                      "Naranja" = "#ffa500",
-                      "Azul" = "#0000ff",
-                      "Negra" = "#000000"
+                      "Cinta blanca" = "#bcbcbc",
+                      "Cinta anaranjada" = "#ffa500",
+                      "Cinta azul" = "#0000ff",
+                      "Cinta negra" = "#000000"
                     )
                   )
                 #** Plotly it ---------------------------------------------------------------
@@ -204,21 +239,35 @@ plot_categorical_vars <-
                 
               } else{
                 #* Caso no elijo cinta  --------------------------------------------------
+
+# Mutate to reorder factors -----------------------------------------------
+
+                
+                ordered_df <- df %>%
+                  mutate(
+                    respuesta = forcats::fct_reorder(
+                      forcats::as_factor(.data[[var2fill]]),
+                                                     desc(`Num. alumnos`)
+                    ),
+                    `Institución` = forcats::fct_reorder(`Institución`,
+                                                         desc(`Num. alumnos`)
+                    )
+                  ) %>% 
+                  select(!c(.data[[var2fill]]))
                 
                 # **Ggplot it --------------------------------------------------------------
                 
                 p <-
-                  df %>% ggplot(aes(
-                    y = `# alumnos`,
+                  ordered_df %>% ggplot(aes(
+                    y = `Num. alumnos`,
                     x = .data[[groupvar]],
-                    fill = .data[[var2fill]],
-                    text = .data[[var2fill]]
+                    fill = respuesta
                   )) +
                   geom_col() +
-                  facet_wrap(~ `Institución`) +
+                  facet_wrap(~`Institución`) +
                   coord_flip()  +
-                  theme(axis.text.x = element_text("# de Alumnos"),
-                        axis.text.y = element_text("Grupo"))
+                  theme(axis.text.x = element_text("Num. de Alumnos"),
+                        axis.text.y = element_text("Grupo")) #+my_palette
                 # **Plotly it -------------------------------------------------------------
                 
                 fig <-

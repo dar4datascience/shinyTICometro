@@ -12,13 +12,22 @@
 handle_multiple_choice_questions <-
   function(ticometro_table,
            select_schools,
-           select_groups = NULL,
+           select_groups,
            multiple_opcion_var,
            grouping_var = NULL,
-           fecha_aplicacion = 2020) {
+           fecha_de_aplicacion = "2021") {
+   
+    # Do depending on year -----------------------------------------------
+    
+
+# Logic 2020 --------------------------------------------------------------
+
+    
+    if (fecha_de_aplicacion == "2020"){
+      
     # No grouping 1 case --------------------------------------------------------
-    
-    
+      
+      
     #check if group is null or if selected schools are mixed to signal CCH or directivo variables
     if (is.null(select_groups) |
         (any(stringr::str_detect(select_schools, "ENP"))
@@ -286,6 +295,68 @@ handle_multiple_choice_questions <-
         
         return(tidy_multiple_2choices_ENP)
         
+      }
+      
+    }
+
+
+# Logic 2021 --------------------------------------------------------------
+
+
+    } else if (fecha_de_aplicacion == "2021"){
+      
+      # Global count No grouping 1 case --------------------------------------------------------
+      
+      if (any(select_groups == "Ninguno")) {
+        
+        print("im in global 2021 count")
+        count_var_4_directivos_and_cch <- ticometro_table %>%
+          select(2, 19:27) %>%  #grab eduplatform multiple choice
+          filter(institucion %in% select_schools) %>%
+          tidyr::pivot_longer(!institucion,
+                              names_to = "plataformas_edu_known",
+                              values_to = "respuesta") %>%
+          filter(respuesta != "0") %>%
+          select(!plataformas_edu_known) %>%
+          group_by(institucion, respuesta) %>% 
+          count() %>%
+          collect()
+
+        #*** return object ----------------------------------------------------------
+        
+        
+        return(count_var_4_directivos_and_cch)
+        
+      }else{
+      
+      # Count by group. Grouping 1 case ---------------------------------------------------------
+        
+        print("im in group 2021 count")
+      #** if plataforma known. No other options -----------------------------------------------------
+      
+      count_var_4_ENP <-
+        ticometro_table %>%  #A conection pointing to the ticometro table
+        select(2, 3, 19:27) %>%
+        filter(
+          institucion %in% select_schools,
+          grupo %in% select_groups
+        ) %>%
+        tidyr::pivot_longer(!c(institucion, grupo),
+                            names_to = "plataformas_edu_known",
+                            values_to = "respuesta") %>%
+        filter(respuesta != "0") %>%
+        select(!plataformas_edu_known) %>%
+        group_by(institucion, grupo, respuesta) %>% 
+        count() %>%
+        collect()
+      
+  
+      #*** return object -----------------------------------------------------------
+      
+      
+      return(count_var_4_ENP)
+      
+    
       }
       
     }

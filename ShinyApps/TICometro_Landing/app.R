@@ -25,7 +25,7 @@ datos_de_contexto <- list("Género",
 
 habilidades_digitales <- list(
   "Color de cinta obtenida",
-  "Calificación TICometro",
+  "Calificación TICómetro",
   "Calif. Procesamiento",
   "Calif. Acceso",
   "Calif. Seguridad",
@@ -34,13 +34,12 @@ habilidades_digitales <- list(
 
 nivel_de_acceso <- list(
   "Edad de primer uso de TIC",
-  "Acceso a Dispositivos" ,
-  "# de Dispositivos TIC" ,
+  "Principal dispositivo para Clases a Distancia",
   "Uso compartido de laptop o computadora",
   "Estabilidad de la red en casa" ,
   "Conexión a Internet fuera de casa" ,
   "Conocimiento sobre plataformas educativas" ,
-  "# de Plataformas Educativas que conoce el estudiante"
+  "Num. de Plataformas Educativas que conoce el estudiante"
 )
 
 #Lista Escuelas ENP
@@ -66,22 +65,29 @@ CCH_escuelas <- dplyr::tibble(
 variables_del_ticometro_df <- dplyr::tibble('Variable' = c(datos_de_contexto, nivel_de_acceso, habilidades_digitales))
 
 participacion_en_el_ticometro_df <- dplyr::tibble(
-  "Escuela" =   c(CCH_escuelas$escuela_name, ENP_escuelas$escuela_name),
+  "Escuela" =   c(CCH_escuelas$escuela_name,
+                  "Total CCH",
+                  ENP_escuelas$escuela_name,
+                  "Total ENP",
+                  "Total Bachillerato"),
   `# alumnos que participaron` = c(
-    3161,
-    2884,
-    2891,
-    3461,
-    3282,
-    1090,
-    1597,
-    1257,
-    1224,
-    2100,
-    1553,
-    1542,
-    1429,
-    1467
+    "89%",
+    "83%",
+    "77%",
+    "90%",
+    "88%",
+    "86%",
+    "85%",
+    "88%",
+    "88%",
+    "82%",
+    "83%",
+    "90%",
+    "86%",
+    "75%",
+    "94%",
+    "85%",
+    "85%"
   )
 )
 
@@ -140,7 +146,7 @@ myTheme <-
     ),
     bs4dash_font(#size_base = "1.5rem",
       #weight_bold = 900,
-      family_base = "MyriadPro-Regular")
+      family_base = "Arial")
   )
 
 # Start of UI -------------------------------------------------------------
@@ -187,12 +193,13 @@ ui <- dashboardPage(
 la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
 
 para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
-style = "font-size: 0.7rem;
+style = "font-size: 0.9rem;
 text-align: center;
 margin-top: 0;
 margin-bottom: 0;
 padding-left: 150px;
-padding-right: 150px;"
+padding-right: 150px;
+color: black;"
       )
     ),
 right = "2021"
@@ -208,7 +215,7 @@ body = dashboardBody(
   fluidRow(
     id = "logo dgtic",
     tags$img(src = "logo_dgtic.png", alt = "un logo compuesto en la izquierda del escudo de la UNAM y las letras DGTIC abajo y a la derecha el texto: Universidad Nacional Autónoma de México, Dirección General de Cómputo y de Tecnologías de Información y Comunicación.",
-             width = "40%")
+             width = "50%")
   ),
   fluidRow(
     id = "logo ticometro",
@@ -247,7 +254,7 @@ body = dashboardBody(
     ),
 	fluidRow(id = "titulo encima de botones",
 	         tags$h2(
-	           tags$b("Consulta los Resultados del 2020!")
+	           tags$b("Consulta los Resultados!")
 	         )),
 	
 	#** Botones con hipervinculos -----------------------------------------------
@@ -255,18 +262,18 @@ body = dashboardBody(
 	
 	fluidRow(
 	  id = "renglon con botones para los sitios de consulta",
-	  splitLayout(
+	  #splitLayout(
 	    htmltools::tagAppendAttributes(
-	      style = "left: 60%;",
+	      #style = "left: 60%;",
 	      box(
-	        id = "buton_directivos",
+	        id = "buton_2021",
 	        width = 4,
 	        headerBorder = FALSE,
 	        collapsible = FALSE,
 	        tags$a(
 	          href  = "http://132.248.10.243:3838/El-Duque/Directivos_TICometro/",
 	          tags$h3(
-	            tags$b("Directivos"),
+	            tags$b("2021"),
 	            align = "center",
 	            style = "margin-bottom: 0px;
                          margin-top: -25px;"
@@ -275,32 +282,37 @@ body = dashboardBody(
 	          role = "button"
 	        ),
 	        background = "maroon"
-	      )
-	    ),
-	    htmltools::tagAppendAttributes(
-	      style = "",
-	      box(
-	        id = "buton_profesores",
-	        width = 4,
-	        title = NULL,
-	        headerBorder = FALSE,
-	        collapsible = FALSE,
-	        tags$a(
-	          href  = "http://132.248.10.243:3838/El-Duque/Profes_TICometro/",
-	          tags$h3(
-	            tags$b("Profesores", ),
-	            align = "center",
-	            style = "margin-bottom: 0px;
-                         margin-top: -25px;"
-	          ),
-	          style = "color: white",
-	          role = "button"
-	        ),
-	        background = "olive"
-	      )
-	    )#end of append attributes
-	  )#end of split layout
+	      ) #end of box
+	    ) #end append attributes
+	    #,	    htmltools::tagAppendAttributes(
+	     # style = "",
+	      #box(
+	    #  id = "buton_profesores",
+	    #   width = 4,
+	    #   title = NULL,
+	    #   headerBorder = FALSE,
+	    #   collapsible = FALSE,
+	    #   tags$a(
+	    #     href  = "http://132.248.10.243:3838/El-Duque/Profes_TICometro/",
+	    #     tags$h3(
+	    #       tags$b("Profesores", ),
+	    #       align = "center",
+	    #       style = "margin-bottom: 0px;
+	    #                  margin-top: -25px;"
+	    #     ),
+	    #     style = "color: white",
+	    #     role = "button"
+	    #   ),
+	    #   background = "olive"
+	    # )
+	   # )#end of append attributes
+	 # )#end of split layout
 	),
+	
+
+#** Cajas con informacion del TICometro -------------------------------------
+
+	
 	#end of fluid row
 	fluidRow(
 	  bs4Dash::box(
@@ -353,22 +365,20 @@ server <- function(input, output) {
       participacion_en_el_ticometro_df,
       outlined = TRUE,
       highlight = TRUE,
-      defaultPageSize  = 14,
+      defaultPageSize  = 17,
       columns = list(
-        "Escuela" = colDef(footer = "Total General"),
         `# alumnos que participaron` = colDef(
-          format = colFormat(separators = TRUE),
-          footer = prettyNum(
-            sum(
-              participacion_en_el_ticometro_df$`# alumnos que participaron`
-            ),
-            big.mark = ","
-          )
+          format = colFormat(separators = TRUE)
         )
-        
       ),
-      defaultColDef = colDef(footerStyle = list(fontWeight = "bold"))
-    )
+      rowStyle = function(index) {
+        if (index %in% c(6,16, 17)) {
+          list(fontWeight = "bold",
+               background = "rgba(0, 0, 0, 0.05)"
+               )
+          }
+      }
+      )
   })
   
   

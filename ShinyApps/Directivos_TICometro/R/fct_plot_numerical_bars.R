@@ -13,13 +13,13 @@ plot_numerical_vars <-
     
     if (groupvar == "ninguno") {
       #* Data transform ----------------------------------------------------------
-      
+      print("im in no grouping plot numerical")
       plot_df <- df %>%
+        ungroup() %>% 
         select(`Institución`, .data[[var2plot]]) %>%
-        mutate(
-          var2plot = round(signif(.data[[var2plot]], 2)),
-          `Institución` = forcats::fct_infreq(`Institución`)
-        )
+        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>%
+        select(!.data[[var2plot]]) %>% 
+        group_by(`Institución`, respuesta) 
       
       # *Ggplot it --------------------------------------------------------------
       
@@ -27,14 +27,14 @@ plot_numerical_vars <-
       p <- ggplot(
         dplyr::arrange(plot_df, `Institución`),
         aes(
-          x = .data[[var2plot]],
+          x = respuesta,
           fill = `Institución`,
           text = paste0(
             "Institución: ",
             fill,
             "</br></br>Calificación: ",
             signif(x, 2),
-            "</br># alumnos: ",
+            "</br>Num. de Alumnos: ",
             ..count..
           )
         )
@@ -69,10 +69,10 @@ plot_numerical_vars <-
         plotly::layout(autosize = T,
                        margin = list(autoexpand = TRUE)) %>%
         plotly::layout(
-          title = clean_plot_titles(var2plot),
-          font = list(family = "MyriadProBold"),
+          title = clean_plot_titles(var2plot) ,
+          font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          yaxis = list(title = '# de Alumnos'),
+          yaxis = list(title = 'Num. de Alumnos'),
           xaxis = list(title = 'Calificación')
           #,font=list(size = 30)
         )
@@ -83,29 +83,34 @@ plot_numerical_vars <-
       
     } else{
       # Caso grouping variable --------------------------------------------------
-      
+      print("im in grouping")
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
+        ungroup() %>% 
         select(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>%
-        group_by(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        count(.data[[var2plot]]) %>%
-        mutate("# alumnos" = as.numeric(n)) %>%
+        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>% 
+        group_by(`Institución`, .data[[groupvar]], respuesta) %>%
+        count(respuesta) %>%
+        mutate("Num. de Alumnos" = as.numeric(n),
+               `Institución` = forcats::fct_reorder(`Institución`,
+                                                    desc(`Num. de Alumnos`)
+               )
+               ) %>%
         select(!c(n))
       
       # *Ggplot it --------------------------------------------------------------
       
       p <- plot_df %>%
         ggplot(aes(
-          y = `# alumnos`,
-          x = .data[[var2plot]],
+          y = `Num. de Alumnos`,
+          x = respuesta,
           fill = .data[[groupvar]],
           text = .data[[groupvar]]
         )) +
         geom_col() +
         facet_wrap(~ `Institución`) +
         theme(
-          axis.text.y = element_text("# de Alumnos"),
+          axis.text.y = element_text("Num. de Alumnos"),
           axis.text.x = element_text("Calificación")
         )
       
@@ -138,7 +143,7 @@ plot_numerical_vars <-
         ) %>%
         plotly::layout(
           title = clean_plot_titles(var2plot),
-          font = list(family = "MyriadProBold"),
+          font = list(family = "Arial"),
           legend = list(title = list(text = ''))
           #,font=list(size = 30)
         )

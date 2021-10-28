@@ -1,31 +1,33 @@
-#### TICometro 4 Directivos UI ##########
+#### TICometro 4 Directivos UI 2021##########
 
 # Declaring useful variables ----------------------------------------------
 
-
+grupo <- grupos_2021()
 
 ##### List of variable choices
+
+
 
 datos_de_contexto <- list("Género" = "genero",
                           "Escuela de Procedencia" = "escuela_de_procedencia"
 )
 
 habilidades_digitales <- list("Color de cinta obtenida" = "cinta",
-                              "Calificación TICometro" = "calif_checker",
+                              "Calificación TICómetro" = "calif_checker",
                               "Calif. Procesamiento" = "calif_proces_admin_infor",
                               "Calif. Acceso" = "calif_acceso_informacion",
                               "Calif. Seguridad" = "calif_seguridad",
                               "Calif. Colaboración" = "calif_colabor_comunic")
 
 nivel_de_acceso <- list(
-  "Edad de primer uso de TIC" = "edad_uso_dispositivo",
-  "Acceso a Dispositivos" = "dispositivos_electronicos",
-  "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
+  #"Edad de primer uso de TIC" = "edad_uso_dispositivo",
+  "Principal dispositivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
+  #"# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
   "Uso compartido de laptop o computadora" = "compartes_tic",
   "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
   "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-  "Conocimiento sobre plataformas educativas" = "plataformas_edu_known",
-  "# de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
+  #"Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
+  "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 
 
@@ -39,24 +41,24 @@ ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
 #ESCUELAS CCH
 
 #ESCUELAS CCH
-CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH Azcapotzalco",
-                                               "CCH Naucalpan",
-                                               "CCH Oriente",
-                                               "CCH Sur",
-                                               "CCH Vallejo")
+CCH_escuelas <- dplyr::tibble(escuela_name = c("CCH AZCAPOTZALCO",
+                                               "CCH NAUCALPAN",
+                                               "CCH ORIENTE",
+                                               "CCH SUR",
+                                               "CCH VALLEJO")
 )
 
 
 # Fresh theme -------------------------------------------------------------
 
 # CODE TO CHANGE COLORS OF THE APP
-myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash("navbar")
+myTheme <- fresh::create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash("navbar")
   bs4dash_vars(
     main_header_light_form_control_bg = "gray_x_light",
     navbar_light_color = "#343A40 !important"
   ),
   bs4dash_sidebar_light(
-    bg = "#EBEBEB",
+    bg = "#EBEBEB"
   ),
   bs4dash_layout(
     main_bg = "#f0f5f8"
@@ -95,7 +97,7 @@ myTheme <- create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_bs4dash(
   bs4dash_font(
     #size_base = "1rem",
     #weight_bold = 900,
-    family_base = "MyriadProBold"
+    family_base = "Arial"
   )
 )
 
@@ -109,7 +111,6 @@ shinyUI(
 
 #* Page elements -----------------------------------------------------------
 
-    
     freshTheme = myTheme,
     #HEAD tags 4 various reasons
     tags$head(# Note the wrapping of the string in HTML()
@@ -121,6 +122,7 @@ shinyUI(
                      color = "#343a40"
     ),
     fullscreen = TRUE,
+    title = "Sitio de Consulta TICometro",
 
 #Control BAR STARTS HERE
 #UNABLE TO DISABLE. USE IT FOR CREDITS
@@ -140,7 +142,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                      ),
       border = FALSE,
       tags$h3(
-        as.character("Consulta los datos del TICómetro  |  Directivos"),
+        as.character("Consulta los datos del TICómetro"),
         id = "title-navbar",
         style = "padding-top: 7px;"
       )
@@ -170,9 +172,9 @@ controlbar = NULL, #END OF CONTROL BAR,
           )
           ),
         menuItem(
-          text = "TICómetro 2020",
+          text = "TICómetro 2021",
           icon = shiny::icon("search"),
-          tabName = "consulta2020",
+          tabName = "consulta2021",
           badgeLabel = "dev",
           badgeColor = "warning"
           # menuSubItem(
@@ -190,17 +192,30 @@ controlbar = NULL, #END OF CONTROL BAR,
       )
     ),# end of side bar
 
-#**Footer ------------------------------------------------------------------
+#** Footer ------------------------------------------------------------------
 
-    footer = bs4Dash::dashboardFooter(
-      fixed = FALSE,
-      left = tags$a(
-        href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-        target = "_blank", "H@bitat Puma, DGTIC, UNAM, Sitio en Desarrollo...."
-      ),
-      right = "2021"
-    ),
 
+footer = dashboardFooter(
+  left = tags$a(
+    href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
+    target = "_blank",
+    tags$p(
+      "®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
+la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
+
+para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
+style = "font-size: 0.9rem;
+text-align: center;
+margin-top: 0;
+margin-bottom: 0;
+padding-left: 150px;
+padding-right: 150px;
+color: black;"
+    )
+  ),
+right = "2021"
+),
+#footer ends
 # **Body ------------------------------------------------------------------
 
 
@@ -215,20 +230,18 @@ controlbar = NULL, #END OF CONTROL BAR,
         #ENP TAB starts here!
         bs4Dash::tabItem(
           role = "tab",
-          tabName = "consulta2020",
+          tabName = "consulta2021",
           fluidRow( id = "texto encima de selectores",
             tags$h5(
               tags$b("Seleccione una o varias opciones:")
             )
           ),
 
-#***selectors -----------------------------------------------------------
-
-          
+#***selectors ----------------------------------------------------------
           fluidRow(
             role = "main",
             column(#STARTS SCHOOL INPUT
-              width = 4,
+              width = 3,
               htmltools::tagAppendAttributes(
               #USE PICKER FOR EASY MULTIPLE SELECTION
               shinyWidgets::pickerInput(
@@ -239,7 +252,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                   "CCH" = c(CCH_escuelas$escuela_name)
                 ),
                 multiple = TRUE,
-                selected = c("ENP 1", "CCH Azcapotzalco"),
+                selected = c("ENP 1", "CCH AZCAPOTZALCO"),
                 options = list(
                   style = "btn-secondary"
                 )
@@ -247,6 +260,22 @@ controlbar = NULL, #END OF CONTROL BAR,
               role = "button",
               id = "selector de escuelas")
             ),#END OF SCHOOL INPUT
+            column( #sTARTS GRUPO INPUT
+              width = 2,
+              #use picker with searchable
+              shinyWidgets::pickerInput(
+                inputId = "grupo_select",
+                label = "Grupo:",
+                choices = c(grupo),
+                multiple = TRUE,
+                selected = "Ninguno",
+                options = list(
+                  title = "Seleccione una opcion",
+                  style = "btn-secondary",
+                  `live-search` = TRUE
+                )
+              )
+            ), #ENDS GRUPO INPUT
             column(
               width = 4,
               htmltools::tagAppendAttributes(
@@ -281,6 +310,7 @@ controlbar = NULL, #END OF CONTROL BAR,
               style = "margin-top: 7px;"
               )
             )# ENDS column ACTION BUTTON
+
           ), #end of fluid row
 
 # ***TabBox -----------------------------------------------------------
@@ -325,8 +355,10 @@ controlbar = NULL, #END OF CONTROL BAR,
                                                                                            size = 3,
                                                                                            color =  "#FFFFFF")
                 ),
-                style = "margin:-18px;"
-              ),
+                style = "margin:-18px;
+                
+                "
+              ), # end of tag append attributes
               tabPanel( #tab for data table
                 role = "tabpanel",
                 "Tabulado de Datos",
@@ -335,27 +367,35 @@ controlbar = NULL, #END OF CONTROL BAR,
               tabPanel(
                 role = "tabpanel",
                 "Hoja de Datos",
-                DT::DTOutput("MainVars_Directivos")
+                reactable::reactableOutput("MainVars_Directivos")
               ), #tab panel HOJA DE DATOS RAW
+              
+
+# **** Dropdown 4 download ------------------------------------------------
+
+              
               dropdownMenu = boxDropdown(
                 id = "seccion mi descarga",
                 role = "region",
                 icon = shiny::icon("download", 
                                    class = "fa-2x"),
                 #when passing an id to boxDropdownItem it will behave like a button!
-                boxDropdownItem("Descargue su gráfica",
-                                id = "descarga_grafica",
-                                role = "button",
-                                icon = shiny::icon(name = "signal", lib = "glyphicon")
-                                ),
-                  shiny::downloadButton(outputId = "downloadtabulado",
-                               "Descargue su selección de datos",
-                               icon = icon(name = "calculator")
-                               ),
+                #boxDropdownItem("Descargue su gráfica",
+                 #               id = "descarga_grafica",
+                  #              role = "button",
+                   #             icon = shiny::icon(name = "signal", lib = "glyphicon")
+                    #            ),
+                  #shiny::downloadButton(outputId = "downloadtabulado",
+                   #            "Descargue su selección de datos",
+                    #           icon = icon(name = "calculator")
+                     #          ),
+                htmltools::tagAppendAttributes(
+                  style = "background: black;",
                 shiny::downloadButton(outputId = "downloadData",
                                 "Descargue su hoja de datos",
                                 icon = icon(name = "database")
                   )
+                ) #end of append attributes
               )# end of drop down
             )#end of tab box
           ),#end of fluid row
@@ -392,16 +432,14 @@ controlbar = NULL, #END OF CONTROL BAR,
                   tags$h4("Seleccione una o varias opciones: "),
                   div(id = "button que se activa con ENTER",
                       htmltools::tagAppendAttributes(
-                        shinyWidgets::actionBttn(
-                          inputId = "activa_descarga",
-                          label = "Consulta",
-                          style = "gradient",
-                          color = "success"
-                        ),
+                        shiny::downloadButton(outputId = "MassivedownloadData",
+                                              "Consula",
+                                              icon = icon(name = "database"),
                         role = "button"
-                      ),
-                      style = "padding-left: 200px;"
-                  )
+                      )
+                      #,style = "padding-left: 200px;"
+                  ) #end of append attributes
+                  ) #end of div
                 ),#end of fluid row
                 tags$div(
                   id = "descarga masiva",
@@ -413,7 +451,7 @@ controlbar = NULL, #END OF CONTROL BAR,
                            br(),
                            checkboxGroupButtons(
                              inputId = "massiveDownload",
-                             label = "2020",
+                             label = "2021",
                              choices = c("ENP", 
                                          "CCH"),
                              checkIcon = list(
@@ -425,9 +463,10 @@ controlbar = NULL, #END OF CONTROL BAR,
                              direction = "vertical",
                              size = "lg"
                            )
-                           ),#end of column
+                           )#end of column
                   ),#fluid row ends
-                  style = "background-color: white;")#div ends
+                  style = "background-color: white;"
+                  )#div ends
         ) #TAB DESCARGA ENDS
       ), #tabItems ENDS
       #appeding attributes to main tabset
@@ -436,8 +475,6 @@ controlbar = NULL, #END OF CONTROL BAR,
       ),
 
 #* Final page elements -----------------------------------------------------
-
-
       useWaiter(),
       useSever(),
       autoWaiter(id = c("value_box_Directivos",

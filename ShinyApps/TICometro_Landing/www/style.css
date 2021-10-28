@@ -1,40 +1,4 @@
 @font-face {
-    font-family: 'MyriadProRegular2';
-    src: url('MyriadPro-Regular.eot');
-    src: url('MyriadPro-Regular.eot?#iefix') format('embedded-opentype'),
-        url('MyriadPro-Regular.woff2') format('woff2'),
-        url('MyriadPro-Regular.woff') format('woff'),
-        url('MyriadPro-Regular.ttf') format('truetype'),
-        url('MyriadPro-Regular.svg#MyriadPro-Regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'MyriadProLight';
-    src: url('MyriadPro-It.eot');
-    src: url('MyriadPro-It.eot?#iefix') format('embedded-opentype'),
-        url('MyriadPro-It.woff2') format('woff2'),
-        url('MyriadPro-It.woff') format('woff'),
-        url('MyriadPro-It.ttf') format('truetype'),
-        url('MyriadPro-It.svg#MyriadPro-It') format('svg');
-    font-weight: normal;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'MyriadProSemibold';
-    src: url('MyriadPro-Semibold.eot');
-    src: url('MyriadPro-Semibold.eot?#iefix') format('embedded-opentype'),
-        url('MyriadPro-Semibold.woff2') format('woff2'),
-        url('MyriadPro-Semibold.woff') format('woff'),
-        url('MyriadPro-Semibold.ttf') format('truetype'),
-        url('MyriadPro-Semibold.svg#MyriadPro-Semibold') format('svg');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
     font-family: 'MyriadProBold';
     src: url('fonts/MyriadProBold.eot');
     src: url('fonts/MyriadProBold.eot') format('embedded-opentype'),
@@ -44,12 +8,12 @@
          url('fonts/MyriadProBold.svg#MyriadProBold') format('svg');
 }
 
+
 #header2HIDE {
   display: none !important;
 }
 h1, h2, h3, h4, h5, h6 {
     font-size: 1.5em;
-    font-family: 'MyriadProSemibold';
 }
 h1 {
     font-size: 1.6em;
@@ -79,9 +43,10 @@ h5, h6 {
   align-items: center;
 }
 
-p {
-  font-family: 'MyriadProRegular2';
-}
+/*#buton_2021 {
+  margin-left: 150px;
+	margin-right: 150px;
+}*/
 
 
 

@@ -101,6 +101,7 @@ Para poblar esta base de datos useremos el siguiente código.
 Primero seleccionamos las columnas de interés. Después, agregamos la columna de `fecha_aplicacion` . Se renombran dos columnas con nombres similares para que quede claro cual pertenece a qué variable. Finalmente, insertamos los datos a la base de datos con la ayuda del paquete `{dbplyr}`.
 
 #** pivotea y crea una nueva columna
+
 ```{r pivot}
 #PIVOT PLATFORM EDU
 pivoted_df_edu <- tidy_TICometro2020 %>% 
@@ -186,6 +187,9 @@ DT::datatable(glimpse(keyColumns_TICometro2020) %>%
                          sample_n(500))
 ```
 Se aprecia que la columna `fecha_aplicacion` se encuentra hasta el final. __Propongo usar esta columna como identificador de encuestas del TICometro__ para el caso de que existan preguntas irregulares en el futuro se indexen por año.
+
+#** unique values
+
 
 Notesen los valores unicos por columna!!!!!!!
 
@@ -369,11 +373,11 @@ data.table::fwrite(
 # El TICOMETRO 2021
 
 #*Preview data
-```{r loadticometro2020}
+```{r loadticometro2021}
 #Codigo para cargar el csv al ambiente de R
 tidy_TICometro2021 <- readr::read_csv(
   here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth", #folder al que pertenece el archivo
-             "Bachillerato_TICometro2021_completa.csv") #nombre del archivo
+             "Bachillerato_TICometro2021_completa_v2.csv") #nombre del archivo
 )
 
 ```
@@ -386,7 +390,6 @@ sample_data <- tidy_TICometro2021 %>%
 
 DT::datatable(sample_data)
 
-head()
 ```
 
 
@@ -412,6 +415,30 @@ Las columnas que estaran en la plataforma son: `r selected_ticometro_2021_column
 ```{r seleccionacolumnas2021}
 ticometro_selected_2021 <- tidy_TICometro2021 %>% select(!c(`Comenzado en`, Finalizado, Tiempo_empleado))
 ```
+
+#** unique values
+
+
+Notesen los valores unicos por columna!!!!!!!
+
+```{r}
+unique_list <- purrr::map(c(1:27),
+ \(x) {
+   unique(ticometro_selected_2021[[x]])
+ }                         
+)
+
+
+```
+
+# **rename columns 
+
+```{r rename2021}
+colnames(ticometro_selected_2021)[c(7,12)] <- c("escuela_de_procedencia","plataformas_edu_known")
+
+colnames(ticometro_selected_2021)
+```
+
 
 #** Prueba pivotear los datos
 
@@ -494,7 +521,7 @@ copy_to(dest = con,
         # escoger los indices adecuados: STILL TO BE DECIDED
         indexes = list(
     c("institucion", "grupo"), #referencia base y constante
-    col_clean_names_2021[2:27] #un indice para cada columna, excepto alumnos
+    col_clean_names_2021[1:27] #un indice para cada columna
     
   ) 
         )                 
