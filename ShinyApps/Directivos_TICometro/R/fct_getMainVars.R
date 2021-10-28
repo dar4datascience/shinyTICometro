@@ -153,7 +153,7 @@ get_mainVars_4_planteles <-
           "Uso compartido de laptop o computadora",
           "Estabilidad de la red en casa",
           "Conexión a Internet fuera de casa",
-          "Dispositivo TIC de acceso",
+          "Principal dispotivo para Clases a Distancia",
           "Plataformas Educativas que conoce el estudiante",
           "# de Plataformas Educativas que conoce el estudiante",
           "Edad de primer uso de TIC",

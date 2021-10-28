@@ -13,11 +13,13 @@ plot_numerical_vars <-
     
     if (groupvar == "ninguno") {
       #* Data transform ----------------------------------------------------------
-      
+      print("im in no grouping")
       plot_df <- df %>%
+        ungroup() %>% 
         select(`Institución`, .data[[var2plot]]) %>%
-        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>% 
-        count(.data[[var2plot]]) %>%
+        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>% 
+        group_by(`Institución`, respuesta) %>% 
+        count(respuesta) %>%
         mutate("Num. de Alumnos" = as.numeric(n),
                `Institución` = forcats::fct_reorder(`Institución`,
                                                     desc(`Num. de Alumnos`)
@@ -31,7 +33,7 @@ plot_numerical_vars <-
       p <- ggplot(
         dplyr::arrange(plot_df, `Institución`),
         aes(
-          x = .data[[var2plot]],
+          x = respuesta,
           fill = `Institución`,
           text = paste0(
             "Institución: ",
@@ -87,13 +89,14 @@ plot_numerical_vars <-
       
     } else{
       # Caso grouping variable --------------------------------------------------
-      
+      print("im in grouping")
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
+        ungroup() %>% 
         select(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        mutate(var2plot = round(signif(.data[[var2plot]], 2))) %>% 
-        group_by(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        count(.data[[var2plot]]) %>%
+        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>% 
+        group_by(`Institución`, .data[[groupvar]], respuesta) %>%
+        count(respuesta) %>%
         mutate("Num. de Alumnos" = as.numeric(n),
                `Institución` = forcats::fct_reorder(`Institución`,
                                                     desc(`Num. de Alumnos`)
@@ -106,7 +109,7 @@ plot_numerical_vars <-
       p <- plot_df %>%
         ggplot(aes(
           y = `Num. de Alumnos`,
-          x = .data[[var2plot]],
+          x = respuesta,
           fill = .data[[groupvar]],
           text = .data[[groupvar]]
         )) +

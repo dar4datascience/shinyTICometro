@@ -141,8 +141,22 @@ server <- function(input, output, session) {
     tabulated_directivos$data <-
       reactive_Directivos_tabulated_data()
     
+    print(reactive_Directivos_tabulated_data())
+    
     #colnames(tabulated_directivos$data)[2] <- clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
     
+  })
+  
+  observe({
+    if (
+      any(isolate(reactive_Directivos_var_selectors$gruposPicked) == "Ninguno")
+      ) {
+    colnames(tabulated_directivos$data)[2] <-  clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
+    }else{
+      colnames(tabulated_directivos$data)[c(2,3)] <- c("Grupo",
+                                                    clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
+      )
+    }
   })
   
   
@@ -291,25 +305,26 @@ server <- function(input, output, session) {
     )) {
       plot_numerical_vars(
         reactive_Directivos_tabulated_data(),
-        isolate(reactive_Directivos_var_selectors$plotvarPicked)
+        isolate(reactive_Directivos_var_selectors$plotvarPicked),
+        groupvar = "ninguno"
       )
       
       
     } else{
       if (isolate(input$plot_directivo_var) == "edad_uso_dispositivo") {
-        filtered_edad <- tabulated_directivos$data %>%
-          filter(between(edad_uso_dispositivo, 1, 17))
+         filtered_edad <- tabulated_directivos$data %>%
+          filter(between(`Edad de primer uso de TIC`, 1, 17))
         
         print('printing filtered edad')
-        print(filtered_edad)
-        
+       
         plot_categorical_vars(filtered_edad,
                               isolate(reactive_Directivos_var_selectors$plotvarPicked))
         
       } else{
         plot_categorical_vars(
-          tabulated_directivos$data,
-          isolate(reactive_Directivos_var_selectors$plotvarPicked)
+          reactive_Directivos_tabulated_data(),
+          isolate(reactive_Directivos_var_selectors$plotvarPicked),
+          groupvar = "ninguno"
         )
       }
     }
@@ -321,16 +336,19 @@ server <- function(input, output, session) {
   
   mi_descarga_masiva <- reactiveValues()
   
-  observeEvent(input$activa_descarga, {
+  observeEvent(input$massiveDownload, {
     # * funcion to download ---------------------------------------------------
     mi_descarga_masiva$datos <-
       descarga_masiva(
         db_connection = db_connection,
-        isolate(input$massiveDownload),
+        input$massiveDownload,
                       fecha_de_aplicacion = "2021")
+    
+    print(input$massiveDownload)
+    print(head(mi_descarga_masiva$datos))
   })
   
-  output$MasivedownloadData <- downloadHandler(
+  output$MassivedownloadData <- downloadHandler(
     filename = function() {
       paste("datos-ticometro-2021-",
             isolate(input$massiveDownload),

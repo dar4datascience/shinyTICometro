@@ -17,16 +17,16 @@ plot_categorical_vars <-
   function(df, var2fill, groupvar = "ninguno") {
 
 # Define own palette ------------------------------------------------------
-    my_palette <-  scale_fill_manual(values = c("#758830",
-                             "#ac6882",
-                             "#c27356",
-                             "#6c86c3",
-                             "#9b5163",
-                             "#8395b4",
-                             "#e66aa4",
-                             "#55874a",
-                             "#a58713",
-                             "#7a7a7a"))
+   # my_palette <-  scale_fill_manual(values = c("#758830",
+    #                         "#ac6882",
+     #                        "#c27356",
+      #                       "#6c86c3",
+       #                      "#9b5163",
+        #                     "#8395b4",
+         #                    "#e66aa4",
+          #                   "#55874a",
+           #                  "#a58713",
+            #                 "#7a7a7a"))
    
 
     
@@ -111,7 +111,8 @@ plot_categorical_vars <-
 
               ordered_df <- df %>%
                 mutate(
-                  respuesta = forcats::fct_reorder(.data[[var2fill]],
+                  respuesta = forcats::fct_reorder(
+                    forcats::as_factor(.data[[var2fill]]),
                                                    desc(`Num. alumnos`)
                   ),
                   `Institución` = forcats::fct_reorder(`Institución`,
@@ -133,8 +134,7 @@ plot_categorical_vars <-
                 theme(
                   axis.text.x = element_text("Num. de Alumnos"),
                   axis.text.y = element_text("Institución")
-                ) + 
-                my_palette
+                ) #+ my_palette
               
               # **Plotly it -------------------------------------------------------------
               
@@ -245,7 +245,8 @@ plot_categorical_vars <-
                 
                 ordered_df <- df %>%
                   mutate(
-                    respuesta = forcats::fct_reorder(.data[[var2fill]],
+                    respuesta = forcats::fct_reorder(
+                      forcats::as_factor(.data[[var2fill]]),
                                                      desc(`Num. alumnos`)
                     ),
                     `Institución` = forcats::fct_reorder(`Institución`,
@@ -266,8 +267,7 @@ plot_categorical_vars <-
                   facet_wrap(~`Institución`) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
-                        axis.text.y = element_text("Grupo")) +
-                  my_palette
+                        axis.text.y = element_text("Grupo")) #+my_palette
                 # **Plotly it -------------------------------------------------------------
                 
                 fig <-

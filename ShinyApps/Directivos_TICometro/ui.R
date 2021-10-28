@@ -20,13 +20,13 @@ habilidades_digitales <- list("Color de cinta obtenida" = "cinta",
                               "Calif. Colaboración" = "calif_colabor_comunic")
 
 nivel_de_acceso <- list(
-  "Edad de primer uso de TIC" = "edad_uso_dispositivo",
-  "Acceso a Dispositivos" = "dispositivos_electronicos",
+  #"Edad de primer uso de TIC" = "edad_uso_dispositivo",
+  "Principal dispositivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
   #"# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
   "Uso compartido de laptop o computadora" = "compartes_tic",
   "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
   "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-  "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
+  #"Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
   "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 
@@ -58,7 +58,7 @@ myTheme <- fresh::create_theme( #FIND MORE CUSTOMIZATION AT fresh::search_vars_b
     navbar_light_color = "#343A40 !important"
   ),
   bs4dash_sidebar_light(
-    bg = "#EBEBEB",
+    bg = "#EBEBEB"
   ),
   bs4dash_layout(
     main_bg = "#f0f5f8"
@@ -432,13 +432,14 @@ right = "2021"
                   tags$h4("Seleccione una o varias opciones: "),
                   div(id = "button que se activa con ENTER",
                       htmltools::tagAppendAttributes(
-                        shiny::downloadButton(outputId = "MasivedownloadData",
+                        shiny::downloadButton(outputId = "MassivedownloadData",
                                               "Consula",
                                               icon = icon(name = "database"),
                         role = "button"
-                      ),
-                      style = "padding-left: 200px;"
-                  )
+                      )
+                      #,style = "padding-left: 200px;"
+                  ) #end of append attributes
+                  ) #end of div
                 ),#end of fluid row
                 tags$div(
                   id = "descarga masiva",
@@ -462,9 +463,10 @@ right = "2021"
                              direction = "vertical",
                              size = "lg"
                            )
-                           ),#end of column
+                           )#end of column
                   ),#fluid row ends
-                  style = "background-color: white;")#div ends
+                  style = "background-color: white;"
+                  )#div ends
         ) #TAB DESCARGA ENDS
       ), #tabItems ENDS
       #appeding attributes to main tabset
@@ -473,8 +475,6 @@ right = "2021"
       ),
 
 #* Final page elements -----------------------------------------------------
-
-
       useWaiter(),
       useSever(),
       autoWaiter(id = c("value_box_Directivos",

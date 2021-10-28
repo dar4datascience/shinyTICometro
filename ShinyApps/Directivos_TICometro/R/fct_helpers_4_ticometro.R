@@ -83,7 +83,7 @@ get_variables_del_ticometro <- function(tema) {
   } else if (tema == "acceso") {
     nivel_de_acceso <- list(
       "Edad de primer uso de TIC" = "edad_uso_dispositivo",
-      "Acceso a Dispositivos" = "dispositivos_electronicos",
+      "Principal dispotivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
       "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
       "Uso compartido de laptop o computadora" = "compartes_tic",
       "Estabilidad de la red en casa" = "internet_fuera_d_casa",
@@ -131,7 +131,7 @@ clean_plot_titles <- function(variable) {
     "compartes_tic" = "Uso compartido de laptop o computadora",
     "estabilidad_internet_4_clases" = "Estabilidad de la red en casa",
     "internet_fuera_d_casa" = "Conexión a Internet fuera de casa",
-    "dispositivos_electronicos" = "Principal dispositivo para Clases a Distancia",
+    "principal_dispositivo_clases_distancia" = "Principal dispositivo para Clases a Distancia",
     "total_de_dispositivos_por_estudiante" = "# de Dispositivos TIC",
     "edad_uso_dispositivo" = "Edad de primer uso de TIC",
     "plataformas_edu_known" = "Plataformas Educativas que conoce el estudiante",
