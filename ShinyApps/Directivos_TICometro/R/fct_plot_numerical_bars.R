@@ -13,19 +13,13 @@ plot_numerical_vars <-
     
     if (groupvar == "ninguno") {
       #* Data transform ----------------------------------------------------------
-      print("im in no grouping")
+      print("im in no grouping plot numerical")
       plot_df <- df %>%
         ungroup() %>% 
         select(`Institución`, .data[[var2plot]]) %>%
-        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>% 
-        group_by(`Institución`, respuesta) %>% 
-        count(respuesta) %>%
-        mutate("Num. de Alumnos" = as.numeric(n),
-               `Institución` = forcats::fct_reorder(`Institución`,
-                                                    desc(`Num. de Alumnos`)
-               )
-        ) %>%
-        select(!c(n))
+        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>%
+        select(!.data[[var2plot]]) %>% 
+        group_by(`Institución`, respuesta) 
       
       # *Ggplot it --------------------------------------------------------------
       
