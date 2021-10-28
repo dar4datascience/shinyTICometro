@@ -186,7 +186,7 @@ server <- function(input, output, session) {
             sep = "")
     },
     content = function(file) {
-      data.table::fwrite(data_directivos$data, file)
+      data.table::fwrite(data_directivos$data, file, bom = TRUE)
     },
     contentType = "text/csv"
   )
@@ -312,8 +312,9 @@ server <- function(input, output, session) {
       
     } else{
       if (isolate(input$plot_directivo_var) == "edad_uso_dispositivo") {
-         filtered_edad <- tabulated_directivos$data %>%
-          filter(between(`Edad de primer uso de TIC`, 1, 17))
+         filtered_edad <- reactive_Directivos_tabulated_data() %>%
+           mutate(edad_uso_dispositivo = as.numeric(.data[["edad_uso_dispositivo"]])) %>%
+          filter(between(.data[["edad_uso_dispositivo"]], 1, 17))
         
         print('printing filtered edad')
        
@@ -357,7 +358,8 @@ server <- function(input, output, session) {
             sep = "")
     },
     content = function(file) {
-      data.table::fwrite(mi_descarga_masiva$datos, file)
+      data.table::fwrite(mi_descarga_masiva$datos, file,
+                         bom = TRUE)
     },
     contentType = "text/csv"
   )

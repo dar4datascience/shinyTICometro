@@ -20,13 +20,13 @@ habilidades_digitales <- list("Color de cinta obtenida" = "cinta",
                               "Calif. Colaboración" = "calif_colabor_comunic")
 
 nivel_de_acceso <- list(
-  #"Edad de primer uso de TIC" = "edad_uso_dispositivo",
+  "Edad de primer uso de TIC" = "edad_uso_dispositivo",
   "Principal dispositivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
   #"# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
   "Uso compartido de laptop o computadora" = "compartes_tic",
   "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
   "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-  #"Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
+  "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
   "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
 )
 

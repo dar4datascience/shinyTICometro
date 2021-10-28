@@ -106,7 +106,7 @@ plot_categorical_vars <-
             } else{
               #* Caso no elijo cinta  --------------------------------------------------
               
-
+  print("im in no cinta no group")
 # Mutate to reorder factors -----------------------------------------------
 
               ordered_df <- df %>%
@@ -175,7 +175,7 @@ plot_categorical_vars <-
               # Caso grouping variable --------------------------------------------------
               
               # *Caso se elija cinta ----------------------------------------------------
-              
+              print("im in grupo case")
               if (var2fill == "cinta") {
                 # **Order levels of cinta -------------------------------------------------
                 

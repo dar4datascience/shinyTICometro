@@ -14,4 +14,4 @@ El sitio se encuentra dividido en 3 páginas: la página de inicio, un sitio de 
 
 ## [Sitio de Consulta](http://132.248.10.243:3838/El-Duque/Directivos_TICometro/)
 
-![sitioConsultaDirectivos](https://github.com/dar4datascience/shinyTICometro/blob/main/snapshots_of_project/sitioDirectivos.png)
+![sitioConsulta](https://github.com/dar4datascience/shinyTICometro/blob/main/snapshots_of_project/sitioConsulta.jpg)
