@@ -12,10 +12,6 @@ El sitio se encuentra dividido en 3 páginas: la página de inicio, un sitio de 
 
 ![landingPageTicometro](https://github.com/dar4datascience/shinyTICometro/blob/main/snapshots_of_project/landingPage.png)
 
-## [Sitio de Consulta para profesores](http://132.248.10.243:3838/El-Duque/Profes_TICometro/)
-
-![sitioConsultaProfesores](https://github.com/dar4datascience/shinyTICometro/blob/main/snapshots_of_project/sitioProfesores.png)
-
-## [Sitio de Consulta para directivos](http://132.248.10.243:3838/El-Duque/Directivos_TICometro/)
+## [Sitio de Consulta](http://132.248.10.243:3838/El-Duque/Directivos_TICometro/)
 
 ![sitioConsultaDirectivos](https://github.com/dar4datascience/shinyTICometro/blob/main/snapshots_of_project/sitioDirectivos.png)
