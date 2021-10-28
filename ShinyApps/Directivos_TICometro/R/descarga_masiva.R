@@ -22,7 +22,8 @@ descarga_masiva <-
       toMatch <- paste(escuelas, collapse = "|")
       
       all_data <- ticometro_table %>%
-        filter(grepl(toMatch, institucion)) %>%
+        filter(grepl(toMatch, institucion)) %>% 
+        select(1:18) %>% 
         collect()
       
       

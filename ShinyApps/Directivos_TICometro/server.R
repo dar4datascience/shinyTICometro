@@ -148,13 +148,13 @@ server <- function(input, output, session) {
   })
   
   observe({
-    if (
-      any(isolate(reactive_Directivos_var_selectors$gruposPicked) == "Ninguno")
-      ) {
-    colnames(tabulated_directivos$data)[2] <-  clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
-    }else{
-      colnames(tabulated_directivos$data)[c(2,3)] <- c("Grupo",
-                                                    clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
+    if (any(isolate(reactive_Directivos_var_selectors$gruposPicked) == "Ninguno")) {
+      colnames(tabulated_directivos$data)[2] <-
+        clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
+    } else{
+      colnames(tabulated_directivos$data)[c(2, 3)] <- c(
+        "Grupo",
+        clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
       )
     }
   })
@@ -312,12 +312,12 @@ server <- function(input, output, session) {
       
     } else{
       if (isolate(input$plot_directivo_var) == "edad_uso_dispositivo") {
-         filtered_edad <- reactive_Directivos_tabulated_data() %>%
-           mutate(edad_uso_dispositivo = as.numeric(.data[["edad_uso_dispositivo"]])) %>%
+        filtered_edad <- reactive_Directivos_tabulated_data() %>%
+          mutate(edad_uso_dispositivo = as.numeric(.data[["edad_uso_dispositivo"]])) %>%
           filter(between(.data[["edad_uso_dispositivo"]], 1, 17))
         
         print('printing filtered edad')
-       
+        
         plot_categorical_vars(filtered_edad,
                               isolate(reactive_Directivos_var_selectors$plotvarPicked))
         
@@ -343,16 +343,19 @@ server <- function(input, output, session) {
       descarga_masiva(
         db_connection = db_connection,
         input$massiveDownload,
-                      fecha_de_aplicacion = "2021")
+        fecha_de_aplicacion = "2021"
+      )
     
-    print(input$massiveDownload)
-    print(head(mi_descarga_masiva$datos))
+    mi_descarga_masiva$names <- paste(input$massiveDownload,
+                                      collapse = "-")
+    
   })
   
   output$MassivedownloadData <- downloadHandler(
     filename = function() {
-      paste("datos-ticometro-2021-",
-            isolate(input$massiveDownload),
+      paste("datos-ticometro-",
+            mi_descarga_masiva$names,
+            "-",
             Sys.Date(),
             ".csv",
             sep = "")
