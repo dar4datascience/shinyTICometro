@@ -137,7 +137,7 @@ controlbar = NULL, #END OF CONTROL BAR,
       fixed = FALSE,
       title = tags$a(href = 'http://132.248.10.243:3838/El-Duque/TICometro_Landing',
                      tags$img(src = 'logo_ticometro_pequenio.jpg',
-                              width="100%", 
+                              width = "100%", 
                               alt = "El logo del TICómetro es  un rectangulo con una regla azul cruzando masomenos por en medio y fondo verde a la izquierda, amarillo arriba, marón a la derecha y rojo abajo. La palabra TICómetro se encuentre en el centro con las letras TIC en naranja y más grande ómetro que está en negro"
                               )
                      ),
@@ -155,7 +155,7 @@ controlbar = NULL, #END OF CONTROL BAR,
     #SIDEBAR STARS HERE
     sidebar = bs4Dash::dashboardSidebar(
       fixed = FALSE,
-      collapsed = TRUE,
+      collapsed = FALSE,
       skin = "light",
       expandOnHover = FALSE,
       status = "primary",

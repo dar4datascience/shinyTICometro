@@ -265,7 +265,8 @@ server <- function(input, output, session) {
   output$MainVars_Directivos <-  reactable::renderReactable({
     reactable::reactable(
       data_directivos$data,
-      defaultColDef = reactable::colDef(
+      defaultColDef = colDef(
+        width = 130,
         align = "center",
         style = JS(
           "function(rowInfo, colInfo, state) {
@@ -279,6 +280,7 @@ server <- function(input, output, session) {
         )
       ),
      filterable = TRUE,
+     resizable = TRUE,
      outlined = TRUE,
      highlight = TRUE,
      compact = TRUE,
