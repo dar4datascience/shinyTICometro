@@ -207,7 +207,7 @@ server <- function(input, output, session) {
       value = tags$p(num_alumnos_selected_directivos(),
                      style = "font-size: 2rem;"),
       subtitle = tags$p("Alumnos",
-                        style = "font-size: 1.2rem;"),
+                        style = "font-size: 1.5rem;"),
       color = "success",
       icon = htmltools::tagAppendAttributes(icon("user-friends"),
                                             style = "color:white;")
@@ -220,7 +220,7 @@ server <- function(input, output, session) {
       value = tags$p(data_directivos$mean_calif,
                      style = "font-size: 2rem;"),
       subtitle = tags$p("Calificación promedio",
-                        style = "font-size: 1.2rem;"),
+                        style = "font-size: 1.5rem;"),
       color = "success",
       icon = htmltools::tagAppendAttributes(icon("user-graduate"),
                                             style = "color:white;")
@@ -284,7 +284,7 @@ server <- function(input, output, session) {
      compact = TRUE,
      theme = reactable::reactableTheme(
        style = list(fontFamily = "Arial",
-                    fontSize = "20px"),
+                    fontSize = "15px"),
        color = "#000000"
      )
     )#end of reactable

@@ -185,22 +185,18 @@ ui <- dashboardPage(
   
   
   footer = dashboardFooter(
-    left = tags$a(
-      href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-      target = "_blank",
-      tags$p(
-        "®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
+    left = tags$p(
+      "®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
 la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
 
 para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
-style = "font-size: 0.9rem;
+style = "font-size: 0.7rem;
 text-align: center;
 margin-top: 0;
 margin-bottom: 0;
 padding-left: 150px;
 padding-right: 150px;
 color: black;"
-      )
     ),
 right = "2021"
   ),

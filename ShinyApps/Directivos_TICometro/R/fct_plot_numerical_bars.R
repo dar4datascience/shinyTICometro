@@ -73,7 +73,8 @@ plot_numerical_vars <-
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
           yaxis = list(title = 'Num. de Alumnos'),
-          xaxis = list(title = 'Calificación')
+          xaxis = list(title = 'Calificación'),
+          hoverlabel = list(bgcolor = "white")
           #,font=list(size = 30)
         )
       
@@ -144,7 +145,8 @@ plot_numerical_vars <-
         plotly::layout(
           title = clean_plot_titles(var2plot),
           font = list(family = "Arial"),
-          legend = list(title = list(text = ''))
+          legend = list(title = list(text = '')),
+          hoverlabel = list(bgcolor = "white")
           #,font=list(size = 30)
         )
       

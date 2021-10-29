@@ -101,13 +101,16 @@ get_variables_del_ticometro <- function(tema) {
 grupos_2021 <- function(){
   db_connection <- connect2database()  
   grupos <- dplyr::tbl(db_connection, "ticometro_resultados_2021") %>% 
-    distinct(grupo) %>% 
-    collect()
+    select(grupo) %>% 
+    dplyr::distinct(grupo) %>% 
+    dplyr::arrange(grupo) %>% 
+    dplyr::collect()
+  
   pool::poolClose(db_connection)
   
-  grupos <- c("Ninguno", grupos$grupo)
-  
-  return(grupos)
+  grupos_clean <- c("Ninguno", grupos$grupo)
+
+  return(grupos_clean)
 }
 
 
@@ -173,7 +176,7 @@ crea_tabla_clas_cintas <- function() {
       "cinta_negra.png"
     ),
     colores = c("Blanca:", "Naranja:", "Azul:", "Negra:"),
-    descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1 - 100%")
+    descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1% - 100%")
   )
   
 

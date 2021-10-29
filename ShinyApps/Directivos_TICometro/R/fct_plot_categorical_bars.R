@@ -95,7 +95,8 @@ plot_categorical_vars <-
                          yaxis = list(automargin = TRUE)) %>%
           plotly::layout(
             title = clean_plot_titles(var2fill),
-            legend = list(title = list(text = ''))
+            legend = list(title = list(text = '')),
+            hoverlabel = list(bgcolor = "white")
             )
             #,font=list(size = 30))
             
@@ -160,7 +161,8 @@ plot_categorical_vars <-
                 plotly::layout(autosize = T,
                                margin = list(autoexpand = TRUE)) %>%
                 plotly::layout(title = clean_plot_titles(var2fill),
-                               legend = list(title = list(text = ''))
+                               legend = list(title = list(text = '')),
+                               hoverlabel = list(bgcolor = "white")
                 )
                                #,font=list(size = 30))
                                
@@ -227,7 +229,9 @@ plot_categorical_vars <-
                   plotly::layout(autosize = T,
                                  margin = list(autoexpand = TRUE)) %>%
                   plotly::layout(title = clean_plot_titles(var2fill),
-                                 legend = list(title = list(text = '')))
+                                 legend = list(title = list(text = '')),
+                                 hoverlabel = list(bgcolor = "white")
+                                 )
                 #,font=list(size = 30))
                 
                 
@@ -295,7 +299,8 @@ plot_categorical_vars <-
                   plotly::layout(
                     xaxis = list(categoryorder = "total ascending"),
                     yaxis = list(categoryorder = "total ascending"),
-                    legend = list(title = list(text = ''))
+                    legend = list(title = list(text = '')),
+                    hoverlabel = list(bgcolor = "white")
                   )
                 
                 

@@ -123,6 +123,7 @@ shinyUI(
     ),
     fullscreen = TRUE,
     title = "Sitio de Consulta TICometro",
+    dark = NULL,
 
 #Control BAR STARTS HERE
 #UNABLE TO DISABLE. USE IT FOR CREDITS
@@ -154,6 +155,7 @@ controlbar = NULL, #END OF CONTROL BAR,
     #SIDEBAR STARS HERE
     sidebar = bs4Dash::dashboardSidebar(
       fixed = FALSE,
+      collapsed = TRUE,
       skin = "light",
       expandOnHover = FALSE,
       status = "primary",
@@ -196,22 +198,18 @@ controlbar = NULL, #END OF CONTROL BAR,
 
 
 footer = dashboardFooter(
-  left = tags$a(
-    href = "https://educatic.unam.mx/publicaciones/informes-ticometro.html",
-    target = "_blank",
-    tags$p(
+  left = tags$p(
       "®Hecho en México, Universidad Nacional Autónoma de México (UNAM), todos los derechos reservados 2012 - 2021. Esta página puede ser reproducida con fines no lucrativos, siempre y cuando se cite
 la fuente completa y su dirección electrónica, y no se mutile. De otra forma requiere permiso previo por escrito de la institución. Sitio web diseñado y administrado en la Coordinación de Tecnologías
 
 para la Educación de la Dirección de Innovación y Desarrollo Tecnológico de la DGTIC.",
-style = "font-size: 0.9rem;
+style = "font-size: 0.7rem;
 text-align: center;
 margin-top: 0;
 margin-bottom: 0;
 padding-left: 150px;
 padding-right: 150px;
 color: black;"
-    )
   ),
 right = "2021"
 ),
@@ -434,8 +432,10 @@ right = "2021"
                       htmltools::tagAppendAttributes(
                         shiny::downloadButton(outputId = "MassivedownloadData",
                                               "Consula",
+                                              class = "bttn bttn-gradient bttn-md bttn-success bttn-no-outline",
                                               icon = icon(name = "database"),
-                        role = "button"
+                        role = "button",
+                        style = "margin-left: 100px;"
                       )
                       #,style = "padding-left: 200px;"
                   ) #end of append attributes
