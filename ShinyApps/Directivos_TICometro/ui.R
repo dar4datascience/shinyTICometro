@@ -383,17 +383,20 @@ right = "2021"
                   #              role = "button",
                    #             icon = shiny::icon(name = "signal", lib = "glyphicon")
                     #            ),
-                  #shiny::downloadButton(outputId = "downloadtabulado",
-                   #            "Descargue su selección de datos",
-                    #           icon = icon(name = "calculator")
-                     #          ),
+                htmltools::tagAppendAttributes(
+                  style = "background: black;", 
+                shiny::downloadButton(outputId = "downloadtabulado",
+                               "Tabulado de datos",
+                               icon = NULL
+                )
+                ), #end of append attributes,
                 htmltools::tagAppendAttributes(
                   style = "background: black;",
                 shiny::downloadButton(outputId = "downloadData",
-                                "Descargue su hoja de datos",
-                                icon = icon(name = "database")
+                                "Hoja de datos",
+                                icon = NULL
                   )
-                ) #end of append attributes
+              ) #end of append attributes
               )# end of drop down
             )#end of tab box
           ),#end of fluid row

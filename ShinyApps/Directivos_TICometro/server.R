@@ -163,20 +163,18 @@ server <- function(input, output, session) {
   #** Event cascade4: Download Handler csv ------------------------------------
   
   
-  # Descarga handler csvs
-  
-  #output$downloadtabulado <- downloadHandler(
-  #   filename = function() {
-  #      paste("datos-tabulados-ticometro-miSeleccion-",
-  #           Sys.Date(),
-  #          ".csv",
-  #         sep = "")
-  #},
-  #content = function(file) {
-  #   data.table::fwrite(tabulated_directivos$data, file)
-  #},
-  #    contentType = "text/csv"
-  #)
+  output$downloadtabulado <- downloadHandler(
+     filename = function() {
+        paste("datos-tabulados-ticometro-miSeleccion-",
+             Sys.Date(),
+            ".csv",
+           sep = "")
+  },
+  content = function(file) {
+     data.table::fwrite(tabulated_directivos$data, file)
+  },
+      contentType = "text/csv"
+  )
   
   output$downloadData <- downloadHandler(
     filename = function() {
