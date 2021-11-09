@@ -11,3 +11,19 @@
 div.custom-control {
   display: none !important;
 }
+
+div.small-box > div.small-box-footer {
+  background: red !important;
+}
+
+div.small-box > div.small-box-subtitle {
+  margin-bottom: 0px !important;
+}
+
+div.small-box.bg-white {
+    background-color: #fff;
+    color: #1F2D3D !important;
+    border-style: solid;
+    border-color: green;
+}
+

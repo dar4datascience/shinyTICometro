@@ -300,10 +300,11 @@ right = "2021"
               shinyWidgets::actionBttn(
                 inputId = "activa_consulta",
                 label = "Consulta",
-                style = "gradient",
+                style = "simple",
                 color = "success"
               ),
-              role = "button"
+              role = "button",
+              style = "background: #026928 !important;"
               ),
               style = "margin-top: 7px;"
               )
@@ -411,7 +412,7 @@ right = "2021"
             role = "region",
             id = "value boxes y explicacion de cintas",
             bs4Dash::valueBoxOutput("value_box_Directivos", width = 3), # width 2
-            bs4Dash::valueBoxOutput("average_box_Directivos", width = 3), #width 3
+            bs4Dash::valueBoxOutput("mode_box_Directivos", width = 3), #width 3
             crea_tabla_clas_cintas()
           )
         ),#end of tab items 1
@@ -481,7 +482,7 @@ right = "2021"
       useWaiter(),
       useSever(),
       autoWaiter(id = c("value_box_Directivos",
-                        "average_box_Directivos",
+                        "mode_box_Directivos",
                         "TabulatedVars_Directivos",
                         "MainVars_Directivos"),
                  html = spin_solar(),

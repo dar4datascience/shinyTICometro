@@ -140,8 +140,22 @@ server <- function(input, output, session) {
             2)
     tabulated_directivos$data <-
       reactive_Directivos_tabulated_data()
+      
+    data_directivos$mode_cinta <- data_directivos$data$`Color de cinta obtenida` %>%
+        forcats::as_factor(.) %>%
+        forcats::fct_count(.) %>% 
+        arrange(desc(n)) %>% 
+        pull(f) 
+      
+      print("deberia ser un solo valor")
+      print(data_directivos$mode_cinta[1])
     
-    print(reactive_Directivos_tabulated_data())
+      
+    data_directivos$cinta_a_mostrar <- case_when(data_directivos$mode_cinta[1] == "Cinta blanca" ~ "cinta_blanca.png",
+                                                 data_directivos$mode_cinta[1] == "Cinta anaranjada" ~ "cinta_naranja.png",
+                                                 data_directivos$mode_cinta[1] == "Cinta azul" ~ "cinta_azul.png",
+                                                 data_directivos$mode_cinta[1] == "Cinta negra" ~ "cinta_negra.png")
+    #print(reactive_Directivos_tabulated_data())
     
     #colnames(tabulated_directivos$data)[2] <- clean_plot_titles(reactive_Directivos_var_selectors$plotvarPicked)
     
@@ -205,7 +219,7 @@ server <- function(input, output, session) {
       value = tags$p(num_alumnos_selected_directivos(),
                      style = "font-size: 2rem;"),
       subtitle = tags$p("Alumnos",
-                        style = "font-size: 1.5rem;"),
+                        style = "font-size: 2rem;"),
       color = "success",
       icon = htmltools::tagAppendAttributes(icon("user-friends"),
                                             style = "color:white;")
@@ -213,15 +227,27 @@ server <- function(input, output, session) {
     )
   })
   
-  output$average_box_Directivos <- bs4Dash::renderbs4ValueBox({
+  output$mode_box_Directivos <- bs4Dash::renderbs4ValueBox({
     bs4Dash::valueBox(
-      value = tags$p(data_directivos$mean_calif,
-                     style = "font-size: 2rem;"),
-      subtitle = tags$p("Calificación promedio",
-                        style = "font-size: 1.5rem;"),
-      color = "success",
-      icon = htmltools::tagAppendAttributes(icon("user-graduate"),
-                                            style = "color:white;")
+      value = tags$img(
+        id = "cinta mas comun",
+        alt = paste0(data_directivos$cinta_a_mostrar),
+        src = data_directivos$cinta_a_mostrar,
+        width = "40%",
+        style = "display: block;
+  margin-left: auto;
+  margin-right: auto;"
+      ),
+        #tags$p(data_directivos$mode_cinta[1]),
+      subtitle = tags$p("Cinta más común de los alumnos",
+                        style = "font-size: 1.5rem;
+                        color: black !important;
+                        margin-top: 0;
+margin-bottom: 0px !important;
+text-align: center;"),
+      color = "white"
+      #icon = htmltools::tagAppendAttributes(icon("user-graduate"),
+       #                                     style = "color:white;")
       # href = "#" #Referencia directo a la pagina principal de la aplicacion
     )
   })

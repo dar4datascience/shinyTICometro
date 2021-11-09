@@ -14,7 +14,7 @@
 # var2plot: a string input to put as the title of plot
 #Takes a counted variable in a dataframe
 plot_categorical_vars <-
-  function(df, var2fill, groupvar = "ninguno") {
+  function(df, var2fill, groupvar = "Ninguno") {
 
 # Define own palette ------------------------------------------------------
    # my_palette <-  scale_fill_manual(values = c("#758830",
@@ -33,7 +33,7 @@ plot_categorical_vars <-
     # Caso no group variable --------------------------------------------------
     
     
-    if (groupvar == "ninguno") {
+    if (any(groupvar == "Ninguno")) {
       # *Caso se elija cinta ----------------------------------------------------
       
       
@@ -192,11 +192,11 @@ plot_categorical_vars <-
                 
                 p <- df %>% ggplot(aes(
                   y = `Num. alumnos`,
-                  x = .data[[groupvar]],
+                  x = `Institución`,
                   fill = `cinta`
                 )) +
                   geom_col() +
-                  facet_wrap(~ `Institución`) +
+                  facet_wrap(~.data[[groupvar]]) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
                         axis.text.y = element_text("Grupo")) +
@@ -264,11 +264,11 @@ plot_categorical_vars <-
                 p <-
                   ordered_df %>% ggplot(aes(
                     y = `Num. alumnos`,
-                    x = .data[[groupvar]],
+                    x = `Institución`,
                     fill = respuesta
                   )) +
                   geom_col() +
-                  facet_wrap(~`Institución`) +
+                  facet_wrap(~.data[[groupvar]]) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
                         axis.text.y = element_text("Grupo")) #+my_palette
