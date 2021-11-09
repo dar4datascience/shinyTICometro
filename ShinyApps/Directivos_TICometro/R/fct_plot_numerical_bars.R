@@ -44,6 +44,9 @@ plot_numerical_vars <-
           lwd = 0.5,
           color = "white",
           position = position_stack(reverse = TRUE)
+        )  +
+        theme(
+          plot.margin = margin(0.5, 0, 0.5, 0, "cm")
         )
       
       #* Plotly it ---------------------------------------------------------------
@@ -111,8 +114,7 @@ plot_numerical_vars <-
         geom_col() +
         facet_wrap(~ `Institución`) +
         theme(
-          axis.text.y = element_text("Num. de Alumnos"),
-          axis.text.x = element_text("Calificación")
+          plot.margin = margin(0.5, 0, 0.5, 0, "cm")
         )
       
       
@@ -146,6 +148,8 @@ plot_numerical_vars <-
           title = clean_plot_titles(var2plot),
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
+          yaxis = list(title = 'Num. de Alumnos'),
+          xaxis = list(title = 'Calificación'),
           hoverlabel = list(bgcolor = "white")
           #,font=list(size = 30)
         )

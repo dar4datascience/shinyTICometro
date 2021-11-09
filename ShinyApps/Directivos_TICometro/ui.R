@@ -485,7 +485,7 @@ right = "2021"
                         "mode_box_Directivos",
                         "TabulatedVars_Directivos",
                         "MainVars_Directivos"),
-                 html = spin_solar(),
+                 html = spin_folding_cube(),
                  fadeout = FALSE,
                  color = "#FFFFF",
                  image = ""),

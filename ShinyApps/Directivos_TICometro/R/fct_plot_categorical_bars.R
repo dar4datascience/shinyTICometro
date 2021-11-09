@@ -14,7 +14,7 @@
 # var2plot: a string input to put as the title of plot
 #Takes a counted variable in a dataframe
 plot_categorical_vars <-
-  function(df, var2fill, groupvar = "Ninguno") {
+  function(df, var2fill, groupvar = "ninguno") {
 
 # Define own palette ------------------------------------------------------
    # my_palette <-  scale_fill_manual(values = c("#758830",
@@ -33,7 +33,7 @@ plot_categorical_vars <-
     # Caso no group variable --------------------------------------------------
     
     
-    if (any(groupvar == "Ninguno")) {
+    if (any(groupvar == "ninguno")) {
       # *Caso se elija cinta ----------------------------------------------------
       
       
@@ -61,7 +61,8 @@ plot_categorical_vars <-
           theme(
             axis.text.x = element_text("Num. de Alumnos"),
             axis.text.y = element_text("Institución"),
-            legend.title = element_blank()
+            legend.title = element_blank(),
+            plot.margin = margin(0.5, 0, 0.5, 0, "cm")
           ) +
           scale_fill_manual(
             values = c(
@@ -134,7 +135,8 @@ plot_categorical_vars <-
                 coord_flip() +
                 theme(
                   axis.text.x = element_text("Num. de Alumnos"),
-                  axis.text.y = element_text("Institución")
+                  axis.text.y = element_text("Institución"),
+                  plot.margin = margin(0.5, 0, 0.5, 0, "cm")
                 ) #+ my_palette
               
               # **Plotly it -------------------------------------------------------------
@@ -199,7 +201,8 @@ plot_categorical_vars <-
                   facet_wrap(~.data[[groupvar]]) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
-                        axis.text.y = element_text("Grupo")) +
+                        axis.text.y = element_text("Grupo"),
+                        plot.margin = margin(0.5, 0, 0.5, 0, "cm")) +
                   scale_fill_manual(
                     values = c(
                       "Cinta blanca" = "#bcbcbc",
@@ -271,7 +274,8 @@ plot_categorical_vars <-
                   facet_wrap(~.data[[groupvar]]) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
-                        axis.text.y = element_text("Grupo")) #+my_palette
+                        axis.text.y = element_text("Grupo"),
+                        plot.margin = margin(0.5, 0, 0.5, 0, "cm")) #+my_palette
                 # **Plotly it -------------------------------------------------------------
                 
                 fig <-
