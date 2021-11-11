@@ -7,11 +7,11 @@
 #' @import plotly
 #' @return a plotly histogram with the var2plot
 plot_numerical_vars <-
-  function(df, var2plot, groupvar = "ninguno") {
+  function(df, var2plot, groupvar) {
     # No grouping variable ---------------------------------------------------
     
     
-    if (groupvar == "ninguno") {
+    if (groupvar == "Ninguno") {
       #* Data transform ----------------------------------------------------------
       print("im in no grouping plot numerical")
       plot_df <- df %>%
@@ -46,7 +46,9 @@ plot_numerical_vars <-
           position = position_stack(reverse = TRUE)
         )  +
         theme(
-          plot.margin = margin(0.5, 0, 0.5, 0, "cm")
+          axis.text.x = element_text("Num. de Alumnos"),
+          axis.text.y = element_text("Calificación"),
+          plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
       
       #* Plotly it ---------------------------------------------------------------
@@ -75,8 +77,6 @@ plot_numerical_vars <-
           title = clean_plot_titles(var2plot) ,
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          yaxis = list(title = 'Num. de Alumnos'),
-          xaxis = list(title = 'Calificación'),
           hoverlabel = list(bgcolor = "white")
           #,font=list(size = 30)
         )
@@ -88,6 +88,9 @@ plot_numerical_vars <-
     } else{
       # Caso grouping variable --------------------------------------------------
       print("im in grouping")
+      
+      
+      
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
         ungroup() %>% 
@@ -112,9 +115,12 @@ plot_numerical_vars <-
           text = .data[[groupvar]]
         )) +
         geom_col() +
-        facet_wrap(~ `Institución`) +
+        facet_wrap(~ `Institución`,
+                   ncol = 1) +
         theme(
-          plot.margin = margin(0.5, 0, 0.5, 0, "cm")
+          axis.text.x = element_text("Num. de Alumnos"),
+          axis.text.y = element_text("Calificación"),
+          plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
       
       
@@ -148,8 +154,6 @@ plot_numerical_vars <-
           title = clean_plot_titles(var2plot),
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          yaxis = list(title = 'Num. de Alumnos'),
-          xaxis = list(title = 'Calificación'),
           hoverlabel = list(bgcolor = "white")
           #,font=list(size = 30)
         )

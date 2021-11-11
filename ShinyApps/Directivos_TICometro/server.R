@@ -91,7 +91,7 @@ server <- function(input, output, session) {
       input$plot_directivo_var
     reactive_Directivos_var_selectors$gruposPicked <-
       input$grupo_select
-    
+  print(reactive_Directivos_var_selectors$gruposPicked)  
   })
   
   
@@ -147,8 +147,8 @@ server <- function(input, output, session) {
         arrange(desc(n)) %>% 
         pull(f) 
       
-      print("deberia ser un solo valor")
-      print(data_directivos$mode_cinta[1])
+     # print("deberia ser un solo valor")
+      #print(data_directivos$mode_cinta[1])
     
       
     data_directivos$cinta_a_mostrar <- case_when(data_directivos$mode_cinta[1] == "Cinta blanca" ~ "cinta_blanca.png",
@@ -324,6 +324,7 @@ text-align: center;"),
     #THIS FUNCTION ONLY TAKES DEPENDENCY ON reactive_Directivos_tabulated_data
     #everything else is isolated
     #ONLY PLOT HISTOGRAMS ON calificaciones variables
+  if (any(reactive_Directivos_var_selectors$gruposPicked == "Ninguno")) {
     if (grepl(
       "calif",
       isolate(reactive_Directivos_var_selectors$plotvarPicked),
@@ -332,7 +333,7 @@ text-align: center;"),
       plot_numerical_vars(
         reactive_Directivos_tabulated_data(),
         isolate(reactive_Directivos_var_selectors$plotvarPicked),
-        groupvar = "ninguno"
+        groupvar = "Ninguno"
       )
       
       
@@ -345,16 +346,54 @@ text-align: center;"),
         print('printing filtered edad')
         
         plot_categorical_vars(filtered_edad,
-                              isolate(reactive_Directivos_var_selectors$plotvarPicked))
+                              isolate(reactive_Directivos_var_selectors$plotvarPicked),
+                              groupvar = "Ninguno"
+        )
         
       } else{
         plot_categorical_vars(
           reactive_Directivos_tabulated_data(),
           isolate(reactive_Directivos_var_selectors$plotvarPicked),
-          groupvar = "ninguno"
+          groupvar = "Ninguno"
         )
       }
     }
+    
+  }else{  
+    if (grepl(
+      "calif",
+      isolate(reactive_Directivos_var_selectors$plotvarPicked),
+      ignore.case = FALSE
+    )) {
+      plot_numerical_vars(
+        reactive_Directivos_tabulated_data(),
+        isolate(reactive_Directivos_var_selectors$plotvarPicked),
+        groupvar = "grupo"
+      )
+      
+      
+    } else{
+      if (isolate(input$plot_directivo_var) == "edad_uso_dispositivo") {
+        filtered_edad <- reactive_Directivos_tabulated_data() %>%
+          mutate(edad_uso_dispositivo = as.numeric(.data[["edad_uso_dispositivo"]])) %>%
+          filter(between(.data[["edad_uso_dispositivo"]], 1, 17))
+        
+        print('printing filtered edad')
+        
+        plot_categorical_vars(filtered_edad,
+                              isolate(reactive_Directivos_var_selectors$plotvarPicked),
+                              groupvar = "grupo"
+                              )
+        
+      } else{
+        plot_categorical_vars(
+          reactive_Directivos_tabulated_data(),
+          isolate(reactive_Directivos_var_selectors$plotvarPicked),
+          groupvar = "grupo"
+        )
+      }
+    }
+  }
   })# end of render plotly
   
   

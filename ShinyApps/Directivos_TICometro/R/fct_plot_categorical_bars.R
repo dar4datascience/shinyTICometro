@@ -14,7 +14,7 @@
 # var2plot: a string input to put as the title of plot
 #Takes a counted variable in a dataframe
 plot_categorical_vars <-
-  function(df, var2fill, groupvar = "ninguno") {
+  function(df, var2fill, groupvar) {
 
 # Define own palette ------------------------------------------------------
    # my_palette <-  scale_fill_manual(values = c("#758830",
@@ -33,7 +33,7 @@ plot_categorical_vars <-
     # Caso no group variable --------------------------------------------------
     
     
-    if (any(groupvar == "ninguno")) {
+    if (any(groupvar == "Ninguno")) {
       # *Caso se elija cinta ----------------------------------------------------
       
       
@@ -62,7 +62,7 @@ plot_categorical_vars <-
             axis.text.x = element_text("Num. de Alumnos"),
             axis.text.y = element_text("Institución"),
             legend.title = element_blank(),
-            plot.margin = margin(0.5, 0, 0.5, 0, "cm")
+            plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) +
           scale_fill_manual(
             values = c(
@@ -136,7 +136,7 @@ plot_categorical_vars <-
                 theme(
                   axis.text.x = element_text("Num. de Alumnos"),
                   axis.text.y = element_text("Institución"),
-                  plot.margin = margin(0.5, 0, 0.5, 0, "cm")
+                  plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
                 ) #+ my_palette
               
               # **Plotly it -------------------------------------------------------------
@@ -194,15 +194,16 @@ plot_categorical_vars <-
                 
                 p <- df %>% ggplot(aes(
                   y = `Num. alumnos`,
-                  x = `Institución`,
+                  x = .data[[groupvar]],
                   fill = `cinta`
                 )) +
                   geom_col() +
-                  facet_wrap(~.data[[groupvar]]) +
+                  facet_wrap(~`Institución`,
+                             ncol = 1) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
                         axis.text.y = element_text("Grupo"),
-                        plot.margin = margin(0.5, 0, 0.5, 0, "cm")) +
+                        plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")) +
                   scale_fill_manual(
                     values = c(
                       "Cinta blanca" = "#bcbcbc",
@@ -265,17 +266,19 @@ plot_categorical_vars <-
                 # **Ggplot it --------------------------------------------------------------
                 
                 p <-
-                  ordered_df %>% ggplot(aes(
+                  ordered_df %>% ggplot(
+                    aes(
                     y = `Num. alumnos`,
-                    x = `Institución`,
+                    x = .data[[groupvar]],
                     fill = respuesta
-                  )) +
+                                      )) +
                   geom_col() +
-                  facet_wrap(~.data[[groupvar]]) +
+                  facet_wrap(~`Institución`,
+                             ncol = 1) +
                   coord_flip()  +
                   theme(axis.text.x = element_text("Num. de Alumnos"),
                         axis.text.y = element_text("Grupo"),
-                        plot.margin = margin(0.5, 0, 0.5, 0, "cm")) #+my_palette
+                        plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")) #+my_palette
                 # **Plotly it -------------------------------------------------------------
                 
                 fig <-

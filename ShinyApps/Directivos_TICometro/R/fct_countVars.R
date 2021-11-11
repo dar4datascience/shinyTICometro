@@ -72,7 +72,7 @@ countVars <-
             group_by(institucion) %>%
             count(.data[[select_var]]) %>%
             collect()
-          
+          print("isnull grouping_var")
           
         } else{
           #count specially
@@ -93,7 +93,7 @@ countVars <-
       
     } else{
       # Grouping case -----------------------------------------------------------
-      
+      print("esto es lo que buscas en select_groups")
       
       #* if multiple option quesiton ---------------------------------------------
       
@@ -133,7 +133,7 @@ countVars <-
           
         } else{
           #count specially
-
+          print("calculando para select_groups filter")
 # ** Grouping 2 ------------------------------------------------------------
           
           counted_df <- ticometro_table %>%
