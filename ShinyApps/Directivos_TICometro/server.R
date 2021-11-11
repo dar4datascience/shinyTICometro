@@ -320,11 +320,11 @@ text-align: center;"),
   #* Event cascade7: Render plots --------------------------------------------
   
   
-  output$Directivos_plot <- plotly::renderPlotly({
+  output$Directivos_plot <- renderUI({
     #THIS FUNCTION ONLY TAKES DEPENDENCY ON reactive_Directivos_tabulated_data
     #everything else is isolated
     #ONLY PLOT HISTOGRAMS ON calificaciones variables
-  if (any(reactive_Directivos_var_selectors$gruposPicked == "Ninguno")) {
+  my_plotly_plots <- if (any(reactive_Directivos_var_selectors$gruposPicked == "Ninguno")) {
     if (grepl(
       "calif",
       isolate(reactive_Directivos_var_selectors$plotvarPicked),
@@ -394,6 +394,9 @@ text-align: center;"),
       }
     }
   }
+    
+    htmltools::tagList(my_plotly_plots) 
+    
   })# end of render plotly
   
   

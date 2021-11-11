@@ -350,13 +350,12 @@ right = "2021"
                   role = "tabpanel",
                   "Gráfica",
                   #Plot inputs
-                  plotly::plotlyOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
+                  uiOutput("Directivos_plot") %>% shinycssloaders::withSpinner(type = 1,
                                                                                            size = 3,
                                                                                            color =  "#FFFFFF")
                 ),
-                style = "margin:-18px;
-                
-                "
+                style = "margin:-18px;",
+                browsable_html = TRUE
               ), # end of tag append attributes
               tabPanel( #tab for data table
                 role = "tabpanel",
