@@ -46,8 +46,8 @@ plot_numerical_vars <-
           position = position_stack(reverse = TRUE)
         )  +
         theme(
-          axis.text.x = element_text("Num. de Alumnos"),
-          axis.text.y = element_text("Calificación"),
+          axis.text.y = element_text("Num. de Alumnos"),
+          axis.text.x = element_text("Calificación"),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
       
@@ -77,7 +77,9 @@ plot_numerical_vars <-
           title = clean_plot_titles(var2plot) ,
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          hoverlabel = list(bgcolor = "white")
+          hoverlabel = list(bgcolor = "white"),
+          xaxis = list(title = "Num. de Alumnos"),
+          yaxis = list(title = "Calificación")
           #,font=list(size = 30)
         )
       
@@ -115,7 +117,7 @@ plot_numerical_vars <-
           text = .data[[groupvar]]
         )) +
         geom_col() +
-        facet_wrap(~ `Institución`,
+        facet_wrap(~`Institución`,
                    ncol = 1) +
         theme(
           axis.text.x = element_text("Num. de Alumnos"),
@@ -154,7 +156,9 @@ plot_numerical_vars <-
           title = clean_plot_titles(var2plot),
           font = list(family = "Arial"),
           legend = list(title = list(text = '')),
-          hoverlabel = list(bgcolor = "white")
+          hoverlabel = list(bgcolor = "white"),
+          xaxis = list(title = "Num. de Alumnos"),
+          yaxis = list(title = "Calificación")
           #,font=list(size = 30)
         )
       

@@ -354,8 +354,7 @@ right = "2021"
                                                                                            size = 3,
                                                                                            color =  "#FFFFFF")
                 ),
-                style = "margin:-18px;",
-                browsable_html = TRUE
+                style = "margin:-18px;"
               ), # end of tag append attributes
               tabPanel( #tab for data table
                 role = "tabpanel",
@@ -384,17 +383,19 @@ right = "2021"
                    #             icon = shiny::icon(name = "signal", lib = "glyphicon")
                     #            ),
                 htmltools::tagAppendAttributes(
-                  style = "background: black;", 
+                  style = "background: black;
+                  width: 100%;", 
                 shiny::downloadButton(outputId = "downloadtabulado",
                                "Tabulado de datos",
-                               icon = NULL
+                               icon = icon("file-csv")
                 )
                 ), #end of append attributes,
                 htmltools::tagAppendAttributes(
-                  style = "background: black;",
+                  style = "background: black;
+                  width: 100%;",
                 shiny::downloadButton(outputId = "downloadData",
                                 "Hoja de datos",
-                                icon = NULL
+                                icon = icon("database")
                   )
               ) #end of append attributes
               )# end of drop down

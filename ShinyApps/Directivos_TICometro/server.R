@@ -395,7 +395,12 @@ text-align: center;"),
     }
   }
     
-    htmltools::tagList(my_plotly_plots) 
+  browsable(
+    div(
+    style = "display: flex; flex-wrap: wrap; justify-content: center",
+    div(htmltools::tagList(my_plotly_plots) , style = "width: 100%; border: solid;")
+  )
+  )
     
   })# end of render plotly
   
