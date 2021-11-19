@@ -5,7 +5,7 @@
 library(htmltools)
 library(fresh)
 library(sever)
-library(waiter) 
+library(waiter)
 library(reactable)
 library(shinycssloaders)
 suppressMessages(suppressWarnings(library(RColorBrewer)))

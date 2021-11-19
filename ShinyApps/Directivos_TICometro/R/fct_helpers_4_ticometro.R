@@ -16,7 +16,7 @@ pantalla_desconexion <- function() {
     button = "Actualizar",
     button_class = "info"
   )
-  
+
   return(disconnected)
 }
 
@@ -29,15 +29,17 @@ pantalla_desconexion <- function() {
 #' @importFrom purrr map_df
 get_name_escuelas_del_ticometro <- function(instituto) {
   if (instituto == "ENP") {
-    #Lista Escuelas ENP
+    # Lista Escuelas ENP
     ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
-      purrr::map_df(.,
-                    \(x) {
-                      paste0("ENP ", x)
-                    })
+      purrr::map_df(
+        .,
+        \(x) {
+          paste0("ENP ", x)
+        }
+      )
     return(ENP_escuelas)
   } else if (instituto == "CCH") {
-    #ESCUELAS CCH
+    # ESCUELAS CCH
     CCH_escuelas <-
       dplyr::tibble(
         escuela_name = c(
@@ -49,11 +51,9 @@ get_name_escuelas_del_ticometro <- function(instituto) {
         )
       )
     return(CCH_escuelas)
-  } else{
+  } else {
     print("Selección no valida.")
   }
-  
-  
 }
 
 
@@ -65,10 +65,12 @@ get_name_escuelas_del_ticometro <- function(instituto) {
 #' @importFrom dplyr tibble
 #' @importFrom purrr map_df
 get_variables_del_ticometro <- function(tema) {
-  #List of variable choices
+  # List of variable choices
   if (tema == "contexto") {
-    datos_de_contexto <- list("Género" = "genero",
-                              "Escuela de Procedencia" = "escuela_de_procedencia")
+    datos_de_contexto <- list(
+      "Género" = "genero",
+      "Escuela de Procedencia" = "escuela_de_procedencia"
+    )
     return(datos_de_contexto)
   } else if (tema == "habilidades") {
     habilidades_digitales <- list(
@@ -95,22 +97,19 @@ get_variables_del_ticometro <- function(tema) {
   } else {
     print("Opción no valida.")
   }
-  
-} #END FUNCTION
+} # END FUNCTION
 
-grupos_2021 <- function(){
-  db_connection <- connect2database()  
-  grupos <- dplyr::tbl(db_connection, "ticometro_resultados_2021") %>% 
-    select(grupo) %>% 
-    dplyr::distinct(grupo) %>% 
-    dplyr::arrange(grupo) %>% 
+grupos_y_escuelas_2021 <- function() {
+  db_connection <- connect2database()
+  grupos_y_escuelas <- dplyr::tbl(db_connection, "ticometro_resultados_2021") %>%
+    select(institucion,grupo) %>%
+    dplyr::distinct(institucion, grupo) %>%
+    dplyr::arrange(grupo) %>%
     dplyr::collect()
-  
-  pool::poolClose(db_connection)
-  
-  grupos_clean <- c("Ninguno", grupos$grupo)
 
-  return(grupos_clean)
+  pool::poolClose(db_connection)
+
+  return(grupos_y_escuelas)
 }
 
 
@@ -124,7 +123,7 @@ grupos_2021 <- function(){
 #' @return devuelve un solo valor string
 
 clean_plot_titles <- function(variable) {
-  #REVERSE LIST: used for putting neat names to plots
+  # REVERSE LIST: used for putting neat names to plots
   reverse_TICometro_variables <- list(
     "num_alumno" = "Alumno",
     "institucion" = "Plantel",
@@ -146,12 +145,11 @@ clean_plot_titles <- function(variable) {
     "calif_seguridad" = "Calif. Seguridad",
     "calif_colabor_comunic" = "Calif. Colaboración"
   )
-  
+
   return(as.character(reverse_TICometro_variables[variable]))
-  
 }
 
-#FUNCION PARA CALCULAR LA MODA
+# FUNCION PARA CALCULAR LA MODA
 getmode <- function(v) {
   uniqv <- unique(v)
   uniqv[which.max(tabulate(match(v, uniqv)))]
@@ -165,9 +163,9 @@ getmode <- function(v) {
 #' @returns a bs4Table
 crea_tabla_clas_cintas <- function() {
 
-# Declara df a usar en la tabla de explicacion ----------------------------
+  # Declara df a usar en la tabla de explicacion ----------------------------
 
-  
+
   table_descripcion <- tibble(
     cintas = c(
       "cinta_blanca.png",
@@ -178,26 +176,27 @@ crea_tabla_clas_cintas <- function() {
     colores = c("Blanca:", "Naranja:", "Azul:", "Negra:"),
     descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1% - 100%")
   )
-  
 
-# Box ---------------------------------------------------------------------
 
-  
+  # Box ---------------------------------------------------------------------
+
+
   bs4Dash::box(
     id = "explicacion-cintas-ticometro",
     title = tags$h5("Clasificación de las cintas",
-                    id = "titulo-box-clasificacion-cinta",
-                    style = "text-align: center;
-                    margin-bottom: 0px;"),
+      id = "titulo-box-clasificacion-cinta",
+      style = "text-align: center;
+                    margin-bottom: 0px;"
+    ),
     collapsible = FALSE,
     width = 6,
     solidHeader = TRUE,
     headerBorder = FALSE,
     status = "gray-dark",
 
-# Row 1 de la tabla -------------------------------------------------------
+    # Row 1 de la tabla -------------------------------------------------------
 
-    
+
     fluidRow(
       splitLayout(
         cellWidths = c("20%", "30%", "20%", "30%"),
@@ -207,20 +206,24 @@ crea_tabla_clas_cintas <- function() {
           src = table_descripcion$cintas[1],
           width = "50%"
         ),
-        tags$p(tags$b(table_descripcion$colores[1]),
-               table_descripcion$descripcion[1]),
+        tags$p(
+          tags$b(table_descripcion$colores[1]),
+          table_descripcion$descripcion[1]
+        ),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[3]),
           src = table_descripcion$cintas[3],
           width = "50%"
         ),
-        tags$p(tags$b(table_descripcion$colores[3]),
-               table_descripcion$descripcion[3])
+        tags$p(
+          tags$b(table_descripcion$colores[3]),
+          table_descripcion$descripcion[3]
+        )
       )
     ),
 
-# Row 2 de la tabla -------------------------------------------------------
+    # Row 2 de la tabla -------------------------------------------------------
 
 
     fluidRow(
@@ -232,19 +235,21 @@ crea_tabla_clas_cintas <- function() {
           src = table_descripcion$cintas[2],
           width = "50%"
         ),
-        tags$p(tags$b(table_descripcion$colores[2]),
-               table_descripcion$descripcion[2]),
+        tags$p(
+          tags$b(table_descripcion$colores[2]),
+          table_descripcion$descripcion[2]
+        ),
         tags$img(
           class = "cinta",
           alt = paste(table_descripcion$cintas[4]),
           src = table_descripcion$cintas[4],
           width = "50%"
+        ),
+        tags$p(
+          tags$b(table_descripcion$colores[4]),
+          table_descripcion$descripcion[4]
         )
-        ,
-        tags$p(tags$b(table_descripcion$colores[4]),
-               table_descripcion$descripcion[4])
       )
     )
-  )#end of box
-  
+  ) # end of box
 }
