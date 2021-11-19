@@ -12,7 +12,9 @@
 pantalla_desconexion <- function() {
   disconnected <- sever_default(
     title = "Error: Interrupción del procesamiento",
-    subtitle = "Disculpe las molestias. Si esta pantalla continua apareciendo, favor de comunicarse con el administrador del sitio.",
+    subtitle = "Disculpe las molestias.
+    Si esta pantalla continua apareciendo,
+    favor de comunicarse con el administrador del sitio.",
     button = "Actualizar",
     button_class = "info"
   )
@@ -21,14 +23,17 @@ pantalla_desconexion <- function() {
 }
 
 #' Devuelve una lista con las escuelas que participan en el TICometro
-#'
+#' @description a function to return 
+#' una lista con el nombre de todas
+#'las escuelas pertenecientes al string
 #' @param instituto un string: ENP o CCH
-#' @return una lista con el nombre de todas las escuelas pertenecientes al string
+#' @return a list
 #' @noRd
 #' @importFrom dplyr tibble
 #' @importFrom purrr map_df
-get_name_escuelas_del_ticometro <- function(instituto) {
+get_escuelas_ticometro <- function(instituto){
   if (instituto == "ENP") {
+    
     # Lista Escuelas ENP
     ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
       purrr::map_df(
@@ -37,8 +42,11 @@ get_name_escuelas_del_ticometro <- function(instituto) {
           paste0("ENP ", x)
         }
       )
+    
     return(ENP_escuelas)
+    
   } else if (instituto == "CCH") {
+    
     # ESCUELAS CCH
     CCH_escuelas <-
       dplyr::tibble(
@@ -50,14 +58,19 @@ get_name_escuelas_del_ticometro <- function(instituto) {
           "CCH Vallejo"
         )
       )
+    
     return(CCH_escuelas)
+    
   } else {
+    
     print("Selección no valida.")
+    
   }
 }
 
 
-#' Devuelve una lista con las escuelas que participan en el TICometro
+#' get_variables_del_ticometro
+#' @description Devuelve una lista con las escuelas que participan en el TICometro
 #'
 #' @param tema un string. las opciones son: contexto, acceso y habilidades.
 #' @return una lista con el nombre de todas las escuelas pertenecientes al string
@@ -75,7 +88,7 @@ get_variables_del_ticometro <- function(tema) {
   } else if (tema == "habilidades") {
     habilidades_digitales <- list(
       "Color de cinta obtenida" = "cinta",
-      "Calificación TICometro" = "calif_checker",
+      "Calificación TICómetro" = "calif_checker",
       "Calif. Procesamiento" = "calif_proces_admin_infor",
       "Calif. Acceso" = "calif_acceso_informacion",
       "Calif. Seguridad" = "calif_seguridad",
@@ -85,24 +98,28 @@ get_variables_del_ticometro <- function(tema) {
   } else if (tema == "acceso") {
     nivel_de_acceso <- list(
       "Edad de primer uso de TIC" = "edad_uso_dispositivo",
-      "Principal dispotivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
-      "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
+      "Principal dispositivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
+      # "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
       "Uso compartido de laptop o computadora" = "compartes_tic",
-      "Estabilidad de la red en casa" = "internet_fuera_d_casa",
-      "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-      "Conocimiento sobre plataformas educativas" = "plataformas_edu_known",
-      "# de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
+      "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
+      "Conexión a Internet fuera de casa" = "internet_fuera_d_casa", 
+      "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
+      "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
     )
+    
     return(nivel_de_acceso)
+    
   } else {
     print("Opción no valida.")
   }
 } # END FUNCTION
 
 grupos_y_escuelas_2021 <- function() {
+  
   db_connection <- connect2database()
+  
   grupos_y_escuelas <- dplyr::tbl(db_connection, "ticometro_resultados_2021") %>%
-    select(institucion,grupo) %>%
+    select(institucion, grupo) %>%
     dplyr::distinct(institucion, grupo) %>%
     dplyr::arrange(grupo) %>%
     dplyr::collect()
@@ -121,10 +138,9 @@ grupos_y_escuelas_2021 <- function() {
 #'  nombres adecuados para los titulos de las
 #'  graficas
 #' @return devuelve un solo valor string
-
 clean_plot_titles <- function(variable) {
   # REVERSE LIST: used for putting neat names to plots
-  reverse_TICometro_variables <- list(
+  reverse_ticometro_vars <- list(
     "num_alumno" = "Alumno",
     "institucion" = "Plantel",
     "grupo" = "Grupo",
@@ -146,13 +162,7 @@ clean_plot_titles <- function(variable) {
     "calif_colabor_comunic" = "Calif. Colaboración"
   )
 
-  return(as.character(reverse_TICometro_variables[variable]))
-}
-
-# FUNCION PARA CALCULAR LA MODA
-getmode <- function(v) {
-  uniqv <- unique(v)
-  uniqv[which.max(tabulate(match(v, uniqv)))]
+  return(as.character(reverse_ticometro_vars[variable]))
 }
 
 

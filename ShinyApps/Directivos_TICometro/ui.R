@@ -10,46 +10,18 @@ grupos_y_escuelas <- grupos_y_escuelas_2021()
 
 datos_de_contexto <- get_variables_del_ticometro("contexto")
 
-habilidades_digitales <- list(
-  "Color de cinta obtenida" = "cinta",
-  "Calificación TICómetro" = "calif_checker",
-  "Calif. Procesamiento" = "calif_proces_admin_infor",
-  "Calif. Acceso" = "calif_acceso_informacion",
-  "Calif. Seguridad" = "calif_seguridad",
-  "Calif. Colaboración" = "calif_colabor_comunic"
-)
+habilidades_digitales <- get_variables_del_ticometro("habilidades")
 
-nivel_de_acceso <- list(
-  "Edad de primer uso de TIC" = "edad_uso_dispositivo",
-  "Principal dispositivo para Clases a Distancia" = "principal_dispositivo_clases_distancia",
-  # "# de Dispositivos TIC" = "total_de_dispositivos_por_estudiante",
-  "Uso compartido de laptop o computadora" = "compartes_tic",
-  "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
-  "Conexión a Internet fuera de casa" = "internet_fuera_d_casa",
-  "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
-  "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
-)
+nivel_de_acceso <- get_variables_del_ticometro("acceso")
 
 
 # Lista Escuelas ENP
-ENP_escuelas <- dplyr::tibble(escuela_name = 1:9) %>%
-  purrr::map_df(
-    .,
-    \(x) {
-      paste0("ENP ", x)
-    }
-  )
+ENP_escuelas <- get_escuelas_ticometro(instituto = "ENP")
 
 # ESCUELAS CCH
 
 # ESCUELAS CCH
-CCH_escuelas <- dplyr::tibble(escuela_name = c(
-  "CCH AZCAPOTZALCO",
-  "CCH NAUCALPAN",
-  "CCH ORIENTE",
-  "CCH SUR",
-  "CCH VALLEJO"
-))
+CCH_escuelas <- get_escuelas_ticometro(instituto = "CCH")
 
 
 # Fresh theme -------------------------------------------------------------
@@ -366,12 +338,12 @@ color: black;"
                   tabPanel( # tab for data table
                     role = "tabpanel",
                     "Tabulado de Datos",
-                    reactable::reactableOutput("TabulatedVars_Directivos")
+                    reactable::reactableOutput("tabulated_vars_directivos")
                   ), # tab panel ends HOJA CON DATOS TABULADOS
                   tabPanel(
                     role = "tabpanel",
                     "Hoja de Datos",
-                    reactable::reactableOutput("MainVars_Directivos")
+                    reactable::reactableOutput("main_vars_directivos")
                   ), # tab panel HOJA DE DATOS RAW
 
 
@@ -394,7 +366,7 @@ color: black;"
                       style = "background: black;
                   width: 100%;",
                       shiny::downloadButton(
-                        outputId = "downloadtabulado",
+                        outputId = "download_tabulado",
                         "Tabulado de datos",
                         icon = icon("file-csv")
                       )
@@ -403,7 +375,7 @@ color: black;"
                       style = "background: black;
                   width: 100%;",
                       shiny::downloadButton(
-                        outputId = "downloadData",
+                        outputId = "download_data",
                         "Hoja de datos",
                         icon = icon("database")
                       )
@@ -421,8 +393,8 @@ color: black;"
             fluidRow( # divides in 12
               role = "region",
               id = "value boxes y explicacion de cintas",
-              bs4Dash::valueBoxOutput("value_box_Directivos", width = 3), # width 2
-              bs4Dash::valueBoxOutput("mode_box_Directivos", width = 3), # width 3
+              bs4Dash::valueBoxOutput("value_box_directivos", width = 3), # width 2
+              bs4Dash::valueBoxOutput("mode_box_directivos", width = 3), # width 3
               crea_tabla_clas_cintas()
             )
           ), # end of tab items 1

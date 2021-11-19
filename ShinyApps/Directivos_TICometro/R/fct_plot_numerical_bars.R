@@ -168,6 +168,6 @@ plot_numerical_vars <-
 
       return(fig)
 
-      prnt("grafica x grupos")
+      print("grafica x grupos")
     }
   }
