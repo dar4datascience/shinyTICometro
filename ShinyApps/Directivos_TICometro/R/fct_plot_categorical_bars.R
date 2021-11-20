@@ -27,6 +27,11 @@ plot_categorical_vars <-
     #                   "#55874a",
     #                  "#a58713",
     #                 "#7a7a7a"))
+    
+    colores_de_cintas <- list("Cinta blanca" = "#bcbcbc",
+                              "Cinta anaranjada" = "#ffa500",
+                              "Cinta azul" = "#0000ff",
+                              "Cinta negra" = "#000000")
 
 
 
@@ -60,17 +65,17 @@ plot_categorical_vars <-
           geom_col() +
           coord_flip() +
           theme(
-            axis.text.x = element_text("Num. de Alumnos"),
-            axis.text.y = element_text("Institución"),
+            axis.text.x = element_text(""),
+            axis.text.y = element_text(""),
             legend.title = element_blank(),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) +
           scale_fill_manual(
             values = c(
-              "Cinta blanca" = "#bcbcbc",
-              "Cinta anaranjada" = "#ffa500",
-              "Cinta azul" = "#0000ff",
-              "Cinta negra" = "#000000"
+              "Cinta blanca" = colores_de_cintas[["Cinta blanca"]],
+              "Cinta anaranjada" = colores_de_cintas[["Cinta anaranjada"]],
+              "Cinta azul" = colores_de_cintas[["Cinta azul"]],
+              "Cinta negra" = colores_de_cintas[["Cinta negra"]]
             )
           )
 
@@ -100,7 +105,11 @@ plot_categorical_vars <-
           plotly::layout(
             title = clean_plot_titles(var2fill),
             legend = list(title = list(text = "")),
-            hoverlabel = list(bgcolor = "white")
+            hoverlabel = list(bgcolor = "white"),
+            xaxis = list(categoryorder = "total ascending",
+                         title = "Num. de Alumnos"),
+            yaxis = list(categoryorder = "total ascending",
+                         title = "Institución")
           )
         # ,font=list(size = 30))
 
@@ -137,8 +146,8 @@ plot_categorical_vars <-
           geom_col() +
           coord_flip() +
           theme(
-            axis.text.x = element_text("Num. de Alumnos"),
-            axis.text.y = element_text("Institución"),
+            axis.text.x = element_text(""),
+            axis.text.y = element_text(""),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) #+ my_palette
 
@@ -170,7 +179,11 @@ plot_categorical_vars <-
           plotly::layout(
             title = clean_plot_titles(var2fill),
             legend = list(title = list(text = "")),
-            hoverlabel = list(bgcolor = "white")
+            hoverlabel = list(bgcolor = "white"),
+            xaxis = list(categoryorder = "total ascending",
+                         title = "Num. de Alumnos"),
+            yaxis = list(categoryorder = "total ascending",
+                         title = "Institución")
           )
         # ,font=list(size = 30))
 
@@ -209,16 +222,16 @@ plot_categorical_vars <-
           ) +
           coord_flip() +
           theme(
-            axis.text.x = element_text("Num. de Alumnos"),
-            axis.text.y = element_text("Grupo"),
+            axis.text.x = element_text(""),
+            axis.text.y = element_text(""),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) +
           scale_fill_manual(
             values = c(
-              "Cinta blanca" = "#bcbcbc",
-              "Cinta anaranjada" = "#ffa500",
-              "Cinta azul" = "#0000ff",
-              "Cinta negra" = "#000000"
+              "Cinta blanca" = colores_de_cintas[["Cinta blanca"]],
+              "Cinta anaranjada" = colores_de_cintas[["Cinta anaranjada"]],
+              "Cinta azul" = colores_de_cintas[["Cinta azul"]],
+              "Cinta negra" = colores_de_cintas[["Cinta negra"]]
             )
           )
         #** Plotly it ---------------------------------------------------------------
@@ -246,7 +259,11 @@ plot_categorical_vars <-
           plotly::layout(
             title = clean_plot_titles(var2fill),
             legend = list(title = list(text = "")),
-            hoverlabel = list(bgcolor = "white")
+            hoverlabel = list(bgcolor = "white"),
+            xaxis = list(categoryorder = "total ascending",
+                         title = "Num. de Alumnos"),
+            yaxis = list(categoryorder = "total ascending",
+                         title = "Grupo")
           )
         # ,font=list(size = 30))
 
@@ -291,8 +308,8 @@ plot_categorical_vars <-
           ) +
           coord_flip() +
           theme(
-            axis.text.x = element_text("Num. de Alumnos"),
-            axis.text.y = element_text("Grupo"),
+            axis.text.x = element_text(""),
+            axis.text.y = element_text(""),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) #+my_palette
         # **Plotly it -------------------------------------------------------------
@@ -321,8 +338,10 @@ plot_categorical_vars <-
           plotly::layout(title = clean_plot_titles(var2fill)) %>%
           # ,font=list(size = 30)) %>%
           plotly::layout(
-            xaxis = list(categoryorder = "total ascending"),
-            yaxis = list(categoryorder = "total ascending"),
+            xaxis = list(categoryorder = "total ascending",
+                         title = "Num. de Alumnos"),
+            yaxis = list(categoryorder = "total ascending",
+                         title = "Grupo"),
             legend = list(title = list(text = "")),
             hoverlabel = list(bgcolor = "white")
           )

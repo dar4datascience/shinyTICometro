@@ -27,3 +27,17 @@ div.small-box.bg-white {
     border-color: green;
 }
 
+.texto-cinta {
+    padding-left: 20px;
+    min-width: 185px;
+}
+
+.cinta {
+    max-width: 80px;
+}
+
+.cinta-cont {
+    display: flex;
+    min-width: 285px;
+    flex-basis: 50%;
+}

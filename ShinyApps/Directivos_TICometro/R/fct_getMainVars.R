@@ -8,7 +8,7 @@
 #' that queries the database has its own call to tbl
 #' @import dplyr
 #' @import stringr
-get_mainVars_4_planteles <-
+get_mainvars_4_planteles <-
   function(db_connection,
            select_schools,
            select_groups = NULL,

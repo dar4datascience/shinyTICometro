@@ -263,3 +263,104 @@ crea_tabla_clas_cintas <- function() {
     )
   ) # end of box
 }
+
+crea_tabla_de_cintas_dev <- function() {
+  
+  # Declara df a usar en la tabla de explicacion ----------------------------
+  
+  
+  table_descripcion <- tibble(
+    cintas = c(
+      "cinta_blanca.png",
+      "cinta_naranja.png",
+      "cinta_azul.png",
+      "cinta_negra.png"
+    ),
+    colores = c("Blanca:", "Naranja:", "Azul:", "Negra:"),
+    descripcion = c("0 - 30%", "30.1% - 60%", "60.1% - 85%", "85.1% - 100%")
+  )
+  
+  
+  # Box ---------------------------------------------------------------------
+  
+  
+  bs4Dash::box(
+    id = "explicacion-cintas-ticometro",
+    title = tags$h5("Clasificación de las cintas",
+                    id = "titulo-box-clasificacion-cinta",
+                    style = "text-align: center;
+                    margin-bottom: 0px;"
+    ),
+    collapsible = FALSE,
+    width = 6,
+    solidHeader = TRUE,
+    headerBorder = FALSE,
+    status = "gray-dark",
+    
+    # Row 1 de la tabla -------------------------------------------------------
+    
+    
+    fluidRow(
+      splitLayout(
+        cellWidths = c("20%", "30%", "20%", "30%"),
+        tags$img(
+          class = "cinta",
+          alt = paste(table_descripcion$cintas[1]),
+          src = table_descripcion$cintas[1],
+          width = "50%"
+        ),
+        tags$p(
+          tags$b(table_descripcion$colores[1]),
+          table_descripcion$descripcion[1]
+        ),
+        tags$img(
+          class = "cinta",
+          alt = paste(table_descripcion$cintas[3]),
+          src = table_descripcion$cintas[3],
+          width = "50%"
+        ),
+        tags$p(
+          tags$b(table_descripcion$colores[3]),
+          table_descripcion$descripcion[3]
+        )
+      )
+    ),
+    
+    # Row 2 de la tabla -------------------------------------------------------
+    
+    
+    tags$div(class = "cinta-fila row",
+             tags$div(class = "cinta-cont",
+                      tags$div(tags$img(class = "cinta",
+                                        alt = "cinta_blanca.png",
+                                        src = "cinta_blanca.png")),
+                      tags$div(class = "texto-cinta",
+                               tags$p(tags$b("Blanca:"),
+                                      "0 - 30%"))),
+             tags$div(class = "cinta-cont",
+                      tags$div(tags$img(class = "cinta",
+                                        alt = "cinta_naranja.png",
+                                        src = "cinta_naranja.png")),
+                      tags$div(class = "texto-cinta",
+                               tags$p(tags$b("Naranja:"),
+                                      "30.1% - 60%")))),
+    tags$div(class = "cinta-fila row",
+             tags$div(class = "cinta-cont",
+                      tags$div(tags$img(class = "cinta",
+                                        alt = "cinta_azul.png",
+                                        src = "cinta_azul.png")),
+                      tags$div(class = "texto-cinta",
+                               tags$p(tags$b("Azul:"),
+                                      "60.1% - 85%"))),
+             tags$div(class = "cinta-cont",
+                      tags$div(tags$img(class = "cinta",
+                                        alt = "cinta_negra.png",
+                                        src = "cinta_negra.png")),
+                      tags$div(class = "texto-cinta",
+                               tags$p(tags$b("Negra:"),
+                                      "85.1% - 100%"))))
+  ) # end of box
+}
+
+
+

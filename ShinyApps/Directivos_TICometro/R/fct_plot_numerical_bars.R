@@ -46,8 +46,8 @@ plot_numerical_vars <-
           position = position_stack(reverse = TRUE)
         ) +
         theme(
-          axis.text.y = element_text("Num. de Alumnos"),
-          axis.text.x = element_text("Calificación"),
+          axis.text.y = element_text(""),
+          axis.text.x = element_text(""),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
 
@@ -123,8 +123,8 @@ plot_numerical_vars <-
           ncol = 1
         ) +
         theme(
-          axis.text.x = element_text("Num. de Alumnos"),
-          axis.text.y = element_text("Calificación"),
+          axis.text.x = element_text(""),
+          axis.text.y = element_text(""),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
 
