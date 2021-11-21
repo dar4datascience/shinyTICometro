@@ -8,3 +8,4 @@
 .DS_Store
 .Renviron
 .Rproj.user\E6FD2D4D\
+^\.github$
