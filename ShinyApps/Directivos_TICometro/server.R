@@ -1,6 +1,6 @@
 ##### TICometro 4 Directivos Server 2021#####
 
-
+grupos_y_escuelas <- grupos_y_escuelas_2021()
 
 
 # CONNECT OUTSIDE OF THE SERVER FUNCTION ----------------------------------
@@ -68,6 +68,57 @@ server <- function(input, output, session) {
     reactive_directivos_selectors$gruposPicked <-
       input$grupo_select
     print(reactive_directivos_selectors$gruposPicked)
+  })
+  
+
+#** update grupos -----------------------------------------------------------
+
+  reactiveGrupos <- reactiveValues()
+  observeEvent(input$escuelas_directivos_picked,{
+    validate(
+      need(input$escuelas_directivos_picked,
+           "Tienes que escojer alguna escuela")
+    )
+    
+    reactiveGrupos$grupos_y_escuelas <- grupos_y_escuelas %>% 
+      filter(institucion %in% input$escuelas_directivos_picked)
+    print("escuelas are picked")
+    print(input$escuelas_directivos_picked)
+    print("selections are filtered")
+ 
+    reactiveGrupos$grupos_enp <- grupos_y_escuelas %>% 
+      filter(institucion %in% input$escuelas_directivos_picked,
+             stringr::str_detect(institucion, "ENP")) %>% 
+      distinct(grupo) %>% 
+      pull(grupo) %>% 
+      as.character()
+    
+    print("grupo enp")
+    print(reactiveGrupos$grupos_enp)
+    
+    reactiveGrupos$grupos_cch <- grupos_y_escuelas %>% 
+      filter(institucion %in% input$escuelas_directivos_picked,
+             stringr::str_detect(institucion, "CCH")) %>% 
+      distinct(grupo) %>% 
+      pull(grupo) %>% 
+      as.character()
+      
+   
+    print("grupos cch") 
+    print(reactiveGrupos$grupos_cch)
+    
+    updateSelectizeInput(session,
+                         'grupo_select',
+                         label = "Grupo:",
+                         choices = list("Ninguno",
+                                        c(reactiveGrupos$grupos_enp,
+                                        reactiveGrupos$grupos_cch)
+                                        ),
+                         selected = "Ninguno",
+                         options = list(placeholder = 'Tienes que escoger algún grupo',
+                                        create = TRUE),
+                         server = TRUE)  
+    
   })
   
   

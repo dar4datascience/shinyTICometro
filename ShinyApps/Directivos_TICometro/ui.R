@@ -4,6 +4,10 @@
 
 grupos_y_escuelas <- grupos_y_escuelas_2021()
 
+grupos_enp <- grupos_y_escuelas %>% filter(grepl("ENP", institucion))
+
+grupos_cch <- grupos_y_escuelas %>% filter(grepl("CCH", institucion))
+
 ##### List of variable choices
 
 
@@ -218,7 +222,7 @@ color: black;"
                 width = 3,
                 htmltools::tagAppendAttributes(
                   # USE PICKER FOR EASY MULTIPLE SELECTION
-                  shinyWidgets::pickerInput(
+                  shiny::selectizeInput(
                     inputId = "escuelas_directivos_picked",
                     label = "Escuela y/o plantel:",
                     choices = list(
@@ -226,10 +230,9 @@ color: black;"
                       "CCH" = c(CCH_escuelas$escuela_name)
                     ),
                     multiple = TRUE,
-                    selected = c("ENP 1", "CCH AZCAPOTZALCO"),
-                    options = list(
-                      style = "btn-secondary"
-                    )
+                    selected = c("CCH NAUCALPAN",
+                                 "ENP 1"),
+                    options = list(placeholder = 'Tienes que escoger algún instituto')
                   ),
                   role = "button",
                   id = "selector de escuelas"
@@ -238,23 +241,18 @@ color: black;"
               column( # sTARTS GRUPO INPUT
                 width = 2,
                 # use picker with searchable
-                shinyWidgets::pickerInput(
+                shiny::selectizeInput(
                   inputId = "grupo_select",
                   label = "Grupo:",
-                  choices = c("Ninguno", grupos_y_escuelas$grupo),
+                  choices = "Ninguno",
                   multiple = TRUE,
-                  selected = "Ninguno",
-                  options = list(
-                    title = "Seleccione una opcion",
-                    style = "btn-secondary",
-                    `live-search` = TRUE
-                  )
+                  selected = "Ninguno"
                 )
               ), # ENDS GRUPO INPUT
               column(
                 width = 4,
                 htmltools::tagAppendAttributes(
-                  shinyWidgets::pickerInput(
+                  shiny::selectizeInput(
                     inputId = "plot_directivo_var",
                     label = "Variables del TICómetro",
                     choices = list(
@@ -262,8 +260,7 @@ color: black;"
                       "Nivel de Acceso" = nivel_de_acceso,
                       "Habilidades Digitales" = habilidades_digitales
                     ),
-                    selected = "calif_checker",
-                    options = list(style = "btn-secondary")
+                    selected = "calif_checker"
                   ),
                   role = "button",
                   id = "selector de variables"

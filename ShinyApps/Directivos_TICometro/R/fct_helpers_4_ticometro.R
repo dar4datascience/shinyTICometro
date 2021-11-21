@@ -51,11 +51,11 @@ get_escuelas_ticometro <- function(instituto){
     CCH_escuelas <-
       dplyr::tibble(
         escuela_name = c(
-          "CCH Azcapotzalco",
-          "CCH Naucalpan",
-          "CCH Oriente",
-          "CCH Sur",
-          "CCH Vallejo"
+          "CCH AZCAPOTZALCO",
+          "CCH NAUCALPAN",
+          "CCH ORIENTE",
+          "CCH SUR",
+          "CCH VALLEJO"
         )
       )
     
