@@ -1,6 +1,6 @@
 # shinyTICometro 1.0 - Consulta los resultados del TICómetro
 
-  [![R-CMD-check](https://github.com/dar4datascience/shinyTICometro/workflows/R-CMD-check/badge.svg)](https://github.com/dar4datascience/shinyTICometro/actions)
+
 
 
 Una aplicación en Shiny para consultar los [resultados del TICometro](https://educatic.unam.mx/publicaciones/informes-ticometro.html).
