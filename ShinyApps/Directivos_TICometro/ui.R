@@ -322,12 +322,12 @@ color: black;"
                   headerBorder = FALSE,
                   selected = "Gráfica",
                   # strech the plot with negative margins
-                  htmltools::tagAppendAttributes(
+                htmltools::tagAppendAttributes(
                     tabPanel(
                       role = "tabpanel",
                       "Gráfica",
                       # Plot inputs
-                      uiOutput("directivos_plot") %>% shinycssloaders::withSpinner(
+                      plotlyOutput("directivos_plot") %>% shinycssloaders::withSpinner(
                         type = 1,
                         size = 3,
                         color = "#FFFFFF"
@@ -393,8 +393,10 @@ color: black;"
             fluidRow( # divides in 12
               role = "region",
               id = "value boxes y explicacion de cintas",
-              bs4Dash::valueBoxOutput("value_box_directivos", width = 3), # width 2
-              bs4Dash::valueBoxOutput("mode_box_directivos", width = 3), # width 3
+              bs4Dash::valueBoxOutput("value_box_directivos",
+                                      width = 4), # width 2
+              bs4Dash::valueBoxOutput("mode_box_directivos",
+                                      width = 5), # width 3
               crea_tabla_de_cintas()
             )
           ), # end of tab items 1
@@ -476,10 +478,10 @@ color: black;"
       useSever(),
       autoWaiter(
         id = c(
-          "value_box_Directivos",
-          "mode_box_Directivos",
-          "TabulatedVars_Directivos",
-          "MainVars_Directivos"
+          "value_box_directivos",
+          "mode_box_directivos",
+          "tabulated_vars_directivos",
+          "main_vars_directivos"
         ),
         html = spin_plus(),
         fadeout = FALSE,

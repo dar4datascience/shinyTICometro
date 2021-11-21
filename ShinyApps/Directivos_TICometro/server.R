@@ -198,8 +198,8 @@ server <- function(input, output, session) {
                         style = "font-size: 2rem;"),
       color = "success",
       icon = htmltools::tagAppendAttributes(icon("user-friends"),
-                                            style = "color:white;
-        font-size: 50px;")
+                                            style = "color:white;")
+      #font-size: 50px;
       # href = "#" #Referencia directo a la pagina principal de la aplicacion
     )
   })
@@ -296,11 +296,11 @@ color = "white"
   #* Event cascade7: Render plots --------------------------------------------
   
   
-  output$directivos_plot <- renderUI({
+  output$directivos_plot <- renderPlotly({
     # THIS FUNCTION ONLY TAKES DEPENDENCY ON reactive_directivos_tabulated_data
     # everything else is isolated
     # ONLY PLOT HISTOGRAMS ON calificaciones variables
-    my_plotly_plots <-
+   # my_plotly_plots <-
       if (any(reactive_directivos_selectors$gruposPicked == "Ninguno")) {
         if (grepl(
           "calif",
@@ -367,12 +367,12 @@ color = "white"
         }
       }
     
-    browsable(div(
-      style = "display: flex;
-        flex-wrap: wrap;
-        justify-content: center",
-      div(htmltools::tagList(my_plotly_plots))
-    ))
+  #  browsable(div(
+   #   style = "display: flex;
+    #    flex-wrap: wrap;
+     #   justify-content: center",
+      #div(htmltools::tagList(my_plotly_plots))
+  #  ))
   }) # end of render plotly
   
   

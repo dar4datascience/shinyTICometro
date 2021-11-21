@@ -292,41 +292,12 @@ crea_tabla_de_cintas <- function() {
                     margin-bottom: 0px;"
     ),
     collapsible = FALSE,
-    width = 6,
+    width = 3,
     solidHeader = TRUE,
     headerBorder = FALSE,
     status = "gray-dark",
-    
-    # Row 1 de la tabla -------------------------------------------------------
-    
-    
-    fluidRow(
-      splitLayout(
-        cellWidths = c("20%", "30%", "20%", "30%"),
-        tags$img(
-          class = "cinta",
-          alt = paste(table_descripcion$cintas[1]),
-          src = table_descripcion$cintas[1],
-          width = "50%"
-        ),
-        tags$p(
-          tags$b(table_descripcion$colores[1]),
-          table_descripcion$descripcion[1]
-        ),
-        tags$img(
-          class = "cinta",
-          alt = paste(table_descripcion$cintas[3]),
-          src = table_descripcion$cintas[3],
-          width = "50%"
-        ),
-        tags$p(
-          tags$b(table_descripcion$colores[3]),
-          table_descripcion$descripcion[3]
-        )
-      )
-    ),
-    
-    # Row 2 de la tabla -------------------------------------------------------
+   
+    #tabla de cintas -------------------------------------------------------
     
     
     tags$div(class = "cinta-fila row",
