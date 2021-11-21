@@ -122,7 +122,7 @@ server <- function(input, output, session) {
       forcats::as_factor(.) %>%
       forcats::fct_count(.) %>%
       arrange(desc(n)) %>%
-      slice_head(1)
+      slice_head(n = 1)
     
     # print("deberia ser un solo valor")
     print(data_directivos$mode_cinta)

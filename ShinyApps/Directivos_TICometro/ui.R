@@ -327,7 +327,7 @@ color: black;"
                       role = "tabpanel",
                       "Gráfica",
                       # Plot inputs
-                      uiOutput("Directivos_plot") %>% shinycssloaders::withSpinner(
+                      uiOutput("directivos_plot") %>% shinycssloaders::withSpinner(
                         type = 1,
                         size = 3,
                         color = "#FFFFFF"
@@ -395,7 +395,7 @@ color: black;"
               id = "value boxes y explicacion de cintas",
               bs4Dash::valueBoxOutput("value_box_directivos", width = 3), # width 2
               bs4Dash::valueBoxOutput("mode_box_directivos", width = 3), # width 3
-              crea_tabla_clas_cintas()
+              crea_tabla_de_cintas()
             )
           ), # end of tab items 1
           #   tabItem(tabName = "compara",

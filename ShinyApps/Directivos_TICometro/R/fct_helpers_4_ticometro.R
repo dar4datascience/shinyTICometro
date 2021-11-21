@@ -264,7 +264,7 @@ crea_tabla_clas_cintas <- function() {
   ) # end of box
 }
 
-crea_tabla_de_cintas_dev <- function() {
+crea_tabla_de_cintas <- function() {
   
   # Declara df a usar en la tabla de explicacion ----------------------------
   
