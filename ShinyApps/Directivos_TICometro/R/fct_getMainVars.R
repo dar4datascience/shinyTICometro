@@ -140,7 +140,7 @@ get_mainvars_4_planteles <-
 
 
       # check if group is null or if selected schools are mixed to signal CCH or directivo variables
-      if (any(select_groups == "Ninguno")) {
+      if (any(select_groups == "Todos")) {
         # end of conditional
         #** QUERY database 4 main variables ------------------------------
         all_main_vars <- ticometro_table %>%

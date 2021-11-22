@@ -244,9 +244,9 @@ color: black;"
                 shiny::selectizeInput(
                   inputId = "grupo_select",
                   label = "Grupo:",
-                  choices = "Ninguno",
+                  choices = "Todos",
                   multiple = TRUE,
-                  selected = "Ninguno"
+                  selected = "Todos"
                 )
               ), # ENDS GRUPO INPUT
               column(

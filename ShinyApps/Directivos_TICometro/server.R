@@ -110,11 +110,11 @@ server <- function(input, output, session) {
     updateSelectizeInput(session,
                          'grupo_select',
                          label = "Grupo:",
-                         choices = list("Ninguno",
+                         choices = list("Todos",
                                         c(reactiveGrupos$grupos_enp,
                                         reactiveGrupos$grupos_cch)
                                         ),
-                         selected = "Ninguno",
+                         selected = "Todos",
                          options = list(placeholder = 'Tienes que escoger algún grupo',
                                         create = TRUE),
                          server = TRUE)  
@@ -191,7 +191,7 @@ server <- function(input, output, session) {
   })
   
   observe({
-    if (any(isolate(reactive_directivos_selectors$gruposPicked) == "Ninguno")) {
+    if (any(isolate(reactive_directivos_selectors$gruposPicked) == "Todos")) {
       colnames(tabulated_directivos$data)[2] <-
         clean_plot_titles(reactive_directivos_selectors$plotvarPicked)
     } else {
@@ -352,7 +352,7 @@ color = "white"
     # everything else is isolated
     # ONLY PLOT HISTOGRAMS ON calificaciones variables
    # my_plotly_plots <-
-      if (any(reactive_directivos_selectors$gruposPicked == "Ninguno")) {
+      if (any(reactive_directivos_selectors$gruposPicked == "Todos")) {
         if (grepl(
           "calif",
           isolate(reactive_directivos_selectors$plotvarPicked),
@@ -361,7 +361,7 @@ color = "white"
           plot_numerical_vars(
             reactive_directivos_tabulated_data(),
             isolate(reactive_directivos_selectors$plotvarPicked),
-            groupvar = "Ninguno"
+            groupvar = "Todos"
           )
         } else {
           if (isolate(input$plot_directivo_var) == "edad_uso_dispositivo") {
@@ -374,13 +374,13 @@ color = "white"
             plot_categorical_vars(
               filtered_edad,
               isolate(reactive_directivos_selectors$plotvarPicked),
-              groupvar = "Ninguno"
+              groupvar = "Todos"
             )
           } else {
             plot_categorical_vars(
               reactive_directivos_tabulated_data(),
               isolate(reactive_directivos_selectors$plotvarPicked),
-              groupvar = "Ninguno"
+              groupvar = "Todos"
             )
           }
         }

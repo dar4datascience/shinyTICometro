@@ -38,7 +38,7 @@ plot_categorical_vars <-
     # Caso no group variable --------------------------------------------------
 
 
-    if (any(groupvar == "Ninguno")) {
+    if (any(groupvar == "Todos")) {
       # *Caso se elija cinta ----------------------------------------------------
 
 

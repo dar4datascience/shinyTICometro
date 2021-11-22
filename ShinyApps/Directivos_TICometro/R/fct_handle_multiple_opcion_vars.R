@@ -306,7 +306,7 @@ handle_multiple_choice_questions <-
     } else if (fecha_de_aplicacion == "2021") {
       # Global count No grouping 1 case --------------------------------------------------------
 
-      if (any(select_groups == "Ninguno")) {
+      if (any(select_groups == "Todos")) {
         print("im in global 2021 count")
         count_var_4_directivos_and_cch <- ticometro_table %>%
           select(2, 19:27) %>% # grab eduplatform multiple choice

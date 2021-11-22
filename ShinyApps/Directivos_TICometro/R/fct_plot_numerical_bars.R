@@ -11,7 +11,7 @@ plot_numerical_vars <-
     # No grouping variable ---------------------------------------------------
 
 
-    if (groupvar == "Ninguno") {
+    if (groupvar == "Todos") {
       #* Data transform ----------------------------------------------------------
       print("im in no grouping plot numerical")
       plot_df <- df %>%

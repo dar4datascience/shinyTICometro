@@ -40,7 +40,7 @@ count_vars <-
     # check if group is null or if selected schools are
     #mixed to signal CCH or directivo variables
     
-    if (any(select_groups == "Ninguno")) {
+    if (any(select_groups == "Todos")) {
 
       #* if multiple option question ---------------------------------------------
 
@@ -50,7 +50,7 @@ count_vars <-
           handle_multiple_choice_questions(
             ticometro_table,
             select_schools,
-            select_groups = "Ninguno",
+            select_groups = "Todos",
             multiple_opcion_var = select_var,
             grouping_var = grouping_var,
             fecha_de_aplicacion = fecha_de_aplicacion
