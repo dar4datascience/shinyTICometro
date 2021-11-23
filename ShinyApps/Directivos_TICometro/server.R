@@ -26,8 +26,34 @@ server <- function(input, output, session) {
   )
 
   
-  # Alert diferent measurement ----------------------------------------------
+  # Alert max number of grupos ----------------------------------------------
   
+  
+  
+  observeEvent(input$grupo_select,{
+    
+    if (length(input$grupo_select) == 5) {
+    shinyalert(
+      title = "Máximo número de grupos seleccionados",
+      text = "Sólo puedes escoger hasta 5 grupos",
+      size = "m", 
+      closeOnEsc = TRUE,
+      closeOnClickOutside = TRUE,
+      html = FALSE,
+      type = "warning",
+      showConfirmButton = TRUE,
+      showCancelButton = FALSE,
+      confirmButtonText = "Comprendo",
+      confirmButtonCol = "#AEDEF4",
+      timer = 0,
+      imageUrl = "",
+      animation = TRUE
+    )
+    }
+    
+    
+    
+  })
   
   
   ################### DIRECTIVOS LOGIC BEGINS   ######################################################
@@ -56,10 +82,38 @@ server <- function(input, output, session) {
   
   
   #** Event cascade1: inputs to reactiveValues --------------------------------
-  
+  observeEvent(input$activa_consulta,{
+    if (length(input$escuelas_directivos_picked) == 0 |
+        length(input$grupo_select) == 0) {
+      shinyalert(
+        title = "Selecciona al menos 1 plantel y un 1 grupo",
+        text = "La consulta no se va a activar hasta cumplir los requisitos mínimos",
+        size = "m", 
+        closeOnEsc = TRUE,
+        closeOnClickOutside = TRUE,
+        html = FALSE,
+        type = "warning",
+        showConfirmButton = TRUE,
+        showCancelButton = FALSE,
+        confirmButtonText = "Comprendo",
+        confirmButtonCol = "#AEDEF4",
+        timer = 0,
+        imageUrl = "",
+        animation = TRUE
+      )
+    }
+  })
   
   # observe button press 4 changing values
   observeEvent(input$activa_consulta, {
+    
+    validate(
+      need(input$grupo_select,
+           'Selecciona al menos 1 grupo!'),
+      need(input$escuelas_directivos_picked,
+           'Selecciona al menos un plantel!')
+    )
+    
     # assign selector variables to reactivelist
     reactive_directivos_selectors$escuelasPicked <-
       input$escuelas_directivos_picked
@@ -77,7 +131,7 @@ server <- function(input, output, session) {
   observeEvent(input$escuelas_directivos_picked,{
     validate(
       need(input$escuelas_directivos_picked,
-           "Tienes que escojer alguna escuela")
+           "Escoja uno o más grupos")
     )
     
     reactiveGrupos$grupos_y_escuelas <- grupos_y_escuelas %>% 
@@ -116,7 +170,7 @@ server <- function(input, output, session) {
                                         ),
                          selected = "Todos",
                          options = list(placeholder = 'Tienes que escoger algún grupo',
-                                        create = TRUE),
+                                        maxItems = 5),
                          server = TRUE)  
     
   })
@@ -432,20 +486,44 @@ color = "white"
   
   mi_descarga_masiva <- reactiveValues()
   
-  observeEvent(input$massiveDownload, {
+  observeEvent(input$massive_download_button, {
+    print(input$massive_data_selectors)
+    if (length(input$massive_data_selectors) == 0) {
+      shinyalert(
+        title = "Selecciona al menos 1 plantel",
+        text = "La descarga no puede proseguir.",
+        size = "m", 
+        closeOnEsc = TRUE,
+        closeOnClickOutside = TRUE,
+        html = FALSE,
+        type = "warning",
+        showConfirmButton = TRUE,
+        showCancelButton = FALSE,
+        confirmButtonText = "Comprendo",
+        confirmButtonCol = "#AEDEF4",
+        timer = 0,
+        imageUrl = "",
+        animation = TRUE
+      )
+    }
+  })
+  
+  observeEvent(input$massive_download_button, {
+    
     # * funcion to download ---------------------------------------------------
     mi_descarga_masiva$datos <-
       descarga_masiva(
         db_connection = db_connection,
-        input$massiveDownload,
+        input$massive_data_selectors,
         fecha_de_aplicacion = "2021"
       )
     
-    mi_descarga_masiva$names <- paste(input$massiveDownload,
+    mi_descarga_masiva$names <- paste(input$massive_data_selectors,
                                       collapse = "-")
   })
   
-  output$Massivedownload_data <- downloadHandler(
+  output$massive_download_button <- downloadHandler(
+
     filename = function() {
       paste("datos-ticometro-",
             mi_descarga_masiva$names,

@@ -104,7 +104,7 @@ get_variables_del_ticometro <- function(tema) {
       "Estabilidad de la red en casa" = "estabilidad_internet_4_clases",
       "Conexión a Internet fuera de casa" = "internet_fuera_d_casa", 
       "Conocimiento de Plataformas Educativas" = "plataformas_edu_known",
-      "Num. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
+      "Núm. de Plataformas Educativas que conoce el estudiante" = "total_de_plataformas_por_estudiante"
     )
     
     return(nivel_de_acceso)

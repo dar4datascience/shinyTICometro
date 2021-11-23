@@ -232,7 +232,9 @@ color: black;"
                     multiple = TRUE,
                     selected = c("CCH NAUCALPAN",
                                  "ENP 1"),
-                    options = list(placeholder = 'Tienes que escoger algún instituto')
+                    options = list(
+                      placeholder = 'Escoja uno o más planteles'
+                      )
                   ),
                   role = "button",
                   id = "selector de escuelas"
@@ -246,7 +248,10 @@ color: black;"
                   label = "Grupo:",
                   choices = "Todos",
                   multiple = TRUE,
-                  selected = "Todos"
+                  selected = "Todos",
+                  options = list(
+                    placeholder = 'Escoja una variable'
+                  )
                 )
               ), # ENDS GRUPO INPUT
               column(
@@ -293,7 +298,7 @@ color: black;"
               id = "texto encima de tab box",
               tags$p(
                 tags$b(
-                  "La gráfica muestra el resultado de la selección de planteles y grupos seleccionados"
+                  "La gráfica muestra el resultado de la selección de planteles y grupos"
                 )
               )
             ),
@@ -417,7 +422,7 @@ color: black;"
                 id = "button que se activa con ENTER",
                 htmltools::tagAppendAttributes(
                   shiny::downloadButton(
-                    outputId = "MassivedownloadData",
+                    outputId = "massive_download_button",
                     "Consula",
                     class = "bttn bttn-gradient bttn-md bttn-success bttn-no-outline",
                     icon = icon(name = "database"),
@@ -440,7 +445,7 @@ color: black;"
                   3,
                   br(),
                   checkboxGroupButtons(
-                    inputId = "massiveDownload",
+                    inputId = "massive_data_selectors",
                     label = "2021",
                     choices = c(
                       "ENP",

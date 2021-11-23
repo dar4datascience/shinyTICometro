@@ -65,8 +65,8 @@ plot_categorical_vars <-
           geom_col() +
           coord_flip() +
           theme(
-            axis.text.x = element_text(""),
-            axis.text.y = element_text(""),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
             legend.title = element_blank(),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) +
@@ -86,17 +86,17 @@ plot_categorical_vars <-
 
         fig <- plotly::config(
           fig,
-          displaylogo = FALSE,
-          modeBarButtonsToRemove = c(
-            "pan2d",
-            "select2d",
-            "lasso2d",
-            "autoScale2d",
-            "hoverClosestCartesian",
-            "hoverCompareCartesian",
-            "toggleSpikelines",
-            "toImage"
-          )
+          displaylogo = FALSE
+          #,modeBarButtonsToRemove = c(
+          #  "pan2d",
+          #  "select2d",
+          #  "lasso2d",
+          #  "autoScale2d",
+          #  "hoverClosestCartesian",
+          #  "hoverCompareCartesian",
+          #  "toggleSpikelines",
+          #  "toImage"
+          #)
         ) %>%
           plotly::layout(
             autosize = T,
@@ -107,9 +107,9 @@ plot_categorical_vars <-
             legend = list(title = list(text = "")),
             hoverlabel = list(bgcolor = "white"),
             xaxis = list(categoryorder = "total ascending",
-                         title = "Num. de Alumnos"),
+                         title = "Núm. de Alumnos"),
             yaxis = list(categoryorder = "total ascending",
-                         title = "Institución")
+                         title = "Plantel")
           )
         # ,font=list(size = 30))
 
@@ -146,8 +146,8 @@ plot_categorical_vars <-
           geom_col() +
           coord_flip() +
           theme(
-            axis.text.x = element_text(""),
-            axis.text.y = element_text(""),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) #+ my_palette
 
@@ -160,17 +160,18 @@ plot_categorical_vars <-
 
         fig <- plotly::config(
           fig,
-          displaylogo = FALSE,
-          modeBarButtonsToRemove = c(
-            "pan2d",
-            "select2d",
-            "lasso2d",
-            "autoScale2d",
-            "hoverClosestCartesian",
-            "hoverCompareCartesian",
-            "toggleSpikelines",
-            "toImage"
-          )
+          displaylogo = FALSE
+          #,modeBarButtonsToRemove = c(
+          #  "pan2d",
+          #  "select2d",
+          #  "lasso2d",
+          #  "autoScale2d",
+          #  "hoverClosestCartesian",
+          #  "hoverCompareCartesian",
+          #  "toggleSpikelines",
+          #  "toImage"
+          #)
+          
         ) %>%
           plotly::layout(
             autosize = T,
@@ -181,9 +182,9 @@ plot_categorical_vars <-
             legend = list(title = list(text = "")),
             hoverlabel = list(bgcolor = "white"),
             xaxis = list(categoryorder = "total ascending",
-                         title = "Num. de Alumnos"),
+                         title = "Núm. de Alumnos"),
             yaxis = list(categoryorder = "total ascending",
-                         title = "Institución")
+                         title = "Plantel")
           )
         # ,font=list(size = 30))
 
@@ -222,8 +223,8 @@ plot_categorical_vars <-
           ) +
           coord_flip() +
           theme(
-            axis.text.x = element_text(""),
-            axis.text.y = element_text(""),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) +
           scale_fill_manual(
@@ -242,15 +243,17 @@ plot_categorical_vars <-
 
         fig <- plotly::config(
           fig,
-          displaylogo = FALSE,
-          modeBarButtonsToRemove = c(
-            "pan2d",
-            "select2d",
-            "lasso2d",
-            "hoverCompareCartesian",
-            "toggleSpikelines",
-            "toImage"
-          )
+          displaylogo = FALSE 
+          #,modeBarButtonsToRemove = c(
+          #  "pan2d",
+          #  "select2d",
+          #  "lasso2d",
+          #  "autoScale2d",
+          #  "hoverClosestCartesian",
+          #  "hoverCompareCartesian",
+          #  "toggleSpikelines",
+          #  "toImage"
+          #)
         ) %>%
           plotly::layout(
             autosize = T,
@@ -261,7 +264,7 @@ plot_categorical_vars <-
             legend = list(title = list(text = "")),
             hoverlabel = list(bgcolor = "white"),
             xaxis = list(categoryorder = "total ascending",
-                         title = "Num. de Alumnos"),
+                         title = "Núm. de Alumnos"),
             yaxis = list(categoryorder = "total ascending",
                          title = "Grupo")
           )
@@ -308,8 +311,8 @@ plot_categorical_vars <-
           ) +
           coord_flip() +
           theme(
-            axis.text.x = element_text(""),
-            axis.text.y = element_text(""),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
             plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
           ) #+my_palette
         # **Plotly it -------------------------------------------------------------
@@ -321,15 +324,17 @@ plot_categorical_vars <-
         fig <-
           plotly::config(
             fig,
-            displaylogo = FALSE,
-            modeBarButtonsToRemove = c(
-              "pan2d",
-              "select2d",
-              "lasso2d",
-              "hoverCompareCartesian",
-              "toggleSpikelines",
-              "toImage"
-            )
+            displaylogo = FALSE
+            #,modeBarButtonsToRemove = c(
+            #  "pan2d",
+            #  "select2d",
+            #  "lasso2d",
+            #  "autoScale2d",
+            #  "hoverClosestCartesian",
+            #  "hoverCompareCartesian",
+            #  "toggleSpikelines",
+            #  "toImage"
+            #)
           ) %>%
           plotly::layout(
             autosize = T,
@@ -339,7 +344,7 @@ plot_categorical_vars <-
           # ,font=list(size = 30)) %>%
           plotly::layout(
             xaxis = list(categoryorder = "total ascending",
-                         title = "Num. de Alumnos"),
+                         title = "Núm. de Alumnos"),
             yaxis = list(categoryorder = "total ascending",
                          title = "Grupo"),
             legend = list(title = list(text = "")),

@@ -16,38 +16,35 @@ plot_numerical_vars <-
       print("im in no grouping plot numerical")
       plot_df <- df %>%
         ungroup() %>%
-        select(`Institución`, .data[[var2plot]]) %>%
-        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>%
+        mutate(respuesta = round(.data[[var2plot]])) %>% 
         select(!.data[[var2plot]]) %>%
-        group_by(`Institución`, respuesta)
+        group_by(`Institución`, respuesta) %>%
+        mutate(`Num. alumnos` = sum(`Num. alumnos`)) %>% 
+        distinct(`Institución`, respuesta, `Num. alumnos`)
+
 
       # *Ggplot it --------------------------------------------------------------
 
-
       p <- ggplot(
-        dplyr::arrange(plot_df, `Institución`),
+        dplyr::arrange(plot_df, `Num. alumnos`),
         aes(
+          y = `Num. alumnos`,
           x = respuesta,
           fill = `Institución`,
           text = paste0(
-            "Institución: ",
-            fill,
+            "Plantel: ",
+            `Institución`,
             "</br></br>Calificación: ",
-            signif(x, 2),
-            "</br>Num. de Alumnos: ",
-            ..count..
+            signif(respuesta, 2),
+            "</br>Núm. de Alumnos: ",
+            `Num. alumnos`
           )
         )
-      ) +
-        geom_histogram(
-          bins = 5,
-          lwd = 0.5,
-          color = "white",
-          position = position_stack(reverse = TRUE)
-        ) +
+      )  +
+        geom_col() +
         theme(
-          axis.text.y = element_text(""),
-          axis.text.x = element_text(""),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
 
@@ -59,17 +56,17 @@ plot_numerical_vars <-
 
       fig <- plotly::config(
         fig,
-        displaylogo = FALSE,
-        modeBarButtonsToRemove = c(
-          "pan2d",
-          "select2d",
-          "lasso2d",
-          "autoScale2d",
-          "hoverClosestCartesian",
-          "hoverCompareCartesian",
-          "toggleSpikelines",
-          "toImage"
-        )
+        displaylogo = FALSE
+        #,modeBarButtonsToRemove = c(
+        #  "pan2d",
+        #  "select2d",
+        #  "lasso2d",
+        #  "autoScale2d",
+        #  "hoverClosestCartesian",
+        #  "hoverCompareCartesian",
+        #  "toggleSpikelines",
+        #  "toImage"
+        #)
       ) %>%
         plotly::layout(
           autosize = T,
@@ -80,8 +77,8 @@ plot_numerical_vars <-
           font = list(family = "Arial"),
           legend = list(title = list(text = "")),
           hoverlabel = list(bgcolor = "white"),
-          xaxis = list(title = "Num. de Alumnos"),
-          yaxis = list(title = "Calificación")
+          yaxis = list(title = "Núm. de Alumnos"),
+          xaxis = list(title = "Calificación")
           # ,font=list(size = 30)
         )
 
@@ -96,35 +93,38 @@ plot_numerical_vars <-
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
         ungroup() %>%
-        select(`Institución`, .data[[groupvar]], .data[[var2plot]]) %>%
-        mutate(respuesta = round(signif(.data[[var2plot]], 2))) %>%
-        group_by(`Institución`, .data[[groupvar]], respuesta) %>%
-        count(respuesta) %>%
-        mutate(
-          "Num. de Alumnos" = as.numeric(n),
-          `Institución` = forcats::fct_reorder(
-            `Institución`,
-            desc(`Num. de Alumnos`)
-          )
-        ) %>%
-        select(!c(n))
+        mutate(respuesta = round(.data[[var2plot]])) %>% 
+        select(!.data[[var2plot]]) %>%
+        group_by(`Institución`,  .data[[groupvar]], respuesta) %>% 
+        distinct(`Institución`,
+                 .data[[groupvar]],
+                 respuesta,
+                 `Num. alumnos`) %>% 
+        mutate(`Num. alumnos` = sum(`Num. alumnos`)) 
 
       # *Ggplot it --------------------------------------------------------------
 
       p <- plot_df %>%
         ggplot(aes(
-          y = `Num. de Alumnos`,
+          y = `Num. alumnos`,
           x = respuesta,
           fill = .data[[groupvar]],
-          text = .data[[groupvar]]
+          text = paste0(
+            "Grupo: ",
+            .data[[groupvar]],
+            "</br></br>Calificación: ",
+            signif(respuesta, 2),
+            "</br>Núm. de Alumnos: ",
+            `Num. alumnos`
+          )
         )) +
         geom_col() +
         facet_wrap(~`Institución`,
           ncol = 1
         ) +
         theme(
-          axis.text.x = element_text(""),
-          axis.text.y = element_text(""),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
 
@@ -138,17 +138,17 @@ plot_numerical_vars <-
 
       fig <- plotly::config(
         fig,
-        displaylogo = FALSE,
-        modeBarButtonsToRemove = c(
-          "pan2d",
-          "select2d",
-          "lasso2d",
-          "autoScale2d",
-          "hoverClosestCartesian",
-          "hoverCompareCartesian",
-          "toggleSpikelines",
-          "toImage"
-        )
+        displaylogo = FALSE
+        #,modeBarButtonsToRemove = c(
+         # "pan2d",
+          #"select2d",
+          #"lasso2d",
+          #"autoScale2d",
+          #"hoverClosestCartesian",
+          #"hoverCompareCartesian",
+          #"toggleSpikelines",
+          #"toImage"
+       # )
       ) %>%
         plotly::layout(
           autosize = T,
@@ -160,8 +160,8 @@ plot_numerical_vars <-
           font = list(family = "Arial"),
           legend = list(title = list(text = "")),
           hoverlabel = list(bgcolor = "white"),
-          xaxis = list(title = "Num. de Alumnos"),
-          yaxis = list(title = "Calificación")
+          yaxis = list(title = "Núm. de Alumnos"),
+          xaxis = list(title = "Calificación")
           # ,font=list(size = 30)
         )
 
