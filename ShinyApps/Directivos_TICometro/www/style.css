@@ -36,8 +36,17 @@ div.small-box.bg-white {
     max-width: 80px;
 }
 
-.cinta-cont {
+div.cinta-cont {
     display: flex;
-    min-width: 285px;
-    flex-basis: 50%;
+    min-width: 285px !important;
+    flex-basis: 50% !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
+
+.cinta-fila {
+    justify-content: space-around !important;
+}
+
+
+
