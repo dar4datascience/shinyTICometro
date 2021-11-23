@@ -487,7 +487,6 @@ color = "white"
   mi_descarga_masiva <- reactiveValues()
   
   observeEvent(input$massive_download_button, {
-    print(input$massive_data_selectors)
     if (length(input$massive_data_selectors) == 0) {
       shinyalert(
         title = "Selecciona al menos 1 plantel",
@@ -508,8 +507,8 @@ color = "white"
     }
   })
   
-  observeEvent(input$massive_download_button, {
-    
+  observeEvent(input$massive_data_selectors, {
+    print(input$massive_data_selectors)
     # * funcion to download ---------------------------------------------------
     mi_descarga_masiva$datos <-
       descarga_masiva(
@@ -520,10 +519,10 @@ color = "white"
     
     mi_descarga_masiva$names <- paste(input$massive_data_selectors,
                                       collapse = "-")
+    print(head(mi_descarga_masiva$datos))
   })
   
   output$massive_download_button <- downloadHandler(
-
     filename = function() {
       paste("datos-ticometro-",
             mi_descarga_masiva$names,
@@ -533,7 +532,8 @@ color = "white"
             sep = "")
     },
     content = function(file) {
-      data.table::fwrite(mi_descarga_masiva$datos, file,
+      data.table::fwrite(mi_descarga_masiva$datos,
+                         file,
                          bom = TRUE)
     },
     contentType = "text/csv"
