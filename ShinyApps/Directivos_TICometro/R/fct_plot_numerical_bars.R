@@ -9,22 +9,22 @@
 plot_numerical_vars <-
   function(df, var2plot, groupvar) {
     # No grouping variable ---------------------------------------------------
-
-
+    
+    
     if (groupvar == "Todos") {
       #* Data transform ----------------------------------------------------------
       print("im in no grouping plot numerical")
       plot_df <- df %>%
         ungroup() %>%
-        mutate(respuesta = round(.data[[var2plot]])) %>% 
+        mutate(respuesta = round(.data[[var2plot]])) %>%
         select(!.data[[var2plot]]) %>%
         group_by(`Institución`, respuesta) %>%
-        mutate(`Num. alumnos` = sum(`Num. alumnos`)) %>% 
+        mutate(`Num. alumnos` = sum(`Num. alumnos`)) %>%
         distinct(`Institución`, respuesta, `Num. alumnos`)
-
-
+      
+      
       # *Ggplot it --------------------------------------------------------------
-
+      
       p <- ggplot(
         dplyr::arrange(plot_df, `Num. alumnos`),
         aes(
@@ -47,13 +47,13 @@ plot_numerical_vars <-
           axis.title.y = element_blank(),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
-
+      
       #* Plotly it ---------------------------------------------------------------
-
-
+      
+      
       fig <- ggplotly(p, tooltip = "text")
-
-
+      
+      
       fig <- plotly::config(
         fig,
         displaylogo = FALSE
@@ -81,29 +81,29 @@ plot_numerical_vars <-
           xaxis = list(title = "Calificación")
           # ,font=list(size = 30)
         )
-
-
+      
+      
       return(fig)
     } else {
       # Caso grouping variable --------------------------------------------------
       print("im in grouping")
-
-
-
+      
+      
+      
       #* Data transform ----------------------------------------------------------
       plot_df <- df %>%
         ungroup() %>%
-        mutate(respuesta = round(.data[[var2plot]])) %>% 
+        mutate(respuesta = round(.data[[var2plot]])) %>%
         select(!.data[[var2plot]]) %>%
-        group_by(`Institución`,  .data[[groupvar]], respuesta) %>% 
+        group_by(`Institución`,  .data[[groupvar]], respuesta) %>%
+        mutate(`Num. alumnos` = sum(`Num. alumnos`)) %>%
         distinct(`Institución`,
                  .data[[groupvar]],
                  respuesta,
-                 `Num. alumnos`) %>% 
-        mutate(`Num. alumnos` = sum(`Num. alumnos`)) 
-
+                 `Num. alumnos`)
+      
       # *Ggplot it --------------------------------------------------------------
-
+      
       p <- plot_df %>%
         ggplot(aes(
           y = `Num. alumnos`,
@@ -120,35 +120,35 @@ plot_numerical_vars <-
         )) +
         geom_col() +
         facet_wrap(~`Institución`,
-          ncol = 1
+                   ncol = 1
         ) +
         theme(
           axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm")
         )
-
-
+      
+      
       # p <- p + scale_fill_brewer(palette = "RdYlBu", guide = "legend")
-
+      
       #* Plotly it ---------------------------------------------------------------
-
+      
       fig <- ggplotly(p, tooltip = c("y", "x", "fill"))
-
-
+      
+      
       fig <- plotly::config(
         fig,
         displaylogo = FALSE
         #,modeBarButtonsToRemove = c(
-         # "pan2d",
-          #"select2d",
-          #"lasso2d",
-          #"autoScale2d",
-          #"hoverClosestCartesian",
-          #"hoverCompareCartesian",
-          #"toggleSpikelines",
-          #"toImage"
-       # )
+        # "pan2d",
+        #"select2d",
+        #"lasso2d",
+        #"autoScale2d",
+        #"hoverClosestCartesian",
+        #"hoverCompareCartesian",
+        #"toggleSpikelines",
+        #"toImage"
+        # )
       ) %>%
         plotly::layout(
           autosize = T,
@@ -164,10 +164,10 @@ plot_numerical_vars <-
           xaxis = list(title = "Calificación")
           # ,font=list(size = 30)
         )
-
-
+      
+      
       return(fig)
-
+      
       print("grafica x grupos")
     }
   }
