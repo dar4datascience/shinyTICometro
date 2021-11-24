@@ -169,7 +169,7 @@ server <- function(input, output, session) {
                                         reactiveGrupos$grupos_cch)
                                         ),
                          selected = "Todos",
-                         options = list(placeholder = 'Tienes que escoger algún grupo',
+                         options = list(placeholder = 'Escoja uno o más grupos',
                                         maxItems = 5),
                          server = TRUE)  
     

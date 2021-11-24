@@ -388,7 +388,7 @@ Esta base de datos esta compuesta por `r ncol(tidy_TICometro2021)` variables y `
 sample_data <- tidy_TICometro2021 %>% 
                 sample_n(500)
 
-DT::datatable(sample_data)
+head(sample_data)
 
 ```
 
@@ -480,6 +480,15 @@ col_clean_names_2021 <- colnames(TICometro_2021_clean)
 
 ```
 
+## SPECIAL DELETE
+
+Por orden de Angelica se va a borrar el registro correspondiente al ENP 2 grupo 104. El Alumno 1802 se colo porque es de iniciacion secundaria.
+
+```{r deleteSpecial}
+TICometro_2021_clean <- TICometro_2021_clean %>% 
+  filter(!(num_alumno == "Alumno 1802" & institucion == "ENP 2"))
+```
+
 
 #* Conexión a la base de datos SQL
 
@@ -495,13 +504,12 @@ con <- DBI::dbConnect(
   #environment variable for user
   PWD = Sys.getenv("R_resultadosTIC_db_user_psswrd"),
   #environment variable for password
-  Port = 5432,
-  encoding = "UTF-8"
+  Port = 5432
 )
 ```
 
 ```{sql, connection = con, }
-SET client_encoding = 'UTF8';
+SET client_encoding = 'UTF-8';
 ```
 
 #** Inserta tabla
