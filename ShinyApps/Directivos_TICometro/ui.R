@@ -248,10 +248,7 @@ color: black;"
                   label = "Grupo:",
                   choices = "Todos",
                   multiple = TRUE,
-                  selected = "Todos",
-                  options = list(
-                    placeholder = 'Escoja una variable'
-                  )
+                  selected = "Todos"
                 )
               ), # ENDS GRUPO INPUT
               column(
@@ -259,7 +256,7 @@ color: black;"
                 htmltools::tagAppendAttributes(
                   shiny::selectizeInput(
                     inputId = "plot_directivo_var",
-                    label = "Variables del TICómetro",
+                    label = "Escoja una variable",
                     choices = list(
                       "Datos de Contexto" = datos_de_contexto,
                       "Nivel de Acceso" = nivel_de_acceso,
