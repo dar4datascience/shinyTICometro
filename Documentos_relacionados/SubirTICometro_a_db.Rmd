@@ -377,7 +377,8 @@ data.table::fwrite(
 #Codigo para cargar el csv al ambiente de R
 tidy_TICometro2021 <- readr::read_csv(
   here::here("C:/Users/amiev/OneDrive - UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO/Documents/DGTIC/Ticometro_Data/data_truth", #folder al que pertenece el archivo
-             "Bachillerato_TICometro2021_completa_v2.csv") #nombre del archivo
+             "Bachillerato_TICometro2021_completa_v2.csv"), #nombre del archivo
+  locale = locale(encoding = "ISO-8859-1")
 )
 
 ```
@@ -508,8 +509,8 @@ con <- DBI::dbConnect(
 )
 ```
 
-```{sql, connection = con, }
-SET client_encoding = 'UTF-8';
+```{sql, connection = con}
+SET client_encoding = 'UTF8';
 ```
 
 #** Inserta tabla
