@@ -188,10 +188,15 @@ server <- function(input, output, session) {
 
 #** Select and Deselect All  -------------------------------------------------
 
-  observe({
+  observeEvent(input$selectall, {
     if (input$selectall > 0) {
       if (input$selectall %% 2 == 0) {
         # Escuelas
+        
+        updateActionButton(session,
+                           inputId = "selectall",
+                           label = "Limpiar",
+                           icon = NULL)
         
         updateSelectizeInput(session,
           inputId = "escuelas_directivos_picked",
@@ -225,6 +230,12 @@ server <- function(input, output, session) {
                              server = TRUE) 
         
       } else {
+        
+        updateActionButton(session,
+                           inputId = "selectall",
+                           label = "Seleccionar a todos los planteles",
+                           icon = NULL)
+        
         #escuelas
         updateSelectizeInput(session,
                              inputId = "escuelas_directivos_picked",

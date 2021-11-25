@@ -267,7 +267,7 @@ color: black;"
                       "Nivel de Acceso" = nivel_de_acceso,
                       "Habilidades Digitales" = habilidades_digitales
                     ),
-                    selected = "calif_checker"
+                    selected = "cinta"
                   ),
                   role = "button",
                   id = "selector de variables"
@@ -296,12 +296,12 @@ color: black;"
                 br(),
                 div(
                 htmltools::tagAppendAttributes(
-                  shinyWidgets::actionBttn("selectall",
-                             label = "(De)/Selecciona todos los planteles",
-                             style = "simple",
-                             color = "success"),
-              style = "background: #026928 !important;"
-                )
+                  shiny::actionButton("selectall",
+                             label = "Limpiar",
+                             class = "action-button bttn bttn-simple bttn-md bttn-success bttn-no-outline shiny-bound-input"),
+              style = "background: #026928 !important; color: white;"
+                ),
+              style = "margin-top: 7px;"
               )
               ),
               column(
