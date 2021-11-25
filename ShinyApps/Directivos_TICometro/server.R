@@ -304,7 +304,9 @@ server <- function(input, output, session) {
   #* Reactive computations to reactiveValues ---------------------------------
   
   # This allows for easier manipulations of inner data
-  observe({
+  observeEvent(reactive_directivos_main_data(),{
+    req(reactive_directivos_main_data())
+    
     data_directivos$data <- reactive_directivos_main_data()
     data_directivos$mean_calif <-
       round(mean(data_directivos$data$`Calificación TICómetro`,
@@ -335,7 +337,7 @@ server <- function(input, output, session) {
     # colnames(tabulated_directivos$data)[2] <- clean_plot_titles(reactive_directivos_selectors$plotvarPicked)
   })
   
-  observe({
+  observeEvent(tabulated_directivos$data,{
     if (any(isolate(reactive_directivos_selectors$gruposPicked) == "Todos")) {
       colnames(tabulated_directivos$data)[2] <-
         clean_plot_titles(reactive_directivos_selectors$plotvarPicked)
@@ -387,6 +389,8 @@ server <- function(input, output, session) {
   
   
   output$value_box_directivos <- bs4Dash::renderbs4ValueBox({
+    req(num_alumnos_selected_directivos())
+    
     bs4Dash::valueBox(
       value = tags$p(num_alumnos_selected_directivos(),
                      style = "font-size: 3rem;"),
@@ -401,6 +405,7 @@ server <- function(input, output, session) {
   })
   
   output$mode_box_directivos <- bs4Dash::renderbs4ValueBox({
+    req(data_directivos$cinta_a_mostrar)
     bs4Dash::valueBox(
       value = tags$img(
         id = "cinta mas comun",
@@ -428,6 +433,7 @@ color = "white"
   
   
   output$tabulated_vars_directivos <- reactable::renderReactable({
+    req(tabulated_directivos$data)
     reactable::reactable(
       tabulated_directivos$data,
       defaultSorted = list(`Num. alumnos` = "desc"),
@@ -497,6 +503,8 @@ color = "white"
     # everything else is isolated
     # ONLY PLOT HISTOGRAMS ON calificaciones variables
    # my_plotly_plots <-
+    req(reactive_directivos_selectors$gruposPicked)
+    
       if (any(reactive_directivos_selectors$gruposPicked == "Todos")) {
         if (grepl(
           "calif",

@@ -219,7 +219,7 @@ color: black;"
             fluidRow(
               role = "main",
               column( # STARTS SCHOOL INPUT
-                width = 3,
+                width = 4,
                 htmltools::tagAppendAttributes(
                   # USE PICKER FOR EASY MULTIPLE SELECTION
                   shiny::selectizeInput(
