@@ -3,6 +3,15 @@
 grupos_y_escuelas <- grupos_y_escuelas_2021()
 
 
+# Lista Escuelas ENP
+ENP_escuelas <- get_escuelas_ticometro(instituto = "ENP")
+
+# ESCUELAS CCH
+
+# ESCUELAS CCH
+CCH_escuelas <- get_escuelas_ticometro(instituto = "CCH")
+
+
 # CONNECT OUTSIDE OF THE SERVER FUNCTION ----------------------------------
 
 db_connection <- connect2database()
@@ -175,6 +184,77 @@ server <- function(input, output, session) {
     
   })
   
+  
+
+#** Select and Deselect All  -------------------------------------------------
+
+  observe({
+    if (input$selectall > 0) {
+      if (input$selectall %% 2 == 0) {
+        # Escuelas
+        
+        updateSelectizeInput(session,
+          inputId = "escuelas_directivos_picked",
+          label = "Escuela y/o plantel:",
+          choices = list(
+            "ENP" = c(ENP_escuelas$escuela_name),
+            "CCH" = c(CCH_escuelas$escuela_name)
+          ),
+          selected = c(ENP_escuelas$escuela_name,
+                       CCH_escuelas$escuela_name),
+          options = list(
+            placeholder = 'Escoja uno o más planteles',
+            plugins = list("remove_button")
+          )
+        )
+        
+        
+        #grupos
+        
+        updateSelectizeInput(session,
+                             'grupo_select',
+                             label = "Grupo:",
+                             choices = list("Todos",
+                                            c(reactiveGrupos$grupos_enp,
+                                              reactiveGrupos$grupos_cch)
+                             ),
+                             selected = c("Todos"),
+                             options = list(placeholder = 'Escoja uno o más grupos',
+                                            maxItems = 5,
+                                            plugins = list("remove_button")),
+                             server = TRUE) 
+        
+      } else {
+        #escuelas
+        updateSelectizeInput(session,
+                             inputId = "escuelas_directivos_picked",
+                             label = "Escuela y/o plantel:",
+                             choices = list(
+                               "ENP" = c(ENP_escuelas$escuela_name),
+                               "CCH" = c(CCH_escuelas$escuela_name)
+                             ),
+                             selected = c(""),
+                             options = list(
+                               placeholder = 'Escoja uno o más planteles',
+                               plugins = list("remove_button")
+                             )
+        )
+        #grupos
+        updateSelectizeInput(session,
+                             'grupo_select',
+                             label = "Grupo:",
+                             choices = list("Todos",
+                                            c(reactiveGrupos$grupos_enp,
+                                              reactiveGrupos$grupos_cch)
+                             ),
+                             selected = "",
+                             options = list(placeholder = 'Escoja uno o más grupos',
+                                            maxItems = 5,
+                                            plugins=list("remove_button")),
+                             server = TRUE) 
+        
+      }}
+  })
   
   #** Event cascade2: count ---------------------------------------------------
   

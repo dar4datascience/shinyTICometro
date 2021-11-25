@@ -230,10 +230,11 @@ color: black;"
                       "CCH" = c(CCH_escuelas$escuela_name)
                     ),
                     multiple = TRUE,
-                    selected = c("CCH NAUCALPAN",
-                                 "ENP 1"),
+                    selected = c(ENP_escuelas$escuela_name,
+                                 CCH_escuelas$escuela_name),
                     options = list(
-                      placeholder = 'Escoja uno o más planteles'
+                      placeholder = 'Escoja uno o más planteles',
+                      plugins = list("remove_button")
                       )
                   ),
                   role = "button",
@@ -248,7 +249,11 @@ color: black;"
                   label = "Grupo:",
                   choices = "Todos",
                   multiple = TRUE,
-                  selected = "Todos"
+                  selected = "Todos",
+                  options = list(
+                    placeholder = 'Escoja uno o más planteles',
+                    plugins = list("remove_button")
+                  )
                 )
               ), # ENDS GRUPO INPUT
               column(
@@ -269,7 +274,7 @@ color: black;"
                 )
               ), # END SELECT VAR input
               column( # STARTS CONSULTA BUTTON
-                width = 3,
+                width = 1,
                 br(), # try to align widgets
                 div(
                   id = "button que se activa con ENTER",
@@ -285,7 +290,23 @@ color: black;"
                   ),
                   style = "margin-top: 7px;"
                 )
-              ) # ENDS column ACTION BUTTON
+              ), # ENDS column ACTION BUTTON
+              column(
+                width = 1,
+                br(),
+                div(
+                htmltools::tagAppendAttributes(
+                  shinyWidgets::actionBttn("selectall",
+                             label = "(De)/Selecciona todos los planteles",
+                             style = "simple",
+                             color = "success"),
+              style = "background: #026928 !important;"
+                )
+              )
+              ),
+              column(
+                width = 1
+              )
             ), # end of fluid row
 
             # ***TabBox -----------------------------------------------------------

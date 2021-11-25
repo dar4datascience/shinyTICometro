@@ -24,7 +24,7 @@ connect2database <- function() {
 
   DBI::dbGetQuery(
     ticometro_db_connection,
-    "SET client_encoding = 'UTF8';"
+    "SET client_encoding = 'UTF-8';"
   )
 
 
