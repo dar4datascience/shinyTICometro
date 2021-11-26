@@ -267,7 +267,7 @@ body = dashboardBody(
 	        headerBorder = FALSE,
 	        collapsible = FALSE,
 	        tags$a(
-	          href  = "http://132.248.10.243:3838/El-Duque/Directivos_TICometro/",
+	          href  = "http://132.248.10.243:3838/Directivos_TICometro/",
 	          tags$h3(
 	            tags$b("2021"),
 	            align = "center",
