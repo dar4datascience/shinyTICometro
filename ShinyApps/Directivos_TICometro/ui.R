@@ -114,7 +114,7 @@ shinyUI(
     header = bs4Dash::dashboardHeader(
       fixed = FALSE,
       title = tags$a(
-        href = "http://132.248.10.243:3838/El-Duque/TICometro_Landing",
+        href = "http://132.248.10.243:3838/TICometro_Landing/",
         tags$img(
           src = "logo_ticometro_pequenio.jpg",
           width = "100%",
