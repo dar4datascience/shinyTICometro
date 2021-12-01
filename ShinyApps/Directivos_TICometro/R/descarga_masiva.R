@@ -32,24 +32,24 @@ descarga_masiva <-
       # Pretty titles
       all_ticometro_variables <- c(
         # "Año del TICómetro",
-        "Alumno",
-        "Plantel",
-        "Grupo",
-        "Género",
-        "Escuela de Procedencia",
-        "Uso compartido de laptop o computadora",
-        "Estabilidad de la red en casa",
-        "Conexión a Internet fuera de casa",
-        "Principal dispositivo para Clases a Distancia",
-        "Plataformas Educativas que conoce el estudiante",
-        "# de Plataformas Educativas que conoce el estudiante",
-        "Edad de primer uso de TIC",
-        "Calificación TICómetro",
-        "Calif. Procesamiento",
-        "Calif. Acceso",
-        "Calif. Seguridad",
-        "Calif. Colaboración",
-        "Color de cinta obtenida"
+ "Alumno",
+          "Plantel",
+          "Grupo",
+          "Género",
+          "Escuela de Procedencia",
+          "Principal dispotivo para Clases a Distancia",
+          "Uso compartido de laptop o computadora",
+          "Estabilidad de la red en casa",
+          "Conexión a Internet fuera de casa",
+          "Plataformas Educativas que conoce el estudiante",
+          "# de Plataformas Educativas que conoce el estudiante",
+          "Edad de primer uso de TIC",
+          "Calificación TICómetro",
+          "Calif. Procesamiento",
+          "Calif. Acceso",
+          "Calif. Seguridad",
+          "Calif. Colaboración",
+          "Color de cinta obtenida"
       )
 
       # rename columns
