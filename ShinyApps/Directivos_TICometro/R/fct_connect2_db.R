@@ -6,11 +6,11 @@ connect2database <- function() {
   # Declare a pool connection -----------------------------------------------
 
   # This is a pointer to the db. The other functions call the tables explicitly
-  ticometro_db_connection <- pool::dbPool(
+ticometro_db_connection <- pool::dbPool(
     drv = odbc::odbc(),
-    Driver = "PostgreSQL ANSI",
-    Server = "132.248.10.243",
-    Database = "resultados",
+    Driver = "PostgreSQL",
+    Server = Sys.getenv("R_resultadosTIC_server"),
+    Database = Sys.getenv("R_resultadosTIC_db"),
     UID = Sys.getenv("R_resultadosTIC_db_user"),
     # environment variable for user
     PWD = Sys.getenv("R_resultadosTIC_db_user_psswrd"),
